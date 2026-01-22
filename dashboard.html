@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S.M.D.A - Tableau de Bord</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="synchronisation.js"></script>
+    <style>
+        /* Styles spécifiques au dashboard */
+        .dashboard-container {
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .dashboard-title h1 {
+            color: #ffffff;
+            font-size: 32px;
+        }
+        
+        .dashboard-title p {
+            color: #fff6f6;
+        }
+        
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            border-top: 5px solid #3498db;
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-card.total {
+            border-top-color: #27ae60;
+        }
+        
+        .stat-card.month {
+            border-top-color: #e74c3c;
+        }
+        
+        .stat-card.clients {
+            border-top-color: #9b59b6;
+        }
+        
+        .stat-card.bons {
+            border-top-color: #1a2980;
+        }
+        
+        .stat-card.devis {
+            border-top-color: #f39c12;
+        }
+        
+        .stat-card h3 {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 10px 0;
+        }
+        
+        .stat-card .subtext {
+            color: #95a5a6;
+            font-size: 14px;
+        }
+        
+        .tables-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .tables-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .table-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+        }
+        
+        .table-card h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .factures-table, .clients-table, .stock-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .factures-table th, .clients-table th, .stock-table th {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            text-align: left;
+            color: #2c3e50;
+            font-weight: 600;
+            border-bottom: 2px solid #dee2e6;
+        }
+        
+        .factures-table td, .clients-table td, .stock-table td {
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .factures-table tr:hover, .clients-table tr:hover, .stock-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .btn-action {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+            margin: 2px;
+        }
+        
+        .btn-action:hover {
+            opacity: 0.9;
+        }
+        
+        .btn-view {
+            background: #3498db;
+        }
+        
+        .btn-delete {
+            background: #e74c3c;
+        }
+        
+        .btn-edit {
+            background: #f39c12;
+        }
+        
+        .btn-export {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-export:hover {
+            background: #219653;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #95a5a6;
+        }
+        
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .period-selector select {
+            padding: 10px 15px;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            font-size: 14px;
+            background: white;
+            color: #2c3e50;
+        }
+        
+        .type-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .type-facture { background: #1a2980; }
+        .type-devis { background: #9b59b6; }
+        .type-bon { background: #3498db; }
+        
+        .chart-container {
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .stock-alert {
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        .stock-normal {
+            color: #27ae60;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: #27ae60;
+            color: white;
+            border-radius: 8px;
+            z-index: 10000;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .notification.error {
+            background: #e74c3c;
+        }
+        
+        .notification.info {
+            background: #3498db;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="toolbar" style="border-color: #2c3e50;">
+        <div class="toolbar-left">
+            <a href="index.html" class="btn btn-back">
+                <i class="fas fa-arrow-left"></i> Retour
+            </a>
+        </div>
+        <div class="toolbar-center" style="color: #2c3e50;">
+            <span class="company-name">Tableau de Bord S.M.D.A</span>
+        </div>
+        <div class="toolbar-right">
+            <button class="btn btn-primary" onclick="exporterDonnees()">
+                <i class="fas fa-download"></i> Exporter
+            </button>
+            <button class="btn btn-secondary" onclick="rafraichirDonnees()">
+                <i class="fas fa-sync-alt"></i> Rafraîchir
+            </button>
+        </div>
+    </div>
+
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <div class="dashboard-title">
+                <h1>📊 Tableau de Bord</h1>
+                <p>Vue d'ensemble de votre activité commerciale</p>
+            </div>
+            <div class="period-selector">
+                <select id="periodSelect" onchange="changerPeriode()">
+                    <option value="month">Ce mois</option>
+                    <option value="year">Cette année</option>
+                    <option value="all" selected>Tout le temps</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="stats-cards">
+            <div class="stat-card total">
+                <h3>Chiffre d'Affaires Total</h3>
+                <div class="value" id="totalCA">0.000 TND</div>
+                <div class="subtext">Factures finalisées</div>
+            </div>
+            
+            <div class="stat-card month">
+                <h3>Factures ce mois</h3>
+                <div class="value" id="facturesMois">0</div>
+                <div class="subtext" id="CAMois">CA: 0.000 TND</div>
+            </div>
+            
+            <div class="stat-card clients">
+                <h3>Nombre de Clients</h3>
+                <div class="value" id="nombreClients">0</div>
+                <div class="subtext">Clients uniques</div>
+            </div>
+            
+            <div class="stat-card devis">
+                <h3>Devis en attente</h3>
+                <div class="value" id="devisAttente">0</div>
+                <div class="subtext">Devis non convertis</div>
+            </div>
+            
+            <div class="stat-card bons">
+                <h3>Bons de Livraison</h3>
+                <div class="value" id="nombreBons">0</div>
+                <div class="subtext">Livraisons effectuées</div>
+            </div>
+            
+            <div class="stat-card">
+                <h3>Alertes Stock</h3>
+                <div class="value" id="alertesStock">0</div>
+                <div class="subtext">Produits en stock faible</div>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="table-card">
+                <h2><i class="fas fa-file-invoice-dollar"></i> Derniers Documents</h2>
+                <div class="table-wrapper">
+                    <table class="factures-table">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>N°</th>
+                                <th>Client</th>
+                                <th>Date</th>
+                                <th>Montant</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableFactures">
+                            <!-- Rempli par JavaScript -->
+                        </tbody>
+                    </table>
+                    <div id="emptyFactures" class="empty-state" style="display: none;">
+                        <i class="fas fa-file-invoice"></i>
+                        <p>Aucun document trouvé</p>
+                        <a href="facture.html" class="btn btn-primary">Créer une facture</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="table-card">
+                <h2><i class="fas fa-boxes"></i> Alertes Stock</h2>
+                <div class="table-wrapper">
+                    <table class="stock-table">
+                        <thead>
+                            <tr>
+                                <th>Produit</th>
+                                <th>Code</th>
+                                <th>Stock</th>
+                                <th>Seuil</th>
+                                <th>État</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableStock">
+                            <!-- Rempli par JavaScript -->
+                        </tbody>
+                    </table>
+                    <div id="emptyStock" class="empty-state" style="display: none;">
+                        <i class="fas fa-check-circle"></i>
+                        <p>Aucune alerte de stock</p>
+                        <a href="stock.html" class="btn btn-primary">Gérer le stock</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-card">
+            <h2><i class="fas fa-chart-line"></i> Évolution du Chiffre d'Affaires</h2>
+            <div class="chart-container">
+                <canvas id="caChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+
+        <div class="table-card">
+            <h2><i class="fas fa-chart-pie"></i> Répartition par Type de Document</h2>
+            <div class="chart-container">
+                <canvas id="typeChart" width="400" height="200"></canvas>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn-export" onclick="exporterExcel()">
+                    <i class="fas fa-file-excel"></i> Exporter les données
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let caChart = null;
+        let typeChart = null;
+        let historiqueGlobal = [];
+        let stock = [];
+        
+        function chargerDonnees() {
+            // Charger les données depuis localStorage
+            historiqueGlobal = JSON.parse(localStorage.getItem('historique_global') || '[]');
+            stock = JSON.parse(localStorage.getItem('stock') || '[]');
+            
+            const periode = document.getElementById('periodSelect').value;
+            const maintenant = new Date();
+            
+            // Calculer les statistiques
+            calculerStatistiques(periode, maintenant);
+            
+            // Mettre à jour les tableaux
+            mettreAJourTableauDocuments();
+            mettreAJourTableauStock();
+            
+            // Mettre à jour les graphiques
+            mettreAJourGraphiqueCA();
+            mettreAJourGraphiqueTypes();
+            
+            // Synchroniser les statistiques avec l'index
+            synchroniserAvecIndex();
+        }
+        
+        function synchroniserAvecIndex() {
+            // Calculer les statistiques pour l'index
+            const historique = JSON.parse(localStorage.getItem('historique_global') || '[]');
+            const clients = JSON.parse(localStorage.getItem('clients') || '[]');
+            const stock = JSON.parse(localStorage.getItem('stock') || '[]');
+            
+            // Calculer CA total
+            let caTotal = 0;
+            historique.forEach(doc => {
+                if (doc.type === 'facture' && (doc.statut === 'finalisee' || doc.statut === 'payee')) {
+                    caTotal += parseFloat(doc.totalTTC || 0);
+                }
+            });
+            
+            // Stocker les statistiques
+            const statistiques = {
+                totalFactures: historique.filter(d => d.type === 'facture').length,
+                caTotal: caTotal,
+                totalClients: clients.length,
+                stockTotal: stock.reduce((sum, article) => sum + (article.quantite || 0), 0),
+                totalDevis: historique.filter(d => d.type === 'devis').length,
+                totalBons: historique.filter(d => d.type === 'bon_livraison').length,
+                timestamp: new Date().toISOString()
+            };
+            
+            localStorage.setItem('statistiques', JSON.stringify(statistiques));
+            
+            // Déclencher un événement pour synchroniser l'index
+            window.dispatchEvent(new CustomEvent('statistiquesMisesAJour', {
+                detail: statistiques
+            }));
+        }
+        
+        function calculerStatistiques(periode, maintenant) {
+            // Séparer par type
+            const factures = historiqueGlobal.filter(d => d.type === 'facture');
+            const devis = historiqueGlobal.filter(d => d.type === 'devis');
+            const bons = historiqueGlobal.filter(d => d.type === 'bon_livraison');
+            
+            // Filtrer par période
+            let facturesFiltrees = filtrerParPeriode(factures, periode, maintenant);
+            let devisFiltres = filtrerParPeriode(devis, periode, maintenant);
+            let bonsFiltres = filtrerParPeriode(bons, periode, maintenant);
+            
+            // Calculer le CA total (uniquement factures finalisées)
+            const totalCA = facturesFiltrees
+                .filter(f => f.statut === 'finalisee' || f.statut === 'payee')
+                .reduce((sum, f) => sum + (parseFloat(f.totalTTC) || 0), 0);
+            
+            // CA ce mois (toutes les factures finalisées du mois en cours)
+            const facturesCeMois = factures.filter(f => {
+                if (!f.date || !(f.statut === 'finalisee' || f.statut === 'payee')) return false;
+                try {
+                    const dateFacture = new Date(f.date.split('/').reverse().join('-'));
+                    return dateFacture.getMonth() === maintenant.getMonth() && 
+                           dateFacture.getFullYear() === maintenant.getFullYear();
+                } catch {
+                    return false;
+                }
+            });
+            
+            const CAMois = facturesCeMois.reduce((sum, f) => sum + (parseFloat(f.totalTTC) || 0), 0);
+            
+            // Compter les clients uniques (avec achats)
+            const clientsAvecAchats = new Set();
+            factures.filter(f => f.clientNom && f.clientNom.trim() !== '').forEach(f => {
+                clientsAvecAchats.add(f.clientNom);
+            });
+            
+            // Compter les devis en attente
+            const devisEnAttente = devis.filter(d => d.statut === 'en_attente').length;
+            
+            // Compter les alertes stock
+            const alertesStock = stock.filter(produit => produit.quantite <= produit.seuilAlerte).length;
+            
+            // Mettre à jour l'interface
+            document.getElementById('totalCA').textContent = totalCA.toFixed(3) + ' TND';
+            document.getElementById('facturesMois').textContent = facturesFiltrees.length;
+            document.getElementById('CAMois').textContent = 'CA: ' + CAMois.toFixed(3) + ' TND';
+            document.getElementById('nombreClients').textContent = clientsAvecAchats.size;
+            document.getElementById('devisAttente').textContent = devisEnAttente;
+            document.getElementById('nombreBons').textContent = bons.length;
+            document.getElementById('alertesStock').textContent = alertesStock;
+        }
+        
+        function filtrerParPeriode(documents, periode, dateReference) {
+            if (periode === 'all') return documents;
+            
+            return documents.filter(doc => {
+                if (!doc.date) return false;
+                try {
+                    const dateDoc = new Date(doc.date.split('/').reverse().join('-'));
+                    
+                    if (periode === 'month') {
+                        return dateDoc.getMonth() === dateReference.getMonth() && 
+                               dateDoc.getFullYear() === dateReference.getFullYear();
+                    } else if (periode === 'year') {
+                        return dateDoc.getFullYear() === dateReference.getFullYear();
+                    }
+                } catch {
+                    return false;
+                }
+                return false;
+            });
+        }
+        
+        function mettreAJourTableauDocuments() {
+            const tbody = document.getElementById('tableFactures');
+            const emptyState = document.getElementById('emptyFactures');
+            
+            if (historiqueGlobal.length === 0) {
+                tbody.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            tbody.innerHTML = '';
+            
+            // Trier par date (plus récent d'abord)
+            const documentsTries = [...historiqueGlobal].sort((a, b) => {
+                try {
+                    const dateA = new Date(a.date ? a.date.split('/').reverse().join('-') : a.createdAt);
+                    const dateB = new Date(b.date ? b.date.split('/').reverse().join('-') : b.createdAt);
+                    return dateB - dateA;
+                } catch {
+                    return 0;
+                }
+            });
+            
+            // Afficher les 10 derniers documents
+            let compteur = 0;
+            documentsTries.forEach(doc => {
+                if (compteur >= 10) return;
+                
+                const tr = document.createElement('tr');
+                
+                // Déterminer le type
+                let typeIcon = '';
+                let typeText = '';
+                let typeClass = '';
+                
+                switch(doc.type) {
+                    case 'facture':
+                        typeIcon = '<span class="type-indicator type-facture"></span>';
+                        typeText = 'Facture';
+                        typeClass = 'facture';
+                        break;
+                    case 'devis':
+                        typeIcon = '<span class="type-indicator type-devis"></span>';
+                        typeText = 'Devis';
+                        typeClass = 'devis';
+                        break;
+                    case 'bon_livraison':
+                        typeIcon = '<span class="type-indicator type-bon"></span>';
+                        typeText = 'Bon';
+                        typeClass = 'bon';
+                        break;
+                    default:
+                        typeIcon = '<span class="type-indicator"></span>';
+                        typeText = 'Document';
+                }
+                
+                tr.innerHTML = `
+                    <td>${typeIcon} ${typeText}</td>
+                    <td>${doc.numero || 'N/A'}</td>
+                    <td>${doc.clientNom || 'Non renseigné'}</td>
+                    <td>${doc.date ? new Date(doc.date.split('/').reverse().join('-')).toLocaleDateString('fr-FR') : 
+                        new Date(doc.createdAt).toLocaleDateString('fr-FR')}</td>
+                    <td>${(parseFloat(doc.totalTTC) || 0).toFixed(3)} TND</td>
+                    <td>
+                        <span class="statut-badge" style="
+                            padding: 2px 8px;
+                            border-radius: 10px;
+                            font-size: 11px;
+                            background: ${getCouleurStatut(doc.statut)};
+                            color: white;
+                        ">
+                            ${getTexteStatut(doc.statut)}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn-action btn-view" onclick="voirDocument('${doc.id}', '${doc.type}')" title="Voir">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn-action btn-delete" onclick="supprimerDocument('${doc.id}', '${typeClass}')" title="Supprimer">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+                compteur++;
+            });
+        }
+        
+        function supprimerDocument(documentId, typeDocument) {
+            let message = `Êtes-vous sûr de vouloir supprimer ce ${typeDocument} ?`;
+            let messageImportant = '';
+            
+            if (typeDocument === 'facture') {
+                messageImportant = '\n\n⚠️ ATTENTION : Cette suppression est définitive et affectera vos statistiques.';
+            }
+            
+            if (!confirm(message + messageImportant)) {
+                return;
+            }
+            
+            // Utiliser le gestionnaire de synchronisation s'il existe
+            if (typeof synchronisationManager !== 'undefined') {
+                synchronisationManager.supprimerDocument(documentId)
+                    .then(result => {
+                        afficherNotification(result.message, 'success');
+                        chargerDonnees();
+                    })
+                    .catch(error => {
+                        afficherNotification('Erreur lors de la suppression: ' + error.message, 'error');
+                    });
+            } else {
+                // Fallback si le gestionnaire n'est pas chargé
+                let historique = JSON.parse(localStorage.getItem('historique_global') || '[]');
+                const documentIndex = historique.findIndex(doc => doc.id === documentId);
+                
+                if (documentIndex === -1) {
+                    afficherNotification('Document non trouvé', 'error');
+                    return;
+                }
+                
+                historique.splice(documentIndex, 1);
+                localStorage.setItem('historique_global', JSON.stringify(historique));
+                
+                // Synchroniser avec l'index
+                synchroniserAvecIndex();
+                
+                // Rafraîchir l'affichage
+                chargerDonnees();
+                
+                afficherNotification('Document supprimé avec succès !', 'success');
+            }
+        }
+        
+        function voirDocument(documentId, typeDocument) {
+            // Selon le type de document, rediriger vers la page appropriée
+            switch(typeDocument) {
+                case 'facture':
+                    alert(`Facture ${documentId}\n\nCette fonctionnalité de visualisation complète sera implémentée dans une prochaine version.`);
+                    break;
+                case 'devis':
+                    alert(`Devis ${documentId}\n\nCette fonctionnalité de visualisation complète sera implémentée dans une prochaine version.`);
+                    break;
+                case 'bon_livraison':
+                    alert(`Bon de livraison ${documentId}\n\nCette fonctionnalité de visualisation complète sera implémentée dans une prochaine version.`);
+                    break;
+                default:
+                    alert(`Document ${documentId}`);
+            }
+        }
+        
+        function mettreAJourTableauStock() {
+            const tbody = document.getElementById('tableStock');
+            const emptyState = document.getElementById('emptyStock');
+            
+            // Filtrer les produits en alerte
+            const produitsAlerte = stock.filter(produit => produit.quantite <= produit.seuilAlerte);
+            
+            if (produitsAlerte.length === 0) {
+                tbody.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            tbody.innerHTML = '';
+            
+            // Afficher les alertes
+            produitsAlerte.forEach(produit => {
+                const tr = document.createElement('tr');
+                const pourcentage = Math.round((produit.quantite / produit.seuilAlerte) * 100);
+                
+                tr.innerHTML = `
+                    <td>${produit.designation || 'Produit sans nom'}</td>
+                    <td><strong>${produit.code || 'N/A'}</strong></td>
+                    <td>${produit.quantite}</td>
+                    <td>${produit.seuilAlerte}</td>
+                    <td class="${produit.quantite === 0 ? 'stock-alert' : 'stock-normal'}">
+                        ${produit.quantite === 0 ? 'RUPTURE' : `${pourcentage}% du seuil`}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+        
+        function mettreAJourGraphiqueCA() {
+            const ctx = document.getElementById('caChart').getContext('2d');
+            
+            // Grouper par mois (uniquement les factures finalisées)
+            const facturesFinalisees = historiqueGlobal.filter(f => 
+                f.type === 'facture' && (f.statut === 'finalisee' || f.statut === 'payee')
+            );
+            
+            const dataParMois = {};
+            const maintenant = new Date();
+            
+            // Initialiser les 6 derniers mois
+            for (let i = 5; i >= 0; i--) {
+                const date = new Date();
+                date.setMonth(maintenant.getMonth() - i);
+                const key = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+                dataParMois[key] = 0;
+            }
+            
+            // Remplir avec les données
+            facturesFinalisees.forEach(facture => {
+                if (!facture.date) return;
+                
+                try {
+                    const date = new Date(facture.date.split('/').reverse().join('-'));
+                    const key = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+                    
+                    // Si ce mois est dans notre plage, l'ajouter
+                    if (dataParMois[key] !== undefined) {
+                        dataParMois[key] += parseFloat(facture.totalTTC) || 0;
+                    }
+                } catch (e) {
+                    // Ignorer les dates invalides
+                }
+            });
+            
+            // Préparer les données pour le graphique
+            const labels = Object.keys(dataParMois).map(m => {
+                const [annee, mois] = m.split('-');
+                return `${mois}/${annee.substring(2)}`;
+            });
+            
+            const data = Object.values(dataParMois);
+            
+            // Détruire l'ancien graphique s'il existe
+            if (caChart) {
+                caChart.destroy();
+            }
+            
+            // Créer le nouveau graphique
+            caChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Chiffre d\'Affaires (TND)',
+                        data: data,
+                        borderColor: '#3498db',
+                        backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.3,
+                        pointBackgroundColor: '#3498db',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Évolution sur les 6 derniers mois',
+                            font: {
+                                size: 14
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toFixed(3) + ' TND';
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Montant (TND)',
+                                font: {
+                                    size: 12,
+                                    weight: 'bold'
+                                }
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Mois',
+                                font: {
+                                    size: 12,
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function mettreAJourGraphiqueTypes() {
+            const ctx = document.getElementById('typeChart').getContext('2d');
+            
+            // Compter par type
+            const typesCount = {
+                facture: historiqueGlobal.filter(d => d.type === 'facture').length,
+                devis: historiqueGlobal.filter(d => d.type === 'devis').length,
+                bon_livraison: historiqueGlobal.filter(d => d.type === 'bon_livraison').length
+            };
+            
+            // Détruire l'ancien graphique s'il existe
+            if (typeChart) {
+                typeChart.destroy();
+            }
+            
+            // Créer le nouveau graphique
+            typeChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Factures', 'Devis', 'Bons de Livraison'],
+                    datasets: [{
+                        data: [typesCount.facture, typesCount.devis, typesCount.bon_livraison],
+                        backgroundColor: [
+                            '#1a2980',  // Factures - Bleu foncé
+                            '#9b59b6',  // Devis - Violet
+                            '#3498db'   // Bons - Bleu clair
+                        ],
+                        borderColor: '#fff',
+                        borderWidth: 2,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true,
+                                pointStyle: 'circle',
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Répartition des documents',
+                            font: {
+                                size: 14
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = total > 0 ? Math.round((value / total) * 100) : 0;
+                                    return `${label}: ${value} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function getCouleurStatut(statut) {
+            switch(statut) {
+                case 'finalisee':
+                case 'payee':
+                case 'livre':
+                    return '#27ae60'; // Vert
+                case 'en_attente':
+                    return '#f39c12'; // Orange
+                case 'brouillon':
+                    return '#95a5a6'; // Gris
+                default:
+                    return '#3498db'; // Bleu
+            }
+        }
+        
+        function getTexteStatut(statut) {
+            switch(statut) {
+                case 'finalisee': return 'Finalisée';
+                case 'payee': return 'Payée';
+                case 'livre': return 'Livré';
+                case 'en_attente': return 'En attente';
+                case 'brouillon': return 'Brouillon';
+                default: return statut || 'Inconnu';
+            }
+        }
+        
+        function changerPeriode() {
+            chargerDonnees();
+        }
+        
+        function rafraichirDonnees() {
+            chargerDonnees();
+            afficherNotification('Données rafraîchies avec succès !', 'success');
+        }
+        
+        function exporterDonnees() {
+            const donnees = {
+                exportDate: new Date().toISOString(),
+                historique: historiqueGlobal,
+                stock: stock,
+                statistiques: {
+                    totalDocuments: historiqueGlobal.length,
+                    totalFactures: historiqueGlobal.filter(d => d.type === 'facture').length,
+                    totalDevis: historiqueGlobal.filter(d => d.type === 'devis').length,
+                    totalBons: historiqueGlobal.filter(d => d.type === 'bon_livraison').length,
+                    caTotal: historiqueGlobal
+                        .filter(d => d.type === 'facture' && (d.statut === 'finalisee' || d.statut === 'payee'))
+                        .reduce((sum, f) => sum + (parseFloat(f.totalTTC) || 0), 0)
+                }
+            };
+            
+            const blob = new Blob([JSON.stringify(donnees, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `export_smda_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            afficherNotification('Données exportées avec succès !', 'success');
+        }
+        
+        function exporterExcel() {
+            // Format CSV pour Excel
+            let csvContent = "Type,Numéro,Client,Date,Montant TTC,Statut\n";
+            
+            historiqueGlobal.forEach(doc => {
+                const ligne = [
+                    doc.type || '',
+                    doc.numero || '',
+                    `"${doc.clientNom || ''}"`,
+                    doc.date || '',
+                    parseFloat(doc.totalTTC) || 0,
+                    doc.statut || ''
+                ].join(',');
+                
+                csvContent += ligne + "\n";
+            });
+            
+            const blob = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `export_smda_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            afficherNotification('Export CSV généré avec succès !', 'success');
+        }
+        
+        function afficherNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            
+            let icon = 'info-circle';
+            if (type === 'success') icon = 'check-circle';
+            if (type === 'error') icon = 'exclamation-circle';
+            
+            notification.innerHTML = `
+                <i class="fas fa-${icon}"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Supprimer les anciennes notifications
+            const anciennesNotifs = document.querySelectorAll('.notification');
+            if (anciennesNotifs.length > 3) {
+                anciennesNotifs[0].remove();
+            }
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 3000);
+        }
+        
+        // Charger les données au démarrage
+        document.addEventListener('DOMContentLoaded', chargerDonnees);
+        
+        // Écouter les événements de synchronisation
+        window.addEventListener('statistiquesMisesAJour', function() {
+            console.log('Statistiques mises à jour depuis un autre onglet');
+        });
+        
+        window.addEventListener('documentSupprime', function(event) {
+            console.log('Document supprimé depuis un autre onglet:', event.detail);
+            chargerDonnees();
+        });
+        
+        // Rafraîchir automatiquement toutes les 30 secondes
+        setInterval(chargerDonnees, 30000);
+        
+        // Rafraîchir quand on revient sur la page
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                chargerDonnees();
+            }
+        });
+    </script>
+</body>
+</html>

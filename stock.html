@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S.M.D.A - Gestion de Stock</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Styles spécifiques à la gestion de stock */
+        .stock-container {
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .stock-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .stock-title h1 {
+            color: #2c3e50;
+            font-size: 32px;
+        }
+        
+        .stock-title p {
+            color: #666;
+        }
+        
+        .stock-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-select {
+            padding: 10px 15px;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            background: white;
+            font-size: 14px;
+        }
+        
+        .search-input {
+            padding: 10px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            flex: 1;
+        }
+        
+        .btn-add-product {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .stock-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-left: 5px solid;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .stock-faible {
+            border-left-color: #e74c3c;
+        }
+        
+        .stock-normal {
+            border-left-color: #27ae60;
+        }
+        
+        .stock-eleve {
+            border-left-color: #3498db;
+        }
+        
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .product-code {
+            background: #f8f9fa;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-weight: 600;
+            color: #666;
+        }
+        
+        .product-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .product-category {
+            color: #3498db;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .product-info {
+            margin-bottom: 20px;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #f8f9fa;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #666;
+        }
+        
+        .info-value {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .stock-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .stock-bar {
+            flex: 1;
+            height: 8px;
+            background: #ecf0f1;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .stock-fill {
+            height: 100%;
+            background: #27ae60;
+            transition: width 0.3s;
+        }
+        
+        .stock-fill.faible {
+            background: #e74c3c;
+        }
+        
+        .stock-fill.moyen {
+            background: #f39c12;
+        }
+        
+        .stock-quantity {
+            font-weight: 800;
+            font-size: 20px;
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-action {
+            flex: 1;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        
+        .btn-mouvement {
+            background: #3498db;
+            color: white;
+        }
+        
+        .btn-edit {
+            background: #f39c12;
+            color: white;
+        }
+        
+        .btn-supprimer {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #95a5a6;
+        }
+        
+        .empty-state i {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+        
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stat-value {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .alert-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #e74c3c;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        /* Styles pour les modals */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="toolbar" style="border-color: #27ae60;">
+        <div class="toolbar-left">
+            <a href="index.html" class="btn btn-back">
+                <i class="fas fa-arrow-left"></i> Retour
+            </a>
+        </div>
+        <div class="toolbar-center" style="color: #27ae60;">
+            <span class="company-name">S.M.D.A - Gestion de Stock</span>
+        </div>
+        <div class="toolbar-right">
+            <button class="btn btn-add" onclick="ouvrirModalNouveauProduit()">
+                <i class="fas fa-box"></i> Nouveau Produit
+            </button>
+        </div>
+    </div>
+
+    <div class="stock-container">
+        <div class="stock-header">
+            <div class="stock-title">
+                <h1>📦 Gestion de Stock</h1>
+                <p>Suivez votre inventaire en temps réel</p>
+            </div>
+        </div>
+
+        <!-- Statistiques rapides -->
+        <div class="stats-overview">
+            <div class="stat-card">
+                <div class="stat-value" id="totalProduits">0</div>
+                <div class="stat-label">Produits</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="valeurStock">0 TND</div>
+                <div class="stat-label">Valeur Stock</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="alertesStock">0</div>
+                <div class="stat-label">Alertes Stock</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalQuantite">0</div>
+                <div class="stat-label">Quantité Totale</div>
+            </div>
+        </div>
+
+        <div class="stock-controls">
+            <select class="filter-select" id="filterCategorie" onchange="filtrerProduits()">
+                <option value="">Toutes les catégories</option>
+                <option value="Lustres">Lustres</option>
+                <option value="Lampes">Lampes</option>
+                <option value="Verre">Verre</option>
+                <option value="Accessoires">Accessoires</option>
+                <option value="Matières Premières">Matières Premières</option>
+            </select>
+            
+            <select class="filter-select" id="filterStock" onchange="filtrerProduits()">
+                <option value="">Tous les stocks</option>
+                <option value="faible">Stock faible</option>
+                <option value="normal">Stock normal</option>
+                <option value="eleve">Stock élevé</option>
+            </select>
+            
+            <input type="text" class="search-input" id="searchProduct" placeholder="Rechercher un produit..." oninput="filtrerProduits()" style="flex: 1;">
+            
+            <button class="btn-add-product" onclick="ouvrirModalNouveauProduit()">
+                <i class="fas fa-plus"></i> Nouveau Produit
+            </button>
+        </div>
+
+        <div class="stock-grid" id="stockGrid">
+            <!-- Les cartes produits seront générées ici -->
+        </div>
+
+        <div id="emptyStock" class="empty-state" style="display: none;">
+            <i class="fas fa-box-open"></i>
+            <h3>Aucun produit en stock</h3>
+            <p>Commencez par ajouter vos premiers produits</p>
+            <button class="btn btn-add" onclick="ouvrirModalNouveauProduit()">
+                <i class="fas fa-box"></i> Ajouter un produit
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal Produit -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 30px; color: #2c3e50;" id="modalTitle">Nouveau Produit</h2>
+            
+            <form id="productForm">
+                <div class="form-group">
+                    <label class="form-label">Code produit *</label>
+                    <input type="text" class="form-input" id="productCode" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Désignation *</label>
+                    <input type="text" class="form-input" id="productName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Catégorie</label>
+                    <select class="form-input" id="productCategory">
+                        <option value="Lustres">Lustres</option>
+                        <option value="Lampes">Lampes</option>
+                        <option value="Verre">Verre</option>
+                        <option value="Accessoires">Accessoires</option>
+                        <option value="Matières Premières">Matières Premières</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Quantité initiale</label>
+                    <input type="number" class="form-input" id="productQuantity" value="0" min="0" step="1">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Prix d'achat (TND)</label>
+                    <input type="number" class="form-input" id="productPrixAchat" value="0" min="0" step="0.001">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Prix de vente (TND)</label>
+                    <input type="number" class="form-input" id="productPrixVente" value="0" min="0" step="0.001">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Seuil d'alerte</label>
+                    <input type="number" class="form-input" id="productSeuilAlerte" value="5" min="1" step="1">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Emplacement</label>
+                    <input type="text" class="form-input" id="productEmplacement">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-input" id="productDescription" rows="3"></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="fermerModal()" style="flex: 1;">
+                        Annuler
+                    </button>
+                    <button type="submit" class="btn btn-save" style="flex: 1;">
+                        Enregistrer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Mouvement de Stock -->
+    <div class="modal" id="movementModal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 30px; color: #2c3e50;" id="movementTitle">Mouvement de Stock</h2>
+            
+            <div class="product-info" id="movementProductInfo" style="margin-bottom: 20px;">
+                <!-- Info produit -->
+            </div>
+            
+            <form id="movementForm">
+                <div class="form-group">
+                    <label class="form-label">Type de mouvement</label>
+                    <select class="form-input" id="movementType">
+                        <option value="entree">Entrée de stock</option>
+                        <option value="sortie">Sortie de stock</option>
+                        <option value="ajustement">Ajustement</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Quantité *</label>
+                    <input type="number" class="form-input" id="movementQuantity" required min="1" step="1">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Motif</label>
+                    <select class="form-input" id="movementReason">
+                        <option value="achat">Achat fournisseur</option>
+                        <option value="retour">Retour client</option>
+                        <option value="inventaire">Inventaire</option>
+                        <option value="vente">Vente</option>
+                        <option value="perte">Perte/casse</option>
+                        <option value="autre">Autre</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Date</label>
+                    <input type="date" class="form-input" id="movementDate">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Notes</label>
+                    <textarea class="form-input" id="movementNotes" rows="3"></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="fermerMovementModal()" style="flex: 1;">
+                        Annuler
+                    </button>
+                    <button type="submit" class="btn btn-save" style="flex: 1;">
+                        Valider
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Confirmation Suppression -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 30px; color: #2c3e50;">Confirmation</h2>
+            <p id="confirmMessage">Êtes-vous sûr de vouloir supprimer ce produit ?</p>
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="fermerConfirmModal()" style="flex: 1;">
+                    Annuler
+                </button>
+                <button type="button" class="btn btn-supprimer" onclick="confirmerSuppression()" style="flex: 1;">
+                    Supprimer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let stock = [];
+        let productEnEdition = null;
+        let produitPourMouvement = null;
+        let produitASupprimer = null;
+
+        // Charger le stock au démarrage
+        document.addEventListener('DOMContentLoaded', function() {
+            chargerStock();
+            calculerStatistiques();
+            configurerFormulaires();
+        });
+
+        function chargerStock() {
+            stock = JSON.parse(localStorage.getItem('stock') || '[]');
+            afficherStock();
+        }
+
+        function afficherStock() {
+            const container = document.getElementById('stockGrid');
+            const emptyState = document.getElementById('emptyStock');
+            
+            if (stock.length === 0) {
+                container.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            container.innerHTML = '';
+            
+            stock.forEach(produit => {
+                const classeStock = getClasseStock(produit);
+                const pourcentageStock = Math.min(100, (produit.quantite / (produit.seuilAlerte * 3)) * 100);
+                const enAlerte = produit.quantite <= produit.seuilAlerte;
+                
+                const card = document.createElement('div');
+                card.className = `product-card ${classeStock}`;
+                card.innerHTML = `
+                    ${enAlerte ? '<div class="alert-badge"><i class="fas fa-exclamation"></i></div>' : ''}
+                    
+                    <div class="product-header">
+                        <div class="product-code">${produit.code}</div>
+                    </div>
+                    
+                    <div class="product-name">${produit.designation}</div>
+                    <div class="product-category">${produit.categorie}</div>
+                    
+                    <div class="product-info">
+                        <div class="info-row">
+                            <span class="info-label">Prix achat:</span>
+                            <span class="info-value">${(produit.prixAchat || 0).toFixed(3)} TND</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Prix vente:</span>
+                            <span class="info-value">${(produit.prixVente || 0).toFixed(3)} TND</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Emplacement:</span>
+                            <span class="info-value">${produit.emplacement || '-'}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stock-indicator">
+                        <div class="stock-bar">
+                            <div class="stock-fill ${classeStock}" style="width: ${pourcentageStock}%"></div>
+                        </div>
+                        <div class="stock-quantity">${produit.quantite}</div>
+                    </div>
+                    
+                    <div class="product-actions">
+                        <button class="btn-action btn-mouvement" onclick="ouvrirModalMouvement('${produit.id}')">
+                            <i class="fas fa-exchange-alt"></i> Mouvement
+                        </button>
+                        <button class="btn-action btn-edit" onclick="editerProduit('${produit.id}')">
+                            <i class="fas fa-edit"></i> Modifier
+                        </button>
+                        <button class="btn-action btn-supprimer" onclick="demanderSuppressionProduit('${produit.id}')">
+                            <i class="fas fa-trash"></i> Supprimer
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function getClasseStock(produit) {
+            if (produit.quantite <= produit.seuilAlerte) {
+                return 'stock-faible';
+            } else if (produit.quantite <= produit.seuilAlerte * 2) {
+                return 'stock-normal';
+            } else {
+                return 'stock-eleve';
+            }
+        }
+
+        function calculerStatistiques() {
+            let totalProduits = stock.length;
+            let valeurStock = 0;
+            let alertesStock = 0;
+            let totalQuantite = 0;
+            
+            stock.forEach(produit => {
+                valeurStock += (produit.quantite || 0) * (produit.prixAchat || 0);
+                totalQuantite += produit.quantite || 0;
+                
+                if (produit.quantite <= produit.seuilAlerte) {
+                    alertesStock++;
+                }
+            });
+            
+            document.getElementById('totalProduits').textContent = totalProduits;
+            document.getElementById('valeurStock').textContent = valeurStock.toFixed(3) + ' TND';
+            document.getElementById('alertesStock').textContent = alertesStock;
+            document.getElementById('totalQuantite').textContent = totalQuantite;
+        }
+
+        function filtrerProduits() {
+            const categorie = document.getElementById('filterCategorie').value;
+            const niveauStock = document.getElementById('filterStock').value;
+            const recherche = document.getElementById('searchProduct').value.toLowerCase();
+            
+            let produitsFiltres = stock;
+            
+            // Filtre par catégorie
+            if (categorie) {
+                produitsFiltres = produitsFiltres.filter(p => p.categorie === categorie);
+            }
+            
+            // Filtre par niveau de stock
+            if (niveauStock) {
+                produitsFiltres = produitsFiltres.filter(p => getClasseStock(p) === `stock-${niveauStock}`);
+            }
+            
+            // Filtre par recherche
+            if (recherche) {
+                produitsFiltres = produitsFiltres.filter(p => 
+                    p.designation.toLowerCase().includes(recherche) ||
+                    p.code.toLowerCase().includes(recherche) ||
+                    (p.description && p.description.toLowerCase().includes(recherche))
+                );
+            }
+            
+            afficherProduitsFiltres(produitsFiltres);
+        }
+
+        function afficherProduitsFiltres(produitsFiltres) {
+            const container = document.getElementById('stockGrid');
+            const emptyState = document.getElementById('emptyStock');
+            
+            if (produitsFiltres.length === 0) {
+                container.innerHTML = '';
+                emptyState.innerHTML = `
+                    <i class="fas fa-search"></i>
+                    <h3>Aucun produit trouvé</h3>
+                    <p>Aucun produit ne correspond à vos critères de recherche</p>
+                `;
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            container.innerHTML = '';
+            
+            produitsFiltres.forEach(produit => {
+                const classeStock = getClasseStock(produit);
+                const pourcentageStock = Math.min(100, (produit.quantite / (produit.seuilAlerte * 3)) * 100);
+                
+                const card = document.createElement('div');
+                card.className = `product-card ${classeStock}`;
+                card.innerHTML = `
+                    <div class="product-header">
+                        <div class="product-code">${produit.code}</div>
+                    </div>
+                    
+                    <div class="product-name">${produit.designation}</div>
+                    <div class="product-category">${produit.categorie}</div>
+                    
+                    <div class="product-info">
+                        <div class="info-row">
+                            <span class="info-label">Quantité:</span>
+                            <span class="info-value">${produit.quantite}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Prix vente:</span>
+                            <span class="info-value">${(produit.prixVente || 0).toFixed(3)} TND</span>
+                        </div>
+                    </div>
+                    
+                    <div class="product-actions">
+                        <button class="btn-action btn-mouvement" onclick="ouvrirModalMouvement('${produit.id}')">
+                            <i class="fas fa-exchange-alt"></i> Mouvement
+                        </button>
+                        <button class="btn-action btn-edit" onclick="editerProduit('${produit.id}')">
+                            <i class="fas fa-edit"></i> Modifier
+                        </button>
+                        <button class="btn-action btn-supprimer" onclick="demanderSuppressionProduit('${produit.id}')">
+                            <i class="fas fa-trash"></i> Supprimer
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function ouvrirModalNouveauProduit() {
+            productEnEdition = null;
+            document.getElementById('modalTitle').textContent = 'Nouveau Produit';
+            document.getElementById('productForm').reset();
+            document.getElementById('productModal').style.display = 'flex';
+        }
+
+        function editerProduit(produitId) {
+            const produit = stock.find(p => p.id === produitId);
+            if (!produit) return;
+            
+            productEnEdition = produit;
+            
+            document.getElementById('modalTitle').textContent = 'Modifier Produit';
+            document.getElementById('productCode').value = produit.code || '';
+            document.getElementById('productName').value = produit.designation || '';
+            document.getElementById('productCategory').value = produit.categorie || 'Lustres';
+            document.getElementById('productQuantity').value = produit.quantite || 0;
+            document.getElementById('productPrixAchat').value = produit.prixAchat || 0;
+            document.getElementById('productPrixVente').value = produit.prixVente || 0;
+            document.getElementById('productSeuilAlerte').value = produit.seuilAlerte || 5;
+            document.getElementById('productEmplacement').value = produit.emplacement || '';
+            document.getElementById('productDescription').value = produit.description || '';
+            
+            document.getElementById('productModal').style.display = 'flex';
+        }
+
+        function configurerFormulaires() {
+            // Formulaire produit
+            const productForm = document.getElementById('productForm');
+            productForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                enregistrerProduit();
+            });
+            
+            // Formulaire mouvement
+            const movementForm = document.getElementById('movementForm');
+            movementForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                enregistrerMouvement();
+            });
+            
+            // Date par défaut pour les mouvements
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('movementDate').value = today;
+        }
+
+        function enregistrerProduit() {
+            const code = document.getElementById('productCode').value.trim();
+            const nom = document.getElementById('productName').value.trim();
+            
+            if (!code || !nom) {
+                afficherNotification('Le code et la désignation sont obligatoires', 'error');
+                return;
+            }
+            
+            // Vérifier si le code existe déjà (sauf pour l'édition)
+            if (!productEnEdition) {
+                const codeExiste = stock.some(p => p.code.toLowerCase() === code.toLowerCase());
+                if (codeExiste) {
+                    afficherNotification('Ce code produit existe déjà', 'error');
+                    return;
+                }
+            }
+            
+            const produitData = {
+                id: productEnEdition ? productEnEdition.id : 'PROD-' + Date.now(),
+                code: code,
+                designation: nom,
+                categorie: document.getElementById('productCategory').value,
+                quantite: parseInt(document.getElementById('productQuantity').value) || 0,
+                prixAchat: parseFloat(document.getElementById('productPrixAchat').value) || 0,
+                prixVente: parseFloat(document.getElementById('productPrixVente').value) || 0,
+                seuilAlerte: parseInt(document.getElementById('productSeuilAlerte').value) || 5,
+                emplacement: document.getElementById('productEmplacement').value.trim(),
+                description: document.getElementById('productDescription').value.trim(),
+                dateCreation: productEnEdition ? productEnEdition.dateCreation : new Date().toISOString(),
+                dateModification: new Date().toISOString()
+            };
+            
+            if (productEnEdition) {
+                // Mettre à jour le produit existant
+                const index = stock.findIndex(p => p.id === productEnEdition.id);
+                if (index !== -1) {
+                    stock[index] = produitData;
+                }
+            } else {
+                // Ajouter un nouveau produit
+                stock.push(produitData);
+            }
+            
+            // Sauvegarder dans localStorage
+            localStorage.setItem('stock', JSON.stringify(stock));
+            
+            // Fermer le modal et rafraîchir
+            fermerModal();
+            chargerStock();
+            calculerStatistiques();
+            
+            afficherNotification(
+                productEnEdition ? 'Produit modifié avec succès !' : 'Produit ajouté avec succès !',
+                'success'
+            );
+        }
+
+        function ouvrirModalMouvement(produitId) {
+            const produit = stock.find(p => p.id === produitId);
+            if (!produit) return;
+            
+            produitPourMouvement = produit;
+            
+            document.getElementById('movementTitle').textContent = `Mouvement de stock - ${produit.code}`;
+            
+            const infoHTML = `
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                    <strong>${produit.designation}</strong><br>
+                    Stock actuel: <strong>${produit.quantite}</strong> unités<br>
+                    Emplacement: ${produit.emplacement || '-'}
+                </div>
+            `;
+            document.getElementById('movementProductInfo').innerHTML = infoHTML;
+            
+            document.getElementById('movementQuantity').value = 1;
+            document.getElementById('movementDate').value = new Date().toISOString().split('T')[0];
+            
+            document.getElementById('movementModal').style.display = 'flex';
+        }
+
+        function enregistrerMouvement() {
+            if (!produitPourMouvement) return;
+            
+            const type = document.getElementById('movementType').value;
+            const quantite = parseInt(document.getElementById('movementQuantity').value) || 0;
+            const motif = document.getElementById('movementReason').value;
+            const date = document.getElementById('movementDate').value;
+            const notes = document.getElementById('movementNotes').value.trim();
+            
+            if (quantite <= 0) {
+                afficherNotification('La quantité doit être supérieure à 0', 'error');
+                return;
+            }
+            
+            // Mettre à jour la quantité du produit
+            const produitIndex = stock.findIndex(p => p.id === produitPourMouvement.id);
+            if (produitIndex === -1) return;
+            
+            let nouvelleQuantite = stock[produitIndex].quantite;
+            
+            if (type === 'entree') {
+                nouvelleQuantite += quantite;
+            } else if (type === 'sortie') {
+                if (quantite > nouvelleQuantite) {
+                    afficherNotification('Quantité insuffisante en stock', 'error');
+                    return;
+                }
+                nouvelleQuantite -= quantite;
+            } else if (type === 'ajustement') {
+                nouvelleQuantite = quantite;
+            }
+            
+            stock[produitIndex].quantite = nouvelleQuantite;
+            stock[produitIndex].dateModification = new Date().toISOString();
+            
+            // Enregistrer l'historique des mouvements
+            const mouvement = {
+                id: 'MVT-' + Date.now(),
+                produitId: produitPourMouvement.id,
+                produitCode: produitPourMouvement.code,
+                type: type,
+                quantite: quantite,
+                motif: motif,
+                date: date,
+                notes: notes,
+                dateEnregistrement: new Date().toISOString(),
+                utilisateur: 'Système'
+            };
+            
+            let historique = JSON.parse(localStorage.getItem('historique_stock') || '[]');
+            historique.push(mouvement);
+            localStorage.setItem('historique_stock', JSON.stringify(historique));
+            
+            // Sauvegarder le stock mis à jour
+            localStorage.setItem('stock', JSON.stringify(stock));
+            
+            // Fermer le modal et rafraîchir
+            fermerMovementModal();
+            chargerStock();
+            calculerStatistiques();
+            
+            afficherNotification('Mouvement enregistré avec succès !', 'success');
+        }
+
+        function demanderSuppressionProduit(produitId) {
+            const produit = stock.find(p => p.id === produitId);
+            if (!produit) return;
+            
+            produitASupprimer = produit;
+            
+            // Vérifier si le produit a du stock
+            if (produit.quantite > 0) {
+                document.getElementById('confirmMessage').innerHTML = `
+                    <strong>Attention !</strong><br><br>
+                    Le produit <strong>${produit.code} - ${produit.designation}</strong> a encore <strong>${produit.quantite}</strong> unités en stock.<br><br>
+                    Êtes-vous sûr de vouloir le supprimer ?
+                `;
+            } else {
+                document.getElementById('confirmMessage').innerHTML = `
+                    Êtes-vous sûr de vouloir supprimer le produit <strong>${produit.code} - ${produit.designation}</strong> ?
+                `;
+            }
+            
+            document.getElementById('confirmModal').style.display = 'flex';
+        }
+
+        function confirmerSuppression() {
+            if (!produitASupprimer) return;
+            
+            // Supprimer le produit
+            const index = stock.findIndex(p => p.id === produitASupprimer.id);
+            if (index !== -1) {
+                stock.splice(index, 1);
+                
+                // Sauvegarder le stock mis à jour
+                localStorage.setItem('stock', JSON.stringify(stock));
+                
+                // Fermer le modal et rafraîchir
+                fermerConfirmModal();
+                chargerStock();
+                calculerStatistiques();
+                
+                afficherNotification('Produit supprimé avec succès !', 'success');
+            }
+        }
+
+        function fermerModal() {
+            document.getElementById('productModal').style.display = 'none';
+            productEnEdition = null;
+        }
+
+        function fermerMovementModal() {
+            document.getElementById('movementModal').style.display = 'none';
+            produitPourMouvement = null;
+        }
+
+        function fermerConfirmModal() {
+            document.getElementById('confirmModal').style.display = 'none';
+            produitASupprimer = null;
+        }
+
+        function afficherNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            
+            let icon = 'info-circle';
+            if (type === 'success') icon = 'check-circle';
+            if (type === 'error') icon = 'exclamation-circle';
+            
+            notification.innerHTML = `
+                <i class="fas fa-${icon}"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Supprimer les anciennes notifications
+            const anciennesNotifs = document.querySelectorAll('.notification');
+            if (anciennesNotifs.length > 3) {
+                anciennesNotifs[0].remove();
+            }
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 3000);
+        }
+
+        // Fermer les modals en cliquant à l'extérieur
+        window.onclick = function(event) {
+            const productModal = document.getElementById('productModal');
+            const movementModal = document.getElementById('movementModal');
+            const confirmModal = document.getElementById('confirmModal');
+            
+            if (event.target === productModal) {
+                fermerModal();
+            }
+            if (event.target === movementModal) {
+                fermerMovementModal();
+            }
+            if (event.target === confirmModal) {
+                fermerConfirmModal();
+            }
+        };
+    </script>
+</body>
+</html>

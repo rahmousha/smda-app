@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S.M.D.A - Accueil</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="synchronisation.js"></script>
+    <style>
+        /* Styles spécifiques à la page d'accueil */
+        .home-container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .company-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .company-logo {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        
+        .company-subtitle {
+            font-size: 24px;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+        
+        .company-address {
+            font-size: 16px;
+            line-height: 1.8;
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .menu-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px 25px;
+            text-align: center;
+            text-decoration: none;
+            color: #333;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-top: 5px solid #1a2980;
+        }
+        
+        .menu-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .menu-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+            color: #1a2980;
+        }
+        
+        .menu-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #1a2980;
+        }
+        
+        .menu-desc {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stat-value {
+            font-size: 36px;
+            font-weight: 800;
+            color: #1a2980;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .quick-actions {
+            margin-top: 40px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .btn-quick {
+            padding: 12px 25px;
+            background: #1a2980;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        
+        .btn-quick:hover {
+            background: #26d0ce;
+            transform: translateY(-3px);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: #27ae60;
+            color: white;
+            border-radius: 8px;
+            z-index: 10000;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .notification.error {
+            background: #e74c3c;
+        }
+        
+        .notification.info {
+            background: #3498db;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="home-container">
+        <!-- En-tête société -->
+        <div class="company-header">
+            <div class="company-logo">S.M.D.A</div>
+            <div class="company-subtitle">Ste MESSAOUDI d'Artisana Traditionnel</div>
+            <div class="company-address">
+                Fabrication des Lustres et Lampes Artisanales<br>
+                Route de Bizerte, km 7.5 El Mnihla<br>
+                📞 GSM: 21 976 456 / 95 836 964<br>
+                📧 najibmessaoudismda@gmail.com<br>
+                🔖 M.F.: 1261930T/A/M/000
+            </div>
+        </div>
+
+        <!-- Menu principal -->
+        <div class="menu-grid">
+            <a href="facture.html" class="menu-card">
+                <div class="menu-icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </div>
+                <div class="menu-title">Nouvelle Facture</div>
+                <div class="menu-desc">Créer une facture avec calcul automatique des totaux, TVA et timbre fiscal</div>
+            </a>
+
+            <a href="bon.html" class="menu-card">
+                <div class="menu-icon">
+                    <i class="fas fa-truck-loading"></i>
+                </div>
+                <div class="menu-title">Bon de Livraison</div>
+                <div class="menu-desc">Générer un bon de livraison avec numérotation automatique</div>
+            </a>
+
+            <a href="devis.html" class="menu-card">
+                <div class="menu-icon">
+                    <i class="fas fa-file-contract"></i>
+                </div>
+                <div class="menu-title">Nouveau Devis</div>
+                <div class="menu-desc">Créer un devis personnalisé avec conditions et validité</div>
+            </a>
+
+            <a href="clients.html" class="menu-card">
+                <div class="menu-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="menu-title">Fiches Clients</div>
+                <div class="menu-desc">Gérer vos clients et consulter leur historique</div>
+            </a>
+
+            <a href="stock.html" class="menu-card">
+                <div class="menu-icon">
+                    <i class="fas fa-boxes"></i>
+                </div>
+                <div class="menu-title">Gestion de Stock</div>
+                <div class="menu-desc">Suivre votre inventaire et alertes stock faible</div>
+            </a>
+
+            <a href="dashboard.html" class="menu-card">
+                <div class="menu-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="menu-title">Tableau de Bord</div>
+                <div class="menu-desc">Analyser votre activité et performance commerciale</div>
+            </a>
+        </div>
+
+        <!-- Statistiques rapides -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="totalFactures">0</div>
+                <div class="stat-label">Factures Total</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="caTotal">0 TND</div>
+                <div class="stat-label">Chiffre d'Affaires</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalClients">0</div>
+                <div class="stat-label">Clients Actifs</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stockTotal">0</div>
+                <div class="stat-label">Articles en Stock</div>
+            </div>
+        </div>
+
+        <!-- Actions rapides -->
+        <div class="quick-actions">
+            <button class="btn-quick" onclick="window.location.href='facture.html'">
+                <i class="fas fa-plus"></i> Nouvelle Facture Rapide
+            </button>
+            <button class="btn-quick" onclick="window.location.href='clients.html'">
+                <i class="fas fa-user-plus"></i> Ajouter Client
+            </button>
+            <button class="btn-quick" onclick="window.location.href='stock.html'">
+                <i class="fas fa-box"></i> Ajouter Produit
+            </button>
+            <button class="btn-quick" onclick="sauvegarderDonnees()">
+                <i class="fas fa-save"></i> Sauvegarder Données
+            </button>
+            <button class="btn-quick" onclick="forcerRafraichissement()" style="background:#3498db;">
+                <i class="fas fa-sync-alt"></i> Rafraîchir
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Charger les statistiques au démarrage
+        document.addEventListener('DOMContentLoaded', function() {
+            chargerStatistiques();
+            initialiserDonnees();
+            initialiserSynchronisation();
+        });
+
+        function chargerStatistiques() {
+            // Essayer d'abord de charger les statistiques sauvegardées
+            const statistiquesSauvegardees = JSON.parse(localStorage.getItem('statistiques') || 'null');
+            
+            if (statistiquesSauvegardees && statistiquesSauvegardees.timestamp) {
+                // Vérifier si les statistiques sont à jour (moins de 30 secondes)
+                const age = new Date() - new Date(statistiquesSauvegardees.timestamp);
+                if (age < 30000) { // 30 secondes
+                    // Utiliser les statistiques sauvegardées
+                    document.getElementById('totalFactures').textContent = statistiquesSauvegardees.totalFactures;
+                    document.getElementById('caTotal').textContent = statistiquesSauvegardees.caTotal.toFixed(3) + ' TND';
+                    document.getElementById('totalClients').textContent = statistiquesSauvegardees.totalClients;
+                    document.getElementById('stockTotal').textContent = statistiquesSauvegardees.stockTotal;
+                    return;
+                }
+            }
+            
+            // Sinon, calculer les statistiques à partir des données brutes
+            const historique = JSON.parse(localStorage.getItem('historique_global') || '[]');
+            const clients = JSON.parse(localStorage.getItem('clients') || '[]');
+            const stock = JSON.parse(localStorage.getItem('stock') || '[]');
+            
+            // Calculer les totaux
+            const totalFactures = historique.filter(d => d.type === 'facture').length;
+            const totalDevis = historique.filter(d => d.type === 'devis').length;
+            const totalBons = historique.filter(d => d.type === 'bon_livraison').length;
+            
+            // Calculer CA total
+            let caTotal = 0;
+            historique.forEach(doc => {
+                if (doc.type === 'facture' && (doc.statut === 'finalisee' || doc.statut === 'payee')) {
+                    caTotal += parseFloat(doc.totalTTC || 0);
+                }
+            });
+            
+            // Calculer stock total
+            let stockTotal = 0;
+            stock.forEach(article => {
+                stockTotal += parseInt(article.quantite || 0);
+            });
+            
+            // Mettre à jour l'interface
+            document.getElementById('totalFactures').textContent = totalFactures;
+            document.getElementById('caTotal').textContent = caTotal.toFixed(3) + ' TND';
+            document.getElementById('totalClients').textContent = clients.length;
+            document.getElementById('stockTotal').textContent = stockTotal;
+            
+            // Sauvegarder les statistiques pour la prochaine fois
+            synchroniserStatistiques();
+        }
+
+        function synchroniserStatistiques() {
+            const historique = JSON.parse(localStorage.getItem('historique_global') || '[]');
+            const clients = JSON.parse(localStorage.getItem('clients') || '[]');
+            const stock = JSON.parse(localStorage.getItem('stock') || '[]');
+            
+            // Calculer les totaux
+            const totalFactures = historique.filter(d => d.type === 'facture').length;
+            let caTotal = 0;
+            historique.forEach(doc => {
+                if (doc.type === 'facture' && (doc.statut === 'finalisee' || doc.statut === 'payee')) {
+                    caTotal += parseFloat(doc.totalTTC || 0);
+                }
+            });
+            
+            let stockTotal = 0;
+            stock.forEach(article => {
+                stockTotal += parseInt(article.quantite || 0);
+            });
+            
+            // Stocker les statistiques
+            const statistiques = {
+                totalFactures: totalFactures,
+                caTotal: caTotal,
+                totalClients: clients.length,
+                stockTotal: stockTotal,
+                totalDevis: historique.filter(d => d.type === 'devis').length,
+                totalBons: historique.filter(d => d.type === 'bon_livraison').length,
+                timestamp: new Date().toISOString()
+            };
+            
+            localStorage.setItem('statistiques', JSON.stringify(statistiques));
+            
+            // Déclencher un événement pour notifier les autres pages
+            window.dispatchEvent(new CustomEvent('statistiquesMisesAJour', {
+                detail: statistiques
+            }));
+        }
+
+        function initialiserDonnees() {
+            // Initialiser les données si première utilisation
+            if (!localStorage.getItem('donnees_initialisees')) {
+                // Créer des données de démonstration
+                const stockDemo = [
+                    {
+                        id: 'PROD-001',
+                        code: 'LST-001',
+                        designation: 'Lustre Artisanal Grand Modèle',
+                        categorie: 'Lustres',
+                        quantite: 15,
+                        prixAchat: 120.000,
+                        prixVente: 250.000,
+                        seuilAlerte: 5,
+                        emplacement: 'Rayon A'
+                    },
+                    {
+                        id: 'PROD-002',
+                        code: 'LMP-001',
+                        designation: 'Lampe Traditionnelle Murale',
+                        categorie: 'Lampes',
+                        quantite: 8,
+                        prixAchat: 85.000,
+                        prixVente: 180.000,
+                        seuilAlerte: 3,
+                        emplacement: 'Rayon B'
+                    }
+                ];
+                
+                const clientsDemo = [
+                    {
+                        id: 'CLI-001',
+                        nom: 'Hôtel Tunis Palace',
+                        type: 'Hôtel/Restaurant',
+                        adresse: 'Avenue Habib Bourguiba, Tunis',
+                        telephone: '71 234 567',
+                        email: 'contact@tunispalace.com',
+                        mf: '12345678A',
+                        dateInscription: new Date().toISOString(),
+                        totalAchat: 3049.500,
+                        nombreCommandes: 2
+                    }
+                ];
+                
+                localStorage.setItem('stock', JSON.stringify(stockDemo));
+                localStorage.setItem('clients', JSON.stringify(clientsDemo));
+                localStorage.setItem('donnees_initialisees', 'true');
+                
+                // Rafraîchir les statistiques
+                setTimeout(() => {
+                    chargerStatistiques();
+                }, 500);
+            }
+        }
+
+        function initialiserSynchronisation() {
+            // Écouter les changements de localStorage
+            window.addEventListener('storage', function(event) {
+                if (event.key === 'historique_global' || event.key === 'statistiques') {
+                    console.log('Changement détecté dans localStorage:', event.key);
+                    chargerStatistiques();
+                }
+            });
+            
+            // Écouter les événements personnalisés
+            window.addEventListener('statistiquesMisesAJour', function(event) {
+                console.log('Statistiques mises à jour:', event.detail);
+                chargerStatistiques();
+            });
+            
+            window.addEventListener('documentSupprime', function(event) {
+                console.log('Document supprimé:', event.detail);
+                afficherNotification('Document supprimé - Mise à jour des statistiques', 'info');
+                chargerStatistiques();
+            });
+            
+            // Rafraîchir automatiquement toutes les 30 secondes
+            setInterval(function() {
+                chargerStatistiques();
+            }, 30000);
+            
+            // Rafraîchir quand on revient sur la page
+            document.addEventListener('visibilitychange', function() {
+                if (!document.hidden) {
+                    chargerStatistiques();
+                }
+            });
+        }
+
+        function forcerRafraichissement() {
+            chargerStatistiques();
+            afficherNotification('Statistiques rafraîchies', 'info');
+        }
+
+        function sauvegarderDonnees() {
+            // Exporter toutes les données
+            const donnees = {
+                exportDate: new Date().toISOString(),
+                historique: JSON.parse(localStorage.getItem('historique_global') || '[]'),
+                clients: JSON.parse(localStorage.getItem('clients') || '[]'),
+                stock: JSON.parse(localStorage.getItem('stock') || '[]'),
+                statistiques: JSON.parse(localStorage.getItem('statistiques') || '{}'),
+                configuration: {
+                    dernierNumeroFacture: localStorage.getItem('dernierNumeroFacture') || '0',
+                    dernierNumeroDevis: localStorage.getItem('dernierNumeroDevis') || '0',
+                    dernierNumeroBon: localStorage.getItem('dernierNumeroBon') || '0'
+                }
+            };
+            
+            const blob = new Blob([JSON.stringify(donnees, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `sauvegarde_smda_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            afficherNotification('Données sauvegardées avec succès !', 'success');
+        }
+
+        function afficherNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            
+            let icon = 'info-circle';
+            if (type === 'success') icon = 'check-circle';
+            if (type === 'error') icon = 'exclamation-circle';
+            
+            notification.innerHTML = `
+                <i class="fas fa-${icon}"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Supprimer les anciennes notifications
+            const anciennesNotifs = document.querySelectorAll('.notification');
+            if (anciennesNotifs.length > 3) {
+                anciennesNotifs[0].remove();
+            }
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

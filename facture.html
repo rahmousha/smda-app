@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S.M.D.A - Facture</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ===== RESET ET BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Segoe UI', sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.4;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* ===== TOOLBAR PROFESSIONNELLE ===== */
+        .toolbar {
+            background: white;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            border-bottom: 2px solid #1a2980;
+            margin-bottom: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-radius: 8px;
+        }
+
+        .toolbar-left, .toolbar-right {
+            display: flex;
+            gap: 10px;
+        }
+
+        .toolbar-center {
+            font-weight: 700;
+            font-size: 18px;
+            color: #1a2980;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-add {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-add:hover {
+            background: #219653;
+        }
+
+        .btn-save {
+            background: #1a2980;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background: #26d0ce;
+        }
+
+        .btn-print {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-print:hover {
+            background: #c0392b;
+        }
+
+        .btn-back {
+            background: #95a5a6;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ===== PAGE A4 PROFESSIONNELLE ===== */
+        .page-container {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            background: white;
+            padding: 20mm;
+            position: relative;
+            margin: 0 auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border: 1px solid #ddd;
+            overflow: hidden; /* Empêche le débordement */
+        }
+
+        /* ===== NOUVELLE EN-TÊTE AVEC 3 COLONNES ===== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #861e1e;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Colonne gauche : Français */
+        .company-info-left {
+            width: 38%;
+            text-align: left;
+        }
+
+        /* Colonne centrale : S.M.D.A */
+        .company-logo-center {
+            width: 24%;
+            text-align: center;
+            font-size: 32px;
+            font-weight: 900;
+            color: #861e1e;
+            padding-top: 15px;
+        }
+
+        /* Colonne droite : Arabe */
+        .company-info-right {
+            width: 38%;
+            text-align: right;
+            direction: rtl;
+        }
+
+        .company-logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: #861e1e;
+            margin-bottom: 8px;
+        }
+
+        .company-details {
+            font-size: 11.5px;
+            line-height: 1.5;
+            color: #15087a;
+        }
+
+        .company-details-arabic {
+            font-size: 12.5px;
+            line-height: 1.5;
+            color: #15087a;
+        }
+
+        .invoice-info {
+            width: 100%;
+            text-align: center;
+            margin: 15px 0 20px 0;
+        }
+
+        .invoice-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #861e1e;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .invoice-details {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        /* ===== INFORMATIONS CLIENT PROFESSIONNELLES ===== */
+        .client-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f8f9fa;
+            position: relative;
+            z-index: 2;
+        }
+
+        .client-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .client-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .client-label {
+            font-weight: 600;
+            color: #1a2980;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .client-input {
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 13px;
+            background: white;
+        }
+
+        .client-input:focus {
+            outline: none;
+            border-color: #1a2980;
+            box-shadow: 0 0 0 2px rgba(26, 41, 128, 0.1);
+        }
+
+        /* ===== TABLEAU DES ARTICLES PROFESSIONNEL ===== */
+        .table-section {
+            margin: 25px 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .articles-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #ddd;
+            font-size: 12px;
+        }
+
+        .articles-table thead {
+            background: #861e1e;
+            color: white;
+        }
+
+        .articles-table th {
+            padding: 10px 8px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 12px;
+            border-right: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .articles-table th:last-child {
+            border-right: none;
+        }
+
+        .articles-table tbody tr {
+            border-bottom: 1px solid #eee;
+        }
+
+        .articles-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .articles-table td {
+            padding: 8px;
+            font-size: 12px;
+            border-right: 1px solid #eee;
+        }
+
+        .articles-table td:last-child {
+            border-right: none;
+        }
+
+        .article-input {
+            width: 100%;
+            border: none;
+            padding: 4px;
+            font-size: 12px;
+            background: transparent;
+            outline: none;
+        }
+
+        .article-input.designation {
+            text-align: left;
+        }
+
+        .article-input.qte,
+        .article-input.pu,
+        .article-input.total {
+            text-align: right;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .article-input.total {
+            font-weight: 600;
+            background: #f8f9fa;
+        }
+
+        .btn-del {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        .btn-del:hover {
+            background: #c0392b;
+        }
+
+        /* ===== SECTION TOTAUX PROFESSIONNELLE ===== */
+        .totals-section {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 25px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .totals-table {
+            width: 280px;
+            border-collapse: collapse;
+            border: 1px solid #ddd;
+            font-size: 13px;
+        }
+
+        .totals-table tr {
+            border-bottom: 1px solid #eee;
+        }
+
+        .totals-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .totals-table td {
+            padding: 8px 12px;
+            font-size: 13px;
+        }
+
+        .label-cell {
+            font-weight: 600;
+            color: #333;
+            text-align: left;
+            background: #f8f9fa;
+        }
+
+        .value-cell {
+            font-weight: 600;
+            text-align: right;
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #f8f9fa;
+        }
+
+        .total-ttc-row {
+            background: #861e1e;
+              color: #fffdfd;
+        }
+
+        .total-ttc-row td {
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        /* ===== SECTION TIMBRE ET MONTANT ===== */
+        .timbre-ttc-section {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            background: #f8f9fa;
+            border-radius: 5px;
+            position: relative;
+            z-index: 2;
+              color: #861e1e;
+        }
+
+        .timbre-box, .ttc-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 48%;
+            padding: 15px;
+            border: 2px solid #861e1e;
+            border-radius: 5px;
+            background: white;
+        }
+
+        .timbre-label, .ttc-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #861e1e;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .timbre-value, .ttc-value {
+            font-size: 22px;
+            font-weight: 800;
+            color: #861e1e;
+        }
+
+        /* ===== SECTION ARRÊTÉE LA PRÉSENTE FACTURE ===== */
+        .arrete-section {
+            margin-top: 30px;
+            padding: 15px;
+            border-top: 1px dashed #ddd;
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+        }
+
+        .arrete-text {
+            width: 60%;
+            font-style: italic;
+            color: #333;
+            font-size: 13px;
+        }
+
+        .somme-lettres {
+            font-weight: 600;
+            color: #861e1e;
+            margin-top: 8px;
+            font-size: 13px;
+            min-height: 35px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .signature-box {
+            width: 30%;
+            text-align: center;
+        }
+
+        .signature-label {
+            font-style: italic;
+            color: #666;
+            margin-top: 60px;
+            padding-top: 15px;
+            border-top: 1px solid #333;
+            font-size: 13px;
+        }
+
+        /* ===== NOTIFICATIONS ===== */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: #27ae60;
+            color: white;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            z-index: 10000;
+            animation: slideIn 0.3s ease;
+        }
+
+        .notification.error {
+            background: #e74c3c;
+        }
+
+        .notification.info {
+            background: #3498db;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media screen and (max-width: 768px) {
+            .toolbar {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .toolbar-left, .toolbar-right {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .page {
+                padding: 10mm;
+                width: 100%;
+            }
+            
+            .header {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .company-info-left,
+            .company-logo-center,
+            .company-info-right {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 15px;
+            }
+            
+            .company-info-right {
+                direction: ltr;
+                text-align: center;
+            }
+            
+            .company-details-arabic {
+                text-align: center;
+            }
+            
+            .invoice-info {
+                text-align: center;
+                margin-top: 20px;
+            }
+            
+            .client-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .timbre-ttc-section {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .timbre-box, .ttc-box {
+                width: 100%;
+            }
+            
+            .arrete-section {
+                flex-direction: column;
+            }
+            
+            .arrete-text, .signature-box {
+                width: 100%;
+            }
+            
+            .signature-label {
+                margin-top: 40px;
+            }
+        }
+
+        /* ===== MODE IMPRESSION PROFESSIONNEL ===== */
+        @media print {
+            @page {
+                size: A4;
+                margin: 15mm; /* Réduction des marges pour économiser l'espace */
+            }
+            
+            body {
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            .toolbar, .btn-del, .notification, .btn-back {
+                display: none !important;
+            }
+            
+            .page-container {
+                padding: 0 !important;
+                margin: 0 !important;
+                display: block !important;
+            }
+            
+            .page {
+                box-shadow: none !important;
+                border: none !important;
+                margin: 0 !important;
+                padding: 15mm !important; /* Réduction du padding */
+                width: 210mm !important;
+                min-height: 297mm !important;
+                height: 297mm !important;
+                page-break-after: always;
+                page-break-inside: avoid;
+                overflow: hidden !important;
+                position: relative;
+            }
+            
+            /* Masquer les éléments d'interface */
+            .btn-add, .btn-save, .btn-print {
+                display: none !important;
+            }
+            
+            /* Style pour les inputs en mode impression */
+            .client-input, .article-input {
+                border: none !important;
+                background: transparent !important;
+                -webkit-appearance: none;
+                appearance: none;
+                box-shadow: none !important;
+                outline: none !important;
+            }
+            
+            .client-input::placeholder,
+            .article-input::placeholder {
+                color: transparent !important;
+            }
+            
+            /* Afficher le contenu des inputs */
+            input[type="text"],
+            input[type="number"],
+            input[type="date"] {
+                border: none !important;
+                background: transparent !important;
+                color: #000 !important;
+                -webkit-text-fill-color: #000 !important;
+            }
+            
+            /* Masquer les boutons de suppression */
+            .btn-del {
+                display: none !important;
+            }
+            
+            /* Supprimer les effets de hover en impression */
+            .articles-table tbody tr:hover {
+                background: transparent !important;
+            }
+            
+            /* Ajustement des tailles pour impression */
+            .company-details, .company-details-arabic {
+                font-size: 10.5px !important;
+                line-height: 1.4 !important;
+            }
+            
+            .invoice-title {
+                font-size: 22px !important;
+            }
+            
+            .articles-table {
+                font-size: 11px !important;
+            }
+            
+            .articles-table th,
+            .articles-table td {
+                padding: 6px 5px !important;
+                font-size: 11px !important;
+            }
+            
+            .totals-table {
+                width: 250px !important;
+                font-size: 12px !important;
+            }
+            
+            .timbre-box, .ttc-box {
+                padding: 12px !important;
+            }
+            
+            .timbre-value, .ttc-value {
+                font-size: 20px !important;
+            }
+            
+            .arrete-section {
+                margin-top: 25px !important;
+                padding: 10px !important;
+            }
+            
+            /* Empêcher les coupures de page à l'intérieur des sections importantes */
+            .header, .invoice-info, .client-section, .table-section, 
+            .totals-section, .timbre-ttc-section, .arrete-section {
+                page-break-inside: avoid !important;
+                page-break-after: avoid !important;
+            }
+            
+            /* Limiter le nombre de lignes pour éviter le débordement */
+            .articles-table tbody {
+                max-height: 180mm !important;
+                display: block;
+                overflow: hidden;
+            }
+            
+            /* Supprimer le filigrane en impression */
+            .watermark {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="toolbar">
+    <div class="toolbar-left">
+        <button class="btn btn-add" onclick="ajouterLigne()">
+            <i class="fas fa-plus"></i> Ajouter Ligne
+        </button>
+    </div>
+    <div class="toolbar-center">
+        S.M.D.A - Système de Facturation
+    </div>
+    <div class="toolbar-right">
+        <button class="btn btn-save" onclick="sauvegarderFacture()">
+            <i class="fas fa-save"></i> Sauvegarder
+        </button>
+        <button class="btn btn-print" onclick="imprimerFactureProfessionnel()">
+            <i class="fas fa-print"></i> Imprimer
+        </button>
+        <a href="index.html" class="btn btn-back">
+            <i class="fas fa-home"></i> Menu
+        </a>
+    </div>
+</div>
+
+<div class="page-container">
+    <div class="page">
+        
+        <!-- En-tête société -->
+        <div class="header">
+            <!-- Colonne gauche : Français -->
+            <div class="company-info-left">
+               
+                <div class="company-details">
+                    Sté MESSAOUDI d'Artisanat Traditionnel<br>
+                    Fabrication des Lustres et Lampes Artisanales<br>
+                    Adresse : Route de Bizerte, km 7,5 El Mnihla<br>
+                    GSM : 21 976 456 / 95 836 964<br>
+                    E-mail : najibmessaoudismda@gmail.com<br>
+                    Facebook : Lustre artisanale SMDA<br>
+                    M.F : 1261930T/A/M/000
+                </div>
+            </div>
+            
+            <!-- Colonne centrale : S.M.D.A -->
+            <div class="company-logo-center">
+                S.M.D.A
+            </div>
+            
+            <!-- Colonne droite : Arabe -->
+            <div class="company-info-right">
+                <div class="company-details-arabic">
+                    شركة المسعودي للصناعات التقليدية<br>
+                    صنع الفوانيس والثريات بأنواعها<br>
+                    والزخرفة على البلور<br>
+                    العنوان: طريق بنزرت كلم 7.5 المنيهلة<br>
+                    الجوال: 95 836 964 / 21 976 456<br>
+                    البريد الإلكتروني: najibmessaoudismda@gmail.com<br>
+                    المعرف الجبائي: 000/1261930T/A/M
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section facture -->
+        <div class="invoice-info">
+            <div class="invoice-title">FACTURE</div>
+            <div class="invoice-details">
+                <div class="invoice-number">N° : <span id="numDoc">000397</span></div>
+                <div class="invoice-date">Date : <input type="date" class="client-input" id="dateDoc" style="width: 120px;"></div>
+            </div>
+        </div>
+
+        <!-- Informations client -->
+        <div class="client-section">
+            <div class="client-info">
+                <div class="client-field">
+                    <div class="client-label">Client :</div>
+                    <input type="text" class="client-input" id="clientName" placeholder="Nom du client">
+                </div>
+                <div class="client-field">
+                    <div class="client-label">Adresse :</div>
+                    <input type="text" class="client-input" id="clientAddress" placeholder="Adresse complète">
+                </div>
+                <div class="client-field">
+                    <div class="client-label">M.F / C.I.N :</div>
+                    <input type="text" class="client-input" id="clientMF" placeholder="Numéro d'identification">
+                </div>
+            </div>
+        </div>
+
+        <!-- Tableau des articles -->
+        <div class="table-section">
+            <table class="articles-table">
+                <thead>
+                    <tr>
+                        <th width="45%">DÉSIGNATION</th>
+                        <th width="15%">QUANTITÉ</th>
+                        <th width="20%">PRIX UNITAIRE</th>
+                        <th width="15%">TOTAL</th>
+                        <th width="5%"></th>
+                    </tr>
+                </thead>
+                <tbody id="corpsTableau">
+                    <!-- Lignes seront ajoutées ici -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Totaux -->
+        <div class="totals-section">
+            <table class="totals-table">
+                <tr>
+                    <td class="label-cell">Total H.T</td>
+                    <td class="value-cell" id="totalHT">0.000</td>
+                </tr>
+                <tr>
+                    <td class="label-cell">TVA 7%</td>
+                    <td class="value-cell" id="tva">0.000</td>
+                </tr>
+                <tr>
+                    <td class="label-cell">Timbre Fiscal</td>
+                    <td class="value-cell" id="timbre">1.000</td>
+                </tr>
+                <tr class="total-ttc-row">
+                    <td class="label-cell">Montant T.T.C</td>
+                    <td class="value-cell" id="ttc">1.000</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Section Timbre Fiscal et Montant T.T.C -->
+        <div class="timbre-ttc-section">
+            <div class="timbre-box">
+                <div class="timbre-label">Timbre Fiscal</div>
+                <div class="timbre-value" id="timbreBox">1.000</div>
+            </div>
+            <div class="ttc-box">
+                <div class="ttc-label">Montant T.T.C</div>
+                <div class="ttc-value" id="ttcBox">1.000</div>
+            </div>
+        </div>
+
+        <!-- Arrêtée la présente facture -->
+        <div class="arrete-section">
+            <div class="arrete-text">
+                Arrêtée la présente facture à la somme de :
+                <div class="somme-lettres" id="sommeEnLettres">ZÉRO DINAR</div>
+            </div>
+            
+            <div class="signature-box">
+                <div class="signature-label">Signature & Cachet</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Variables globales
+    let lignesArticles = [];
+    let compteurLignes = 0;
+    let factureActuelle = null;
+
+    // Initialisation
+    document.addEventListener('DOMContentLoaded', function() {
+        initialiserFacture();
+        chargerFactureSauvegardee();
+        mettreAJourInterface();
+    });
+
+    // Initialiser la facture
+    function initialiserFacture() {
+        // Générer numéro de facture
+        let dernierNumero = parseInt(localStorage.getItem('dernierNumeroFacture') || '397');
+        let nouveauNumero = dernierNumero + 1;
+        document.getElementById('numDoc').textContent = nouveauNumero.toString().padStart(6, '0');
+        
+        // Date du jour
+        let aujourdhui = new Date();
+        let jour = aujourdhui.getDate().toString().padStart(2, '0');
+        let mois = (aujourdhui.getMonth() + 1).toString().padStart(2, '0');
+        let annee = aujourdhui.getFullYear();
+        document.getElementById('dateDoc').value = `${annee}-${mois}-${jour}`;
+        
+        // Créer objet facture
+        factureActuelle = {
+            id: 'FAC-' + Date.now(),
+            type: 'facture',
+            numero: nouveauNumero.toString().padStart(6, '0'),
+            date: `${jour}/${mois}/${annee}`,
+            clientNom: '',
+            clientAdresse: '',
+            clientMF: '',
+            articles: [],
+            totalHT: 0,
+            tva: 0,
+            timbre: 1.000,
+            totalTTC: 1.000,
+            statut: 'brouillon',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        };
+        
+        ajouterLigneInitiale();
+    }
+
+    // Ajouter première ligne
+    function ajouterLigneInitiale() {
+        const tbody = document.getElementById('corpsTableau');
+        tbody.innerHTML = '';
+        ajouterLigne();
+    }
+
+    // Ajouter une ligne
+    function ajouterLigne() {
+        compteurLignes++;
+        const ligneId = `ligne-${compteurLignes}`;
+        
+        const ligne = document.createElement('tr');
+        ligne.className = 'ligne-article';
+        ligne.dataset.id = ligneId;
+        ligne.innerHTML = `
+            <td>
+                <input type="text" class="article-input designation" 
+                       placeholder="Description de l'article"
+                       oninput="mettreAJourArticle('${ligneId}')">
+            </td>
+            <td>
+                <input type="number" class="article-input qte" 
+                       min="0" step="0.001" value="1"
+                       oninput="mettreAJourArticle('${ligneId}')">
+            </td>
+            <td>
+                <input type="number" class="article-input pu" 
+                       min="0" step="0.001" value="0.000"
+                       oninput="mettreAJourArticle('${ligneId}')">
+            </td>
+            <td>
+                <input type="text" class="article-input total" value="0.000" readonly>
+            </td>
+            <td>
+                <button type="button" class="btn-del" onclick="supprimerLigne('${ligneId}')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </td>
+        `;
+        
+        document.getElementById('corpsTableau').appendChild(ligne);
+        
+        // Ajouter aux articles
+        factureActuelle.articles.push({
+            id: ligneId,
+            designation: '',
+            quantite: 1,
+            prixUnitaire: 0,
+            total: 0
+        });
+        
+        // Focus sur la description
+        setTimeout(() => {
+            ligne.querySelector('.designation').focus();
+        }, 100);
+        
+        afficherNotification('Nouvelle ligne ajoutée', 'info');
+    }
+
+    // Mettre à jour un article
+    function mettreAJourArticle(ligneId) {
+        const ligne = document.querySelector(`tr[data-id="${ligneId}"]`);
+        if (!ligne) return;
+        
+        const designation = ligne.querySelector('.designation').value;
+        const quantite = parseFloat(ligne.querySelector('.qte').value) || 0;
+        const prix = parseFloat(ligne.querySelector('.pu').value) || 0;
+        const total = quantite * prix;
+        
+        ligne.querySelector('.total').value = total.toFixed(3);
+        
+        // Mettre à jour dans factureActuelle
+        const articleIndex = factureActuelle.articles.findIndex(a => a.id === ligneId);
+        if (articleIndex !== -1) {
+            factureActuelle.articles[articleIndex] = {
+                id: ligneId,
+                designation: designation,
+                quantite: quantite,
+                prixUnitaire: prix,
+                total: total
+            };
+        }
+        
+        calculer();
+        sauvegarderBrouillon();
+    }
+
+    // Supprimer une ligne
+    function supprimerLigne(ligneId) {
+        const ligne = document.querySelector(`tr[data-id="${ligneId}"]`);
+        if (!ligne) return;
+        
+        // Vérifier qu'il reste au moins une ligne
+        if (document.querySelectorAll('.ligne-article').length <= 1) {
+            afficherNotification('Au moins une ligne est requise', 'error');
+            return;
+        }
+        
+        ligne.remove();
+        
+        // Supprimer de factureActuelle
+        factureActuelle.articles = factureActuelle.articles.filter(a => a.id !== ligneId);
+        
+        calculer();
+        sauvegarderBrouillon();
+        afficherNotification('Ligne supprimée', 'info');
+    }
+
+    // Convertir chiffre en lettres
+    function nombreEnLettres(nombre) {
+        const unite = ['', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf'];
+        const dizaine = ['', 'dix', 'vingt', 'trente', 'quarante', 'cinquante', 'soixante', 'soixante-dix', 'quatre-vingt', 'quatre-vingt-dix'];
+        const specials = {
+            11: 'onze', 12: 'douze', 13: 'treize', 14: 'quatorze', 15: 'quinze',
+            16: 'seize', 17: 'dix-sept', 18: 'dix-huit', 19: 'dix-neuf'
+        };
+        
+        if (nombre === 0) return 'zéro';
+        if (nombre < 0) return 'moins ' + nombreEnLettres(-nombre);
+        
+        let mots = '';
+        
+        if (Math.floor(nombre / 1000) > 0) {
+            mots += nombreEnLettres(Math.floor(nombre / 1000)) + ' mille ';
+            nombre %= 1000;
+        }
+        
+        if (Math.floor(nombre / 100) > 0) {
+            mots += unite[Math.floor(nombre / 100)] + ' cent ';
+            nombre %= 100;
+        }
+        
+        if (nombre > 0) {
+            if (mots !== '') mots += 'et ';
+            
+            if (nombre < 10) {
+                mots += unite[nombre];
+            } else if (nombre in specials) {
+                mots += specials[nombre];
+            } else {
+                mots += dizaine[Math.floor(nombre / 10)];
+                if (nombre % 10 > 0) {
+                    mots += '-' + unite[nombre % 10];
+                }
+            }
+        }
+        
+        return mots.trim().replace(/\s+/g, ' ');
+    }
+
+    // Calculer les totaux
+    function calculer() {
+        let totalHT = 0;
+        
+        // Calculer total HT
+        factureActuelle.articles.forEach(article => {
+            totalHT += article.total || 0;
+        });
+        
+        const tva = totalHT * 0.07;
+        const totalTTC = totalHT + tva + 1.000;
+        
+        // Mettre à jour l'objet
+        factureActuelle.totalHT = totalHT;
+        factureActuelle.tva = tva;
+        factureActuelle.totalTTC = totalTTC;
+        factureActuelle.updatedAt = new Date().toISOString();
+        
+        // Mettre à jour l'interface
+        document.getElementById('totalHT').textContent = totalHT.toFixed(3);
+        document.getElementById('tva').textContent = tva.toFixed(3);
+        document.getElementById('ttc').textContent = totalTTC.toFixed(3);
+        
+        // Mettre à jour les boîtes Timbre et TTC
+        document.getElementById('timbreBox').textContent = '1.000';
+        document.getElementById('ttcBox').textContent = totalTTC.toFixed(3);
+        
+        // Mettre à jour la somme en lettres
+        mettreAJourSommeEnLettres(totalTTC);
+        
+        // Sauvegarder automatiquement
+        sauvegarderBrouillon();
+    }
+
+    // Mettre à jour la somme en lettres
+    function mettreAJourSommeEnLettres(montant) {
+        const sommeEnLettres = document.getElementById('sommeEnLettres');
+        if (montant > 0) {
+            const partieEntiere = Math.floor(montant);
+            const partieDecimale = Math.round((montant - partieEntiere) * 1000);
+            
+            let texte = nombreEnLettres(partieEntiere).toUpperCase() + ' DINARS';
+            
+            if (partieDecimale > 0) {
+                texte += ' ET ' + partieDecimale + ' MILLIÈMES';
+            }
+            
+            sommeEnLettres.textContent = texte;
+        } else {
+            sommeEnLettres.textContent = 'ZÉRO DINAR';
+        }
+    }
+
+    // Sauvegarder le brouillon
+    function sauvegarderBrouillon() {
+        // Mettre à jour les infos client
+        factureActuelle.clientNom = document.getElementById('clientName').value;
+        factureActuelle.clientAdresse = document.getElementById('clientAddress').value;
+        factureActuelle.clientMF = document.getElementById('clientMF').value;
+        
+        // Sauvegarder dans localStorage
+        localStorage.setItem('factureBrouillon', JSON.stringify(factureActuelle));
+    }
+
+    // Charger le brouillon
+    function chargerFactureSauvegardee() {
+        const brouillon = localStorage.getItem('factureBrouillon');
+        if (!brouillon) return;
+        
+        try {
+            factureActuelle = JSON.parse(brouillon);
+            
+            // Mettre à jour l'interface
+            document.getElementById('numDoc').textContent = factureActuelle.numero;
+            
+            // Formater la date pour l'input date
+            if (factureActuelle.date) {
+                const [jour, mois, annee] = factureActuelle.date.split('/');
+                document.getElementById('dateDoc').value = `${annee}-${mois.padStart(2, '0')}-${jour.padStart(2, '0')}`;
+            }
+            
+            document.getElementById('clientName').value = factureActuelle.clientNom || '';
+            document.getElementById('clientAddress').value = factureActuelle.clientAdresse || '';
+            document.getElementById('clientMF').value = factureActuelle.clientMF || '';
+            
+            // Charger les articles
+            const tbody = document.getElementById('corpsTableau');
+            tbody.innerHTML = '';
+            compteurLignes = 0;
+            
+            factureActuelle.articles.forEach(article => {
+                compteurLignes++;
+                const ligne = document.createElement('tr');
+                ligne.className = 'ligne-article';
+                ligne.dataset.id = article.id;
+                ligne.innerHTML = `
+                    <td>
+                        <input type="text" class="article-input designation" 
+                               value="${article.designation || ''}"
+                               oninput="mettreAJourArticle('${article.id}')">
+                    </td>
+                    <td>
+                        <input type="number" class="article-input qte" 
+                               value="${article.quantite || 1}"
+                               oninput="mettreAJourArticle('${article.id}')">
+                    </td>
+                    <td>
+                        <input type="number" class="article-input pu" 
+                               value="${article.prixUnitaire || 0}"
+                               oninput="mettreAJourArticle('${article.id}')">
+                    </td>
+                    <td>
+                        <input type="text" class="article-input total" 
+                               value="${article.total ? article.total.toFixed(3) : '0.000'}" 
+                               readonly>
+                    </td>
+                    <td>
+                        <button type="button" class="btn-del" onclick="supprimerLigne('${article.id}')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(ligne);
+            });
+            
+            // Ajouter une ligne si vide
+            if (factureActuelle.articles.length === 0) {
+                ajouterLigneInitiale();
+            }
+            
+            calculer();
+        } catch (error) {
+            console.error('Erreur de chargement:', error);
+            afficherNotification('Erreur de chargement du brouillon', 'error');
+        }
+    }
+
+    // Sauvegarder la facture
+    function sauvegarderFacture() {
+        // Validation
+        if (!factureActuelle.clientNom || factureActuelle.clientNom.trim() === '') {
+            afficherNotification('Veuillez saisir le nom du client', 'error');
+            document.getElementById('clientName').focus();
+            return false;
+        }
+        
+        if (factureActuelle.articles.length === 0 || factureActuelle.totalTTC <= 1) {
+            afficherNotification('Ajoutez au moins un article', 'error');
+            return false;
+        }
+        
+        // Changer le statut
+        factureActuelle.statut = 'finalisee';
+        factureActuelle.dateFinalisation = new Date().toISOString();
+        
+        // Récupérer l'historique global
+        let historique = JSON.parse(localStorage.getItem('historique_global') || '[]');
+        
+        // Vérifier si existe déjà
+        const index = historique.findIndex(f => f.id === factureActuelle.id);
+        if (index !== -1) {
+            historique[index] = factureActuelle;
+        } else {
+            historique.push(factureActuelle);
+        }
+        
+        // Sauvegarder
+        localStorage.setItem('historique_global', JSON.stringify(historique));
+        
+        // Mettre à jour le dernier numéro
+        localStorage.setItem('dernierNumeroFacture', parseInt(factureActuelle.numero));
+        
+        // Effacer le brouillon
+        localStorage.removeItem('factureBrouillon');
+        
+        afficherNotification('Facture sauvegardée avec succès !', 'success');
+        
+        return true;
+    }
+
+    // NOUVELLE FONCTION D'IMPRESSION PROFESSIONNELLE
+    function imprimerFactureProfessionnel() {
+        // Validation
+        if (!factureActuelle.clientNom || factureActuelle.clientNom.trim() === '') {
+            afficherNotification('Veuillez saisir le nom du client', 'error');
+            document.getElementById('clientName').focus();
+            return;
+        }
+        
+        if (factureActuelle.articles.length === 0 || factureActuelle.totalTTC <= 1) {
+            afficherNotification('Ajoutez au moins un article', 'error');
+            return;
+        }
+        
+        // Sauvegarder d'abord
+        if (!sauvegarderFacture()) {
+            return;
+        }
+        
+        // Préparer la facture pour l'impression
+        preparerFacturePourImpression();
+        
+        // Attendre un peu pour que les styles s'appliquent
+        setTimeout(() => {
+            // Ouvrir la fenêtre d'impression
+            window.print();
+            
+            // Restaurer l'état après impression
+            setTimeout(() => {
+                restaurerEtatApresImpression();
+                
+                // Générer une nouvelle facture
+                setTimeout(() => {
+                    initialiserFacture();
+                    afficherNotification('Nouvelle facture créée', 'info');
+                }, 500);
+            }, 500);
+        }, 300);
+    }
+
+    // Préparer la facture pour l'impression
+    function preparerFacturePourImpression() {
+        // Remplacer les inputs par des spans pour l'impression
+        remplacerInputsParTextes();
+        
+        // Cacher les éléments non nécessaires
+        document.querySelectorAll('.btn-del, .btn-add, .btn-save, .btn-print, .btn-back, .toolbar').forEach(el => {
+            el.style.display = 'none';
+        });
+        
+        // Ajuster les styles pour l'impression
+        document.querySelector('.page').style.padding = '15mm';
+        document.querySelector('.page').style.boxShadow = 'none';
+        document.querySelector('.page').style.border = 'none';
+    }
+
+    // Restaurer l'état après impression
+    function restaurerEtatApresImpression() {
+        // Restaurer les inputs
+        restaurerInputs();
+        
+        // Réafficher les éléments
+        document.querySelectorAll('.btn-del, .btn-add, .btn-save, .btn-print, .btn-back, .toolbar').forEach(el => {
+            el.style.display = '';
+        });
+        
+        // Restaurer les styles
+        document.querySelector('.page').style.padding = '20mm';
+        document.querySelector('.page').style.boxShadow = '0 0 20px rgba(0,0,0,0.1)';
+        document.querySelector('.page').style.border = '1px solid #ddd';
+    }
+
+    // Remplacer les inputs par du texte pour l'impression
+    function remplacerInputsParTextes() {
+        // Client inputs
+        remplacerInputParTexte('clientName');
+        remplacerInputParTexte('clientAddress');
+        remplacerInputParTexte('clientMF');
+        remplacerInputParTexte('dateDoc');
+        
+        // Articles inputs
+        document.querySelectorAll('.article-input').forEach(input => {
+            const td = input.parentElement;
+            const span = document.createElement('span');
+            span.className = 'article-text';
+            span.textContent = input.value || '';
+            span.style.display = 'block';
+            span.style.padding = '2px';
+            
+            if (input.classList.contains('total')) {
+                span.style.fontWeight = '600';
+                span.style.textAlign = 'right';
+            }
+            
+            if (input.classList.contains('qte') || input.classList.contains('pu')) {
+                span.style.textAlign = 'right';
+            }
+            
+            td.innerHTML = '';
+            td.appendChild(span);
+        });
+    }
+
+    // Fonction utilitaire pour remplacer un input par du texte
+    function remplacerInputParTexte(id) {
+        const input = document.getElementById(id);
+        if (input) {
+            const span = document.createElement('span');
+            span.textContent = input.value || '';
+            span.style.display = 'inline-block';
+            input.parentElement.replaceChild(span, input);
+        }
+    }
+
+    // Restaurer les inputs après impression
+    function restaurerInputs() {
+        // Cette fonction serait plus complexe, mais pour simplifier,
+        // on recharge la page ou on réinitialise la facture
+        chargerFactureSauvegardee();
+    }
+
+    // Mettre à jour l'interface
+    function mettreAJourInterface() {
+        // Mettre à jour la date dans un format français
+        const dateInput = document.getElementById('dateDoc');
+        dateInput.addEventListener('change', function() {
+            const date = new Date(this.value);
+            const jour = date.getDate().toString().padStart(2, '0');
+            const mois = (date.getMonth() + 1).toString().padStart(2, '0');
+            const annee = date.getFullYear();
+            factureActuelle.date = `${jour}/${mois}/${annee}`;
+            sauvegarderBrouillon();
+        });
+        
+        // Auto-save toutes les 30 secondes
+        setInterval(() => {
+            if (factureActuelle.clientNom) {
+                sauvegarderBrouillon();
+            }
+        }, 30000);
+        
+        // Raccourcis clavier
+        document.addEventListener('keydown', function(e) {
+            // Ctrl + S pour sauvegarder
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                sauvegarderFacture();
+            }
+            
+            // Ctrl + P pour imprimer
+            if (e.ctrlKey && e.key === 'p') {
+                e.preventDefault();
+                imprimerFactureProfessionnel();
+            }
+            
+            // Ctrl + N pour nouvelle ligne
+            if (e.ctrlKey && e.key === 'n') {
+                e.preventDefault();
+                ajouterLigne();
+            }
+        });
+    }
+
+    // Fonctions utilitaires
+    function afficherNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        
+        let icon = 'info-circle';
+        if (type === 'success') icon = 'check-circle';
+        if (type === 'error') icon = 'exclamation-circle';
+        
+        notification.innerHTML = `
+            <i class="fas fa-${icon}"></i>
+            <span>${message}</span>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Supprimer les anciennes notifications
+        const anciennesNotifs = document.querySelectorAll('.notification');
+        if (anciennesNotifs.length > 3) {
+            anciennesNotifs[0].remove();
+        }
+        
+        setTimeout(() => {
+            if (notification.parentElement) {
+                notification.remove();
+            }
+        }, 3000);
+    }
+
+    // Initialiser le calcul
+    calculer();
+</script>
+</body>
+</html>

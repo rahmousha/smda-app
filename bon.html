@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S.M.D.A - Bon de Livraison</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ===== RESET ET BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Segoe UI', sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.4;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* ===== TOOLBAR PROFESSIONNELLE ===== */
+        .toolbar {
+            background: white;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            border-bottom: 2px solid #1a2980;
+            margin-bottom: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-radius: 8px;
+        }
+
+        .toolbar-left, .toolbar-right {
+            display: flex;
+            gap: 10px;
+        }
+
+        .toolbar-center {
+            font-weight: 700;
+            font-size: 18px;
+            color: #1a2980;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-add {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-add:hover {
+            background: #219653;
+        }
+
+        .btn-save {
+            background: #1a2980;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background: #26d0ce;
+        }
+
+        .btn-print {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-print:hover {
+            background: #c0392b;
+        }
+
+        .btn-back {
+            background: #95a5a6;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ===== PAGE A4 PROFESSIONNELLE ===== */
+        .page-container {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            background: white;
+            padding: 20mm;
+            position: relative;
+            margin: 0 auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border: 1px solid #ddd;
+            overflow: hidden;
+        }
+
+        /* ===== NOUVELLE EN-TÊTE AVEC 3 COLONNES ===== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #1a2980;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Colonne gauche : Français */
+        .company-info-left {
+            width: 38%;
+            text-align: left;
+        }
+
+        /* Colonne centrale : S.M.D.A */
+        .company-logo-center {
+            width: 24%;
+            text-align: center;
+            font-size: 32px;
+            font-weight: 900;
+            color: #1a2980;
+            padding-top: 15px;
+        }
+
+        /* Colonne droite : Arabe */
+        .company-info-right {
+            width: 38%;
+            text-align: right;
+            direction: rtl;
+        }
+
+        .company-logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1a2980;
+            margin-bottom: 8px;
+        }
+
+        .company-details {
+            font-size: 11.5px;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .company-details-arabic {
+            font-size: 12.5px;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .invoice-info {
+            width: 100%;
+            text-align: center;
+            margin: 15px 0 20px 0;
+        }
+
+        .invoice-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a2980;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .invoice-details {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        /* ===== INFORMATIONS CLIENT PROFESSIONNELLES ===== */
+        .client-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f8f9fa;
+            position: relative;
+            z-index: 2;
+        }
+
+        .client-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .client-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .client-label {
+            font-weight: 600;
+            color: #1a2980;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .client-input {
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 13px;
+            background: white;
+        }
+
+        .client-input:focus {
+            outline: none;
+            border-color: #1a2980;
+            box-shadow: 0 0 0 2px rgba(26, 41, 128, 0.1);
+        }
+
+        /* ===== TABLEAU DES ARTICLES PROFESSIONNEL ===== */
+        .table-section {
+            margin: 25px 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .articles-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #ddd;
+            font-size: 12px;
+        }
+
+        .articles-table thead {
+            background: #1a2980;
+            color: white;
+        }
+
+        .articles-table th {
+            padding: 10px 8px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 12px;
+            border-right: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .articles-table th:last-child {
+            border-right: none;
+        }
+
+        .articles-table tbody tr {
+            border-bottom: 1px solid #eee;
+        }
+
+        .articles-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .articles-table td {
+            padding: 8px;
+            font-size: 12px;
+            border-right: 1px solid #eee;
+        }
+
+        .articles-table td:last-child {
+            border-right: none;
+        }
+
+        .article-input {
+            width: 100%;
+            border: none;
+            padding: 4px;
+            font-size: 12px;
+            background: transparent;
+            outline: none;
+        }
+
+        .article-input.designation {
+            text-align: left;
+        }
+
+        .article-input.qte,
+        .article-input.pu,
+        .article-input.total {
+            text-align: right;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .article-input.total {
+            font-weight: 600;
+            background: #f8f9fa;
+        }
+
+        .btn-del {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        .btn-del:hover {
+            background: #c0392b;
+        }
+
+        /* ===== SECTION TOTAUX PROFESSIONNELLE ===== */
+        .totals-section {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 25px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .totals-table {
+            width: 280px;
+            border-collapse: collapse;
+            border: 1px solid #ddd;
+            font-size: 13px;
+        }
+
+        .totals-table tr {
+            border-bottom: 1px solid #eee;
+        }
+
+        .totals-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .totals-table td {
+            padding: 8px 12px;
+            font-size: 13px;
+        }
+
+        .label-cell {
+            font-weight: 600;
+            color: #333;
+            text-align: left;
+            background: #f8f9fa;
+        }
+
+        .value-cell {
+            font-weight: 600;
+            text-align: right;
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #f8f9fa;
+        }
+
+        .total-ttc-row {
+            background: #1a2980;
+            color: white;
+        }
+
+        .total-ttc-row td {
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        /* ===== SECTION LIVRAISON ET SIGNATURE ===== */
+        .livraison-section {
+            margin-top: 30px;
+            padding: 15px;
+            border-top: 1px dashed #ddd;
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+        }
+
+        .livraison-text {
+            width: 60%;
+            font-style: italic;
+            color: #333;
+            font-size: 13px;
+        }
+
+        .livraison-date {
+            font-weight: 600;
+            color: #1a2980;
+            margin-top: 8px;
+            font-size: 13px;
+            min-height: 35px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .signature-box {
+            width: 30%;
+            text-align: center;
+        }
+
+        .signature-label {
+            font-style: italic;
+            color: #666;
+            margin-top: 60px;
+            padding-top: 15px;
+            border-top: 1px solid #333;
+            font-size: 13px;
+        }
+
+        /* ===== SECTION RÉFÉRENCE FACTURE ===== */
+        .reference-section {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f8f9fa;
+            position: relative;
+            z-index: 2;
+        }
+
+        .reference-field {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .reference-label {
+            font-weight: 600;
+            color: #1a2980;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .reference-input {
+            flex: 1;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 14px;
+            background: white;
+        }
+
+        .reference-input:focus {
+            outline: none;
+            border-color: #1a2980;
+            box-shadow: 0 0 0 2px rgba(26, 41, 128, 0.1);
+        }
+
+        /* ===== NOTIFICATIONS ===== */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: #27ae60;
+            color: white;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            z-index: 10000;
+            animation: slideIn 0.3s ease;
+        }
+
+        .notification.error {
+            background: #e74c3c;
+        }
+
+        .notification.info {
+            background: #3498db;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media screen and (max-width: 768px) {
+            .toolbar {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .toolbar-left, .toolbar-right {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .page {
+                padding: 10mm;
+                width: 100%;
+            }
+            
+            .header {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .company-info-left,
+            .company-logo-center,
+            .company-info-right {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 15px;
+            }
+            
+            .company-info-right {
+                direction: ltr;
+                text-align: center;
+            }
+            
+            .company-details-arabic {
+                text-align: center;
+            }
+            
+            .invoice-info {
+                text-align: center;
+                margin-top: 20px;
+            }
+            
+            .client-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .livraison-section {
+                flex-direction: column;
+            }
+            
+            .livraison-text, .signature-box {
+                width: 100%;
+            }
+            
+            .signature-label {
+                margin-top: 40px;
+            }
+        }
+
+        /* ===== MODE IMPRESSION PROFESSIONNEL ===== */
+        @media print {
+            @page {
+                size: A4;
+                margin: 15mm;
+            }
+            
+            body {
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            .toolbar, .btn-del, .notification, .btn-back {
+                display: none !important;
+            }
+            
+            .page-container {
+                padding: 0 !important;
+                margin: 0 !important;
+                display: block !important;
+            }
+            
+            .page {
+                box-shadow: none !important;
+                border: none !important;
+                margin: 0 !important;
+                padding: 15mm !important;
+                width: 210mm !important;
+                min-height: 297mm !important;
+                height: 297mm !important;
+                page-break-after: always;
+                page-break-inside: avoid;
+                overflow: hidden !important;
+                position: relative;
+            }
+            
+            /* Masquer les éléments d'interface */
+            .btn-add, .btn-save, .btn-print {
+                display: none !important;
+            }
+            
+            /* Style pour les inputs en mode impression */
+            .client-input, .article-input, .reference-input {
+                border: none !important;
+                background: transparent !important;
+                -webkit-appearance: none;
+                appearance: none;
+                box-shadow: none !important;
+                outline: none !important;
+            }
+            
+            .client-input::placeholder,
+            .article-input::placeholder,
+            .reference-input::placeholder {
+                color: transparent !important;
+            }
+            
+            /* Afficher le contenu des inputs */
+            input[type="text"],
+            input[type="number"],
+            input[type="date"] {
+                border: none !important;
+                background: transparent !important;
+                color: #000 !important;
+                -webkit-text-fill-color: #000 !important;
+            }
+            
+            /* Masquer les boutons de suppression */
+            .btn-del {
+                display: none !important;
+            }
+            
+            /* Supprimer les effets de hover en impression */
+            .articles-table tbody tr:hover {
+                background: transparent !important;
+            }
+            
+            /* Ajustement des tailles pour impression */
+            .company-details, .company-details-arabic {
+                font-size: 10.5px !important;
+                line-height: 1.4 !important;
+            }
+            
+            .invoice-title {
+                font-size: 22px !important;
+            }
+            
+            .articles-table {
+                font-size: 11px !important;
+            }
+            
+            .articles-table th,
+            .articles-table td {
+                padding: 6px 5px !important;
+                font-size: 11px !important;
+            }
+            
+            .totals-table {
+                width: 250px !important;
+                font-size: 12px !important;
+            }
+            
+            .livraison-section {
+                margin-top: 25px !important;
+                padding: 10px !important;
+            }
+            
+            /* Empêcher les coupures de page */
+            .header, .invoice-info, .client-section, .table-section, 
+            .totals-section, .livraison-section, .reference-section {
+                page-break-inside: avoid !important;
+                page-break-after: avoid !important;
+            }
+            
+            /* Limiter le nombre de lignes pour éviter le débordement */
+            .articles-table tbody {
+                max-height: 180mm !important;
+                display: block;
+                overflow: hidden;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="toolbar">
+    <div class="toolbar-left">
+        <button class="btn btn-add" onclick="ajouterLigne()">
+            <i class="fas fa-plus"></i> Ajouter Ligne
+        </button>
+    </div>
+    <div class="toolbar-center">
+        S.M.D.A - Bon de Livraison
+    </div>
+    <div class="toolbar-right">
+        <button class="btn btn-save" onclick="sauvegarderBon()">
+            <i class="fas fa-save"></i> Sauvegarder
+        </button>
+        <button class="btn btn-print" onclick="imprimerBonProfessionnel()">
+            <i class="fas fa-print"></i> Imprimer
+        </button>
+        <a href="index.html" class="btn btn-back">
+            <i class="fas fa-home"></i> Menu
+        </a>
+    </div>
+</div>
+
+<div class="page-container">
+    <div class="page">
+        
+        <!-- En-tête société -->
+        <div class="header">
+            <!-- Colonne gauche : Français -->
+            <div class="company-info-left">
+                <div class="company-logo">S.M.D.A</div>
+                <div class="company-details">
+                    Sté MESSAOUDI d'Artisanat Traditionnel<br>
+                    Fabrication des Lustres et Lampes Artisanales<br>
+                    Adresse : Route de Bizerte, km 7,5 El Mnihla<br>
+                    GSM : 21 976 456 / 95 836 964<br>
+                    E-mail : najibmessaoudismda@gmail.com<br>
+                    Facebook : Lustre artisanale SMDA<br>
+                    M.F : 1261930T/A/M/000
+                </div>
+            </div>
+            
+            <!-- Colonne centrale : S.M.D.A -->
+            <div class="company-logo-center">
+                S.M.D.A
+            </div>
+            
+            <!-- Colonne droite : Arabe -->
+            <div class="company-info-right">
+                <div class="company-details-arabic">
+                    شركة المسعودي للصناعات التقليدية<br>
+                    صنع الفوانيس والثريات بأنواعها<br>
+                    والزخرفة على البلور<br>
+                    العنوان: طريق بنزرت كلم 7.5 المنيهلة<br>
+                    الجوال: 95 836 964 / 21 976 456<br>
+                    البريد الإلكتروني: najibmessaoudismda@gmail.com<br>
+                    المعرف الجبائي: 000/1261930T/A/M
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section bon de livraison -->
+        <div class="invoice-info">
+            <div class="invoice-title">BON DE LIVRAISON</div>
+            <div class="invoice-details">
+                <div class="invoice-number">N° : <span id="numDoc">BL-000397</span></div>
+                <div class="invoice-date">Date : <input type="date" class="client-input" id="dateDoc" style="width: 120px;"></div>
+            </div>
+        </div>
+
+        <!-- Informations client -->
+        <div class="client-section">
+            <div class="client-info">
+                <div class="client-field">
+                    <div class="client-label">Client :</div>
+                    <input type="text" class="client-input" id="clientName" placeholder="Nom du client">
+                </div>
+                <div class="client-field">
+                    <div class="client-label">Adresse :</div>
+                    <input type="text" class="client-input" id="clientAddress" placeholder="Adresse complète">
+                </div>
+                <div class="client-field">
+                    <div class="client-label">Téléphone :</div>
+                    <input type="text" class="client-input" id="clientPhone" placeholder="Numéro de téléphone">
+                </div>
+            </div>
+        </div>
+
+        <!-- Référence facture -->
+        <div class="reference-section">
+            <div class="reference-field">
+                <div class="reference-label">Référence Facture :</div>
+                <input type="text" class="reference-input" id="refFacture" placeholder="N° de facture associée">
+            </div>
+        </div>
+
+        <!-- Tableau des articles -->
+        <div class="table-section">
+            <table class="articles-table">
+                <thead>
+                    <tr>
+                        <th width="50%">DÉSIGNATION</th>
+                        <th width="15%">QUANTITÉ</th>
+                        <th width="20%">PRIX UNITAIRE</th>
+                        <th width="15%">TOTAL</th>
+                    </tr>
+                </thead>
+                <tbody id="corpsTableau">
+                    <!-- Lignes seront ajoutées ici -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Totaux -->
+        <div class="totals-section">
+            <table class="totals-table">
+                <tr>
+                    <td class="label-cell">Total H.T</td>
+                    <td class="value-cell" id="totalHT">0.000</td>
+                </tr>
+                <tr>
+                    <td class="label-cell">TVA 7%</td>
+                    <td class="value-cell" id="tva">0.000</td>
+                </tr>
+                <tr class="total-ttc-row">
+                    <td class="label-cell">Total T.T.C</td>
+                    <td class="value-cell" id="ttc">0.000</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Section Livraison et Signature -->
+        <div class="livraison-section">
+            <div class="livraison-text">
+                Livré le : ...........................................<br>
+                Bon pour réception des marchandises ci-dessus
+            </div>
+            
+            <div class="signature-box">
+                <div class="signature-label">Signature Client</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Variables globales
+    let lignesArticles = [];
+    let compteurLignes = 0;
+    let bonActuel = null;
+
+    // Initialisation
+    document.addEventListener('DOMContentLoaded', function() {
+        initialiserBon();
+        chargerBonSauvegarde();
+        mettreAJourInterface();
+    });
+
+    // Initialiser le bon
+    function initialiserBon() {
+        // Générer numéro de bon
+        let dernierNumero = parseInt(localStorage.getItem('dernierNumeroBon') || '397');
+        let nouveauNumero = dernierNumero + 1;
+        document.getElementById('numDoc').textContent = 'BL-' + nouveauNumero.toString().padStart(6, '0');
+        
+        // Date du jour
+        let aujourdhui = new Date();
+        let jour = aujourdhui.getDate().toString().padStart(2, '0');
+        let mois = (aujourdhui.getMonth() + 1).toString().padStart(2, '0');
+        let annee = aujourdhui.getFullYear();
+        document.getElementById('dateDoc').value = `${annee}-${mois}-${jour}`;
+        
+        // Créer objet bon
+        bonActuel = {
+            id: 'BON-' + Date.now(),
+            type: 'bon_livraison',
+            numero: 'BL-' + nouveauNumero.toString().padStart(6, '0'),
+            date: `${jour}/${mois}/${annee}`,
+            clientNom: '',
+            clientAdresse: '',
+            clientPhone: '',
+            refFacture: '',
+            articles: [],
+            totalHT: 0,
+            tva: 0,
+            totalTTC: 0,
+            statut: 'brouillon',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        };
+        
+        ajouterLigneInitiale();
+    }
+
+    // Ajouter première ligne
+    function ajouterLigneInitiale() {
+        const tbody = document.getElementById('corpsTableau');
+        tbody.innerHTML = '';
+        ajouterLigne();
+    }
+
+    // Ajouter une ligne
+    function ajouterLigne() {
+        compteurLignes++;
+        const ligneId = `ligne-${compteurLignes}`;
+        
+        const ligne = document.createElement('tr');
+        ligne.className = 'ligne-article';
+        ligne.dataset.id = ligneId;
+        ligne.innerHTML = `
+            <td>
+                <input type="text" class="article-input designation" 
+                       placeholder="Description de l'article"
+                       oninput="mettreAJourArticle('${ligneId}')">
+            </td>
+            <td>
+                <input type="number" class="article-input qte" 
+                       min="0" step="0.001" value="1"
+                       oninput="mettreAJourArticle('${ligneId}')">
+            </td>
+            <td>
+                <input type="number" class="article-input pu" 
+                       min="0" step="0.001" value="0.000"
+                       oninput="mettreAJourArticle('${ligneId}')">
+            </td>
+            <td>
+                <input type="text" class="article-input total" value="0.000" readonly>
+            </td>
+            <td>
+                <button type="button" class="btn-del" onclick="supprimerLigne('${ligneId}')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </td>
+        `;
+        
+        document.getElementById('corpsTableau').appendChild(ligne);
+        
+        // Ajouter aux articles
+        bonActuel.articles.push({
+            id: ligneId,
+            designation: '',
+            quantite: 1,
+            prixUnitaire: 0,
+            total: 0
+        });
+        
+        // Focus sur la description
+        setTimeout(() => {
+            ligne.querySelector('.designation').focus();
+        }, 100);
+        
+        afficherNotification('Nouvelle ligne ajoutée', 'info');
+    }
+
+    // Mettre à jour un article
+    function mettreAJourArticle(ligneId) {
+        const ligne = document.querySelector(`tr[data-id="${ligneId}"]`);
+        if (!ligne) return;
+        
+        const designation = ligne.querySelector('.designation').value;
+        const quantite = parseFloat(ligne.querySelector('.qte').value) || 0;
+        const prix = parseFloat(ligne.querySelector('.pu').value) || 0;
+        const total = quantite * prix;
+        
+        ligne.querySelector('.total').value = total.toFixed(3);
+        
+        // Mettre à jour dans bonActuel
+        const articleIndex = bonActuel.articles.findIndex(a => a.id === ligneId);
+        if (articleIndex !== -1) {
+            bonActuel.articles[articleIndex] = {
+                id: ligneId,
+                designation: designation,
+                quantite: quantite,
+                prixUnitaire: prix,
+                total: total
+            };
+        }
+        
+        calculer();
+        sauvegarderBrouillon();
+    }
+
+    // Supprimer une ligne
+    function supprimerLigne(ligneId) {
+        const ligne = document.querySelector(`tr[data-id="${ligneId}"]`);
+        if (!ligne) return;
+        
+        // Vérifier qu'il reste au moins une ligne
+        if (document.querySelectorAll('.ligne-article').length <= 1) {
+            afficherNotification('Au moins une ligne est requise', 'error');
+            return;
+        }
+        
+        ligne.remove();
+        
+        // Supprimer de bonActuel
+        bonActuel.articles = bonActuel.articles.filter(a => a.id !== ligneId);
+        
+        calculer();
+        sauvegarderBrouillon();
+        afficherNotification('Ligne supprimée', 'info');
+    }
+
+    // Calculer les totaux
+    function calculer() {
+        let totalHT = 0;
+        
+        // Calculer total HT
+        bonActuel.articles.forEach(article => {
+            totalHT += article.total || 0;
+        });
+        
+        const tva = totalHT * 0.07;
+        const totalTTC = totalHT + tva;
+        
+        // Mettre à jour l'objet
+        bonActuel.totalHT = totalHT;
+        bonActuel.tva = tva;
+        bonActuel.totalTTC = totalTTC;
+        bonActuel.updatedAt = new Date().toISOString();
+        
+        // Mettre à jour l'interface
+        document.getElementById('totalHT').textContent = totalHT.toFixed(3);
+        document.getElementById('tva').textContent = tva.toFixed(3);
+        document.getElementById('ttc').textContent = totalTTC.toFixed(3);
+        
+        // Sauvegarder automatiquement
+        sauvegarderBrouillon();
+    }
+
+    // Sauvegarder le brouillon
+    function sauvegarderBrouillon() {
+        // Mettre à jour les infos client
+        bonActuel.clientNom = document.getElementById('clientName').value;
+        bonActuel.clientAdresse = document.getElementById('clientAddress').value;
+        bonActuel.clientPhone = document.getElementById('clientPhone').value;
+        bonActuel.refFacture = document.getElementById('refFacture').value;
+        
+        // Sauvegarder dans localStorage
+        localStorage.setItem('bonBrouillon', JSON.stringify(bonActuel));
+    }
+
+    // Charger le brouillon
+    function chargerBonSauvegarde() {
+        const brouillon = localStorage.getItem('bonBrouillon');
+        if (!brouillon) return;
+        
+        try {
+            bonActuel = JSON.parse(brouillon);
+            
+            // Mettre à jour l'interface
+            document.getElementById('numDoc').textContent = bonActuel.numero;
+            
+            // Formater la date pour l'input date
+            if (bonActuel.date) {
+                const [jour, mois, annee] = bonActuel.date.split('/');
+                document.getElementById('dateDoc').value = `${annee}-${mois.padStart(2, '0')}-${jour.padStart(2, '0')}`;
+            }
+            
+            document.getElementById('clientName').value = bonActuel.clientNom || '';
+            document.getElementById('clientAddress').value = bonActuel.clientAdresse || '';
+            document.getElementById('clientPhone').value = bonActuel.clientPhone || '';
+            document.getElementById('refFacture').value = bonActuel.refFacture || '';
+            
+            // Charger les articles
+            const tbody = document.getElementById('corpsTableau');
+            tbody.innerHTML = '';
+            compteurLignes = 0;
+            
+            bonActuel.articles.forEach(article => {
+                compteurLignes++;
+                const ligne = document.createElement('tr');
+                ligne.className = 'ligne-article';
+                ligne.dataset.id = article.id;
+                ligne.innerHTML = `
+                    <td>
+                        <input type="text" class="article-input designation" 
+                               value="${article.designation || ''}"
+                               oninput="mettreAJourArticle('${article.id}')">
+                    </td>
+                    <td>
+                        <input type="number" class="article-input qte" 
+                               value="${article.quantite || 1}"
+                               oninput="mettreAJourArticle('${article.id}')">
+                    </td>
+                    <td>
+                        <input type="number" class="article-input pu" 
+                               value="${article.prixUnitaire || 0}"
+                               oninput="mettreAJourArticle('${article.id}')">
+                    </td>
+                    <td>
+                        <input type="text" class="article-input total" 
+                               value="${article.total ? article.total.toFixed(3) : '0.000'}" 
+                               readonly>
+                    </td>
+                    <td>
+                        <button type="button" class="btn-del" onclick="supprimerLigne('${article.id}')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(ligne);
+            });
+            
+            // Ajouter une ligne si vide
+            if (bonActuel.articles.length === 0) {
+                ajouterLigneInitiale();
+            }
+            
+            calculer();
+            afficherNotification('Brouillon chargé avec succès', 'success');
+        } catch (error) {
+            console.error('Erreur de chargement:', error);
+            afficherNotification('Erreur de chargement du brouillon', 'error');
+        }
+    }
+
+    // Sauvegarder le bon
+    function sauvegarderBon() {
+        // Validation
+        if (!bonActuel.clientNom || bonActuel.clientNom.trim() === '') {
+            afficherNotification('Veuillez saisir le nom du client', 'error');
+            document.getElementById('clientName').focus();
+            return false;
+        }
+        
+        if (bonActuel.articles.length === 0 || bonActuel.totalTTC <= 0) {
+            afficherNotification('Ajoutez au moins un article', 'error');
+            return false;
+        }
+        
+        // Changer le statut
+        bonActuel.statut = 'livre';
+        bonActuel.dateLivraison = new Date().toISOString();
+        
+        // Récupérer l'historique global
+        let historique = JSON.parse(localStorage.getItem('historique_global') || '[]');
+        
+        // Vérifier si existe déjà
+        const index = historique.findIndex(b => b.id === bonActuel.id);
+        if (index !== -1) {
+            historique[index] = bonActuel;
+        } else {
+            historique.push(bonActuel);
+        }
+        
+        // Sauvegarder
+        localStorage.setItem('historique_global', JSON.stringify(historique));
+        
+        // Mettre à jour le dernier numéro
+        const numeroActuel = parseInt(bonActuel.numero.replace('BL-', ''));
+        localStorage.setItem('dernierNumeroBon', numeroActuel);
+        
+        // Effacer le brouillon
+        localStorage.removeItem('bonBrouillon');
+        
+        afficherNotification('Bon de livraison sauvegardé dans l\'historique avec succès !', 'success');
+        
+        return true;
+    }
+
+    // Imprimer le bon
+    function imprimerBonProfessionnel() {
+        if (!bonActuel.clientNom || bonActuel.clientNom.trim() === '') {
+            afficherNotification('Veuillez saisir le nom du client', 'error');
+            document.getElementById('clientName').focus();
+            return;
+        }
+        
+        if (sauvegarderBon()) {
+            setTimeout(() => {
+                afficherNotification('Impression en cours...', 'info');
+                setTimeout(() => {
+                    window.print();
+                }, 500);
+            }, 1000);
+        }
+    }
+
+    // Mettre à jour l'interface
+    function mettreAJourInterface() {
+        // Mettre à jour la date dans un format français
+        const dateInput = document.getElementById('dateDoc');
+        dateInput.addEventListener('change', function() {
+            const date = new Date(this.value);
+            const jour = date.getDate().toString().padStart(2, '0');
+            const mois = (date.getMonth() + 1).toString().padStart(2, '0');
+            const annee = date.getFullYear();
+            bonActuel.date = `${jour}/${mois}/${annee}`;
+            sauvegarderBrouillon();
+        });
+        
+        // Auto-save toutes les 30 secondes
+        setInterval(() => {
+            if (bonActuel.clientNom) {
+                sauvegarderBrouillon();
+            }
+        }, 30000);
+        
+        // Raccourcis clavier
+        document.addEventListener('keydown', function(e) {
+            // Ctrl + S pour sauvegarder
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                sauvegarderBon();
+            }
+            
+            // Ctrl + P pour imprimer
+            if (e.ctrlKey && e.key === 'p') {
+                e.preventDefault();
+                imprimerBonProfessionnel();
+            }
+            
+            // Ctrl + N pour nouvelle ligne
+            if (e.ctrlKey && e.key === 'n') {
+                e.preventDefault();
+                ajouterLigne();
+            }
+        });
+    }
+
+    // Fonctions utilitaires
+    function afficherNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        
+        let icon = 'info-circle';
+        if (type === 'success') icon = 'check-circle';
+        if (type === 'error') icon = 'exclamation-circle';
+        
+        notification.innerHTML = `
+            <i class="fas fa-${icon}"></i>
+            <span>${message}</span>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Supprimer les anciennes notifications
+        const anciennesNotifs = document.querySelectorAll('.notification');
+        if (anciennesNotifs.length > 3) {
+            anciennesNotifs[0].remove();
+        }
+        
+        setTimeout(() => {
+            if (notification.parentElement) {
+                notification.remove();
+            }
+        }, 4000);
+    }
+
+    // Initialiser le calcul
+    calculer();
+</script>
+</body>
+</html>
