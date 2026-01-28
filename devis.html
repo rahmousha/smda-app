@@ -163,15 +163,17 @@
         }
 
         .company-details {
-            font-size: 11.5px;
+            font-size: 13.5px;
             line-height: 1.5;
             color: #333;
+            font-weight: 600;
         }
 
         .company-details-arabic {
-            font-size: 12.5px;
+            font-size: 17px;
             line-height: 1.5;
             color: #333;
+            font-weight: 600;
         }
 
         .invoice-info {
@@ -342,6 +344,7 @@
             border-collapse: collapse;
             border: 1px solid #ddd;
             font-size: 12px;
+            table-layout: fixed; /* AJOUT IMPORTANT */
         }
 
         .articles-table thead {
@@ -350,19 +353,46 @@
         }
 
         .articles-table th {
-            padding: 10px 8px;
+            padding: 10px 6px; /* MODIFIÉ */
             text-align: left;
             font-weight: 600;
             font-size: 12px;
             border-right: 1px solid rgba(255,255,255,0.2);
+            overflow: hidden;
+            white-space: nowrap;
         }
 
-        .articles-table th:last-child {
-            border-right: none;
+        /* MODIFICATION : Largeurs FIXES pour chaque colonne */
+        .articles-table th:nth-child(1) { /* DÉSIGNATION */
+            width: 40%;
+            padding-left: 8px;
+        }
+        .articles-table th:nth-child(2) { /* QUANTITÉ */
+            width: 10%;
+            text-align: center;
+        }
+        .articles-table th:nth-child(3) { /* PRIX UNITAIRE HT */
+            width: 15%;
+            text-align: right;
+            padding-right: 10px;
+        }
+        .articles-table th:nth-child(4) { /* TVA */
+            width: 10%;
+            text-align: center;
+        }
+        .articles-table th:nth-child(5) { /* TOTAL HT */
+            width: 15%;
+            text-align: right;
+            padding-right: 10px;
+        }
+        .articles-table th:nth-child(6) { /* SUPPRESSION */
+            width: 5%;
+            text-align: center;
         }
 
         .articles-table tbody tr {
             border-bottom: 1px solid #eee;
+            height: 40px; /* AJOUTÉ */
         }
 
         .articles-table tbody tr:hover {
@@ -370,43 +400,103 @@
         }
 
         .articles-table td {
-            padding: 8px;
+            padding: 6px 4px; /* MODIFIÉ */
             font-size: 12px;
             border-right: 1px solid #eee;
+            vertical-align: middle;
+            overflow: hidden;
+            height: 40px; /* AJOUTÉ */
         }
 
-        .articles-table td:last-child {
-            border-right: none;
+        /* MODIFICATION : Appliquer les mêmes largeurs aux TD */
+        .articles-table td:nth-child(1) { width: 40%; }
+        .articles-table td:nth-child(2) { width: 10%; }
+        .articles-table td:nth-child(3) { width: 15%; }
+        .articles-table td:nth-child(4) { width: 10%; }
+        .articles-table td:nth-child(5) { width: 15%; }
+        .articles-table td:nth-child(6) { width: 5%; }
+
+        /* MODIFICATION : Alignement spécifique */
+        .articles-table td:nth-child(2), /* QUANTITÉ */
+        .articles-table td:nth-child(6) { /* BOUTON */
+            text-align: center;
+        }
+        .articles-table td:nth-child(3), /* PRIX UNITAIRE */
+        .articles-table td:nth-child(5) { /* TOTAL */
+            text-align: right;
+            padding-right: 10px;
         }
 
+        /* MODIFICATION : Inputs dans le tableau */
         .article-input {
             width: 100%;
+            max-width: 100%;
             border: none;
-            padding: 4px;
+            padding: 6px 4px;
             font-size: 12px;
             background: transparent;
             outline: none;
+            height: 30px;
+            box-sizing: border-box;
+            font-family: inherit;
+            margin: 0;
         }
 
+        /* MODIFICATION : SPÉCIAL pour le SELECT de désignation */
         .article-input.designation {
             text-align: left;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: transparent;
+            cursor: pointer;
+            padding-right: 18px;
+            font-size: 12px;
         }
 
+        /* Style pour les options du select */
+        .article-input.designation option {
+            font-size: 12px;
+            padding: 6px;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Placeholder */
+        .article-input.designation option[value=""] {
+            color: #999;
+            font-style: italic;
+        }
+
+        /* Pour les inputs numériques */
         .article-input.qte,
-        .article-input.pu,
-        .article-input.total {
+        .article-input.pu {
             text-align: right;
             font-family: 'Consolas', 'Monaco', monospace;
+            padding-right: 8px;
+            font-size: 12px;
         }
 
         .article-input.total {
             font-weight: 600;
             background: #f8f9fa;
+            font-size: 12px;
+            text-align: right;
+            font-family: 'Consolas', 'Monaco', monospace;
+            padding-right: 8px;
+            color: #9b59b6;
         }
 
         .tva-select {
             width: 100%;
-            padding: 4px;
+            padding: 6px 4px;
             border: 1px solid #ddd;
             border-radius: 3px;
             font-size: 12px;
@@ -431,10 +521,12 @@
             align-items: center;
             justify-content: center;
             margin: 0 auto;
+            transition: all 0.2s;
         }
 
         .btn-del:hover {
             background: #c0392b;
+            transform: scale(1.1);
         }
 
         /* ===== SECTION TOTAUX PROFESSIONNELLE ===== */
@@ -482,7 +574,7 @@
 
         .total-ttc-row {
             background: #9b59b6;
-            color: white;
+            color: rgb(0, 0, 0);
         }
 
         .total-ttc-row td {
@@ -896,12 +988,12 @@
             <table class="articles-table">
                 <thead>
                     <tr>
-                        <th width="40%">DÉSIGNATION</th>
-                        <th width="10%">QUANTITÉ</th>
-                        <th width="15%">PRIX UNITAIRE HT</th>
-                        <th width="10%">TVA</th>
-                        <th width="15%">TOTAL HT</th>
-                        <th width="5%"></th>
+                        <th>DÉSIGNATION</th>
+                        <th>QUANTITÉ</th>
+                        <th>PRIX UNITAIRE HT</th>
+                        <th>TVA</th>
+                        <th>TOTAL HT</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody id="corpsTableau">
@@ -974,6 +1066,7 @@
         initialiserDevis();
         chargerDevisSauvegarde();
         mettreAJourInterface();
+        chargerProduitsDansSelect();
     });
 
     // Initialiser le devis
@@ -1045,7 +1138,7 @@
         ajouterLigne();
     }
 
-    // Ajouter une ligne
+    // MODIFICATION : Fonction ajouterLigne avec sélection de produit
     function ajouterLigne() {
         compteurLignes++;
         const ligneId = `ligne-${compteurLignes}`;
@@ -1053,24 +1146,28 @@
         const ligne = document.createElement('tr');
         ligne.className = 'ligne-article';
         ligne.dataset.id = ligneId;
+        
         ligne.innerHTML = `
             <td>
-                <input type="text" class="article-input designation" 
-                       placeholder="Description du produit/service"
-                       oninput="mettreAJourArticle('${ligneId}')">
+                <select class="article-input designation" 
+                        onchange="mettreAJourProduit('${ligneId}')"
+                        data-ligne="${ligneId}"
+                        title="Sélectionner un produit">
+                    <option value="">-- Choisir produit --</option>
+                </select>
             </td>
             <td>
                 <input type="number" class="article-input qte" 
                        min="0" step="0.001" value="1"
-                       oninput="mettreAJourArticle('${ligneId}')">
+                       oninput="calculerLigne('${ligneId}')">
             </td>
             <td>
                 <input type="number" class="article-input pu" 
-                       min="0" step="0.001" value="0.000"
-                       oninput="mettreAJourArticle('${ligneId}')">
+                       readonly
+                       data-produit-prix>
             </td>
             <td>
-                <select class="tva-select" oninput="mettreAJourArticle('${ligneId}')">
+                <select class="tva-select" oninput="calculerLigne('${ligneId}')">
                     <option value="0.07">7%</option>
                     <option value="0.19">19%</option>
                     <option value="0">0%</option>
@@ -1091,49 +1188,198 @@
         // Ajouter aux articles
         devisActuel.articles.push({
             id: ligneId,
+            codeProduit: '',
             designation: '',
             quantite: 1,
             prixUnitaire: 0,
             tauxTVA: 0.07,
-            totalHT: 0
+            totalHT: 0,
+            stockOk: false
         });
         
-        // Focus sur la description
+        // Charger les produits dans le select
         setTimeout(() => {
+            chargerProduitsDansSelect();
             ligne.querySelector('.designation').focus();
         }, 100);
         
         afficherNotification('Nouvelle ligne ajoutée', 'info');
     }
 
-    // Mettre à jour un article
-    function mettreAJourArticle(ligneId) {
+    // NOUVELLE FONCTION : Charger les produits dans les selects
+    function chargerProduitsDansSelect() {
+        const stock = JSON.parse(localStorage.getItem('stock') || '[]');
+        const produitsDisponibles = stock.filter(p => p.quantite > 0);
+        
+        document.querySelectorAll('select.article-input.designation').forEach(select => {
+            const ligneId = select.getAttribute('data-ligne');
+            const currentValue = select.value;
+            
+            let selectedOption = null;
+            if (currentValue) {
+                selectedOption = Array.from(select.options).find(opt => opt.value === currentValue);
+            }
+            
+            select.innerHTML = '<option value="">-- Choisir produit --</option>';
+            
+            produitsDisponibles.forEach(produit => {
+                const option = document.createElement('option');
+                option.value = produit.code;
+                option.textContent = `${produit.code} - ${produit.designation}`;
+                option.title = `${produit.designation} - ${(produit.prixVente || 0).toFixed(3)} TND (Stock: ${produit.quantite})`;
+                option.dataset.prix = produit.prixVente || 0;
+                option.dataset.tva = produit.tva || 7;
+                option.dataset.designation = produit.designation;
+                option.dataset.stock = produit.quantite;
+                select.appendChild(option);
+            });
+            
+            if (selectedOption && produitsDisponibles.some(p => p.code === currentValue)) {
+                select.value = currentValue;
+                setTimeout(() => mettreAJourProduit(ligneId), 50);
+            }
+        });
+    }
+
+    // NOUVELLE FONCTION : Mettre à jour un produit sélectionné
+    function mettreAJourProduit(ligneId) {
         const ligne = document.querySelector(`tr[data-id="${ligneId}"]`);
         if (!ligne) return;
         
-        const designation = ligne.querySelector('.designation').value;
-        const quantite = parseFloat(ligne.querySelector('.qte').value) || 0;
-        const prix = parseFloat(ligne.querySelector('.pu').value) || 0;
-        const tauxTVA = parseFloat(ligne.querySelector('.tva-select').value) || 0.07;
-        const totalHT = quantite * prix;
+        const select = ligne.querySelector('.designation');
+        const prixInput = ligne.querySelector('.pu');
+        const totalInput = ligne.querySelector('.total');
+        const tvaSelect = ligne.querySelector('.tva-select');
+        const quantiteInput = ligne.querySelector('.qte');
+        const selectedOption = select.options[select.selectedIndex];
         
-        ligne.querySelector('.total').value = totalHT.toFixed(3);
-        
-        // Mettre à jour dans devisActuel
-        const articleIndex = devisActuel.articles.findIndex(a => a.id === ligneId);
-        if (articleIndex !== -1) {
-            devisActuel.articles[articleIndex] = {
-                id: ligneId,
-                designation: designation,
-                quantite: quantite,
-                prixUnitaire: prix,
-                tauxTVA: tauxTVA,
-                totalHT: totalHT
-            };
+        if (selectedOption.value) {
+            // Remplir automatiquement le prix
+            const prix = parseFloat(selectedOption.dataset.prix) || 0;
+            prixInput.value = prix.toFixed(3);
+            
+            // Définir la TVA par défaut du produit
+            const tvaProduit = parseFloat(selectedOption.dataset.tva) || 7;
+            const tauxTVA = tvaProduit / 100; // Convertir 7% en 0.07
+            
+            // Trouver l'option correspondant à la TVA du produit
+            const optionsTVA = tvaSelect.options;
+            let optionTrouvee = false;
+            for (let i = 0; i < optionsTVA.length; i++) {
+                if (Math.abs(parseFloat(optionsTVA[i].value) - tauxTVA) < 0.001) {
+                    tvaSelect.selectedIndex = i;
+                    optionTrouvee = true;
+                    break;
+                }
+            }
+            
+            // Si la TVA spécifique n'est pas trouvée, utiliser 7% par défaut
+            if (!optionTrouvee) {
+                tvaSelect.value = "0.07";
+            }
+            
+            // Calculer le total avec la quantité actuelle
+            const quantite = parseFloat(quantiteInput.value) || 0;
+            const total = quantite * prix;
+            totalInput.value = total.toFixed(3);
+            
+            // Mettre à jour dans devisActuel
+            const articleIndex = devisActuel.articles.findIndex(a => a.id === ligneId);
+            if (articleIndex !== -1) {
+                devisActuel.articles[articleIndex].codeProduit = selectedOption.value;
+                devisActuel.articles[articleIndex].designation = selectedOption.dataset.designation || '';
+                devisActuel.articles[articleIndex].prixUnitaire = prix;
+                devisActuel.articles[articleIndex].tauxTVA = parseFloat(tvaSelect.value);
+                devisActuel.articles[articleIndex].totalHT = total;
+            }
+            
+            // Vérifier le stock pour la quantité actuelle
+            verifierStockLigne(ligneId);
+        } else {
+            // Si aucun produit sélectionné
+            prixInput.value = '0.000';
+            totalInput.value = '0.000';
+            tvaSelect.value = '0.07';
+            
+            const articleIndex = devisActuel.articles.findIndex(a => a.id === ligneId);
+            if (articleIndex !== -1) {
+                devisActuel.articles[articleIndex].codeProduit = '';
+                devisActuel.articles[articleIndex].designation = '';
+                devisActuel.articles[articleIndex].prixUnitaire = 0;
+                devisActuel.articles[articleIndex].tauxTVA = 0.07;
+                devisActuel.articles[articleIndex].totalHT = 0;
+            }
         }
         
+        // Recalculer les totaux
         calculerDevis();
         sauvegarderBrouillon();
+    }
+
+    // NOUVELLE FONCTION : Calculer une ligne
+    function calculerLigne(ligneId) {
+        const ligne = document.querySelector(`tr[data-id="${ligneId}"]`);
+        if (!ligne) return;
+        
+        const prix = parseFloat(ligne.querySelector('.pu').value) || 0;
+        const quantite = parseFloat(ligne.querySelector('.qte').value) || 0;
+        const tauxTVA = parseFloat(ligne.querySelector('.tva-select').value) || 0.07;
+        const total = quantite * prix;
+        
+        ligne.querySelector('.total').value = total.toFixed(3);
+        
+        const articleIndex = devisActuel.articles.findIndex(a => a.id === ligneId);
+        if (articleIndex !== -1) {
+            devisActuel.articles[articleIndex].quantite = quantite;
+            devisActuel.articles[articleIndex].tauxTVA = tauxTVA;
+            devisActuel.articles[articleIndex].totalHT = total;
+        }
+        
+        verifierStockLigne(ligneId);
+        calculerDevis();
+        sauvegarderBrouillon();
+    }
+
+    // NOUVELLE FONCTION : Vérifier le stock pour une ligne
+    function verifierStockLigne(ligneId) {
+        const ligne = document.querySelector(`tr[data-id="${ligneId}"]`);
+        if (!ligne) return;
+        
+        const select = ligne.querySelector('.designation');
+        const quantiteInput = ligne.querySelector('.qte');
+        const codeProduit = select.value;
+        const quantite = parseFloat(quantiteInput.value) || 0;
+        
+        if (!codeProduit) {
+            quantiteInput.style.borderColor = '';
+            return;
+        }
+        
+        const stock = JSON.parse(localStorage.getItem('stock') || '[]');
+        const produit = stock.find(p => p.code === codeProduit);
+        
+        if (!produit) {
+            quantiteInput.style.borderColor = '#e74c3c';
+            const articleIndex = devisActuel.articles.findIndex(a => a.id === ligneId);
+            if (articleIndex !== -1) {
+                devisActuel.articles[articleIndex].stockOk = false;
+            }
+            return;
+        }
+        
+        if (quantite > produit.quantite) {
+            quantiteInput.style.borderColor = '#e74c3c';
+            const articleIndex = devisActuel.articles.findIndex(a => a.id === ligneId);
+            if (articleIndex !== -1) {
+                devisActuel.articles[articleIndex].stockOk = false;
+            }
+        } else {
+            quantiteInput.style.borderColor = '#27ae60';
+            const articleIndex = devisActuel.articles.findIndex(a => a.id === ligneId);
+            if (articleIndex !== -1) {
+                devisActuel.articles[articleIndex].stockOk = true;
+            }
+        }
     }
 
     // Supprimer une ligne
@@ -1213,7 +1459,7 @@
         localStorage.setItem('devisBrouillon', JSON.stringify(devisActuel));
     }
 
-    // Charger le brouillon
+    // MODIFICATION : Charger le brouillon avec gestion des produits
     function chargerDevisSauvegarde() {
         const brouillon = localStorage.getItem('devisBrouillon');
         if (!brouillon) return;
@@ -1252,22 +1498,24 @@
                 ligne.dataset.id = article.id;
                 ligne.innerHTML = `
                     <td>
-                        <input type="text" class="article-input designation" 
-                               value="${article.designation || ''}"
-                               oninput="mettreAJourArticle('${article.id}')">
+                        <select class="article-input designation" 
+                                onchange="mettreAJourProduit('${article.id}')"
+                                data-ligne="${article.id}">
+                            <option value="">-- Choisir produit --</option>
+                        </select>
                     </td>
                     <td>
                         <input type="number" class="article-input qte" 
                                value="${article.quantite || 1}"
-                               oninput="mettreAJourArticle('${article.id}')">
+                               oninput="calculerLigne('${article.id}')">
                     </td>
                     <td>
                         <input type="number" class="article-input pu" 
                                value="${article.prixUnitaire || 0}"
-                               oninput="mettreAJourArticle('${article.id}')">
+                               readonly>
                     </td>
                     <td>
-                        <select class="tva-select" oninput="mettreAJourArticle('${article.id}')">
+                        <select class="tva-select" oninput="calculerLigne('${article.id}')">
                             <option value="0.07" ${article.tauxTVA === 0.07 ? 'selected' : ''}>7%</option>
                             <option value="0.19" ${article.tauxTVA === 0.19 ? 'selected' : ''}>19%</option>
                             <option value="0" ${article.tauxTVA === 0 ? 'selected' : ''}>0%</option>
@@ -1290,9 +1538,26 @@
             // Ajouter une ligne si vide
             if (devisActuel.articles.length === 0) {
                 ajouterLigneInitiale();
+            } else {
+                // Charger les produits et restaurer les sélections
+                setTimeout(() => {
+                    chargerProduitsDansSelect();
+                    
+                    // Restaurer les sélections de produits
+                    devisActuel.articles.forEach(article => {
+                        if (article.codeProduit) {
+                            const select = document.querySelector(`select[data-ligne="${article.id}"]`);
+                            if (select) {
+                                select.value = article.codeProduit;
+                                setTimeout(() => mettreAJourProduit(article.id), 100);
+                            }
+                        }
+                    });
+                    
+                    calculerDevis();
+                }, 200);
             }
             
-            calculerDevis();
             afficherNotification('Brouillon chargé avec succès', 'success');
         } catch (error) {
             console.error('Erreur de chargement:', error);
@@ -1311,6 +1576,13 @@
         
         if (devisActuel.articles.length === 0 || devisActuel.totalTTC <= 0) {
             afficherNotification('Ajoutez au moins un article', 'error');
+            return false;
+        }
+        
+        // Vérifier que tous les articles ont un produit sélectionné
+        const articlesInvalides = devisActuel.articles.filter(a => !a.codeProduit || a.prixUnitaire <= 0);
+        if (articlesInvalides.length > 0) {
+            afficherNotification('Certains articles sont incomplets', 'error');
             return false;
         }
         

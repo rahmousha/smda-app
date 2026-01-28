@@ -72,6 +72,15 @@
             background: #219653;
         }
 
+        .btn-new {
+            background: #9b59b6;
+            color: white;
+        }
+
+        .btn-new:hover {
+            background: #8e44ad;
+        }
+
         .btn-save {
             background: #1a2980;
             color: white;
@@ -101,106 +110,135 @@
             gap: 8px;
         }
 
-        /* ===== PAGE A4 PROFESSIONNELLE ===== */
+        /* ===== PAGE A4 ===== */
         .page-container {
             display: flex;
             justify-content: center;
-            padding: 20px;
+            padding: 0px;
         }
 
         .page {
             width: 210mm;
             min-height: 297mm;
+            height: auto;
             background: white;
-            padding: 20mm;
+            padding: 15mm;
             position: relative;
             margin: 0 auto;
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
             border: 1px solid #ddd;
             overflow: hidden;
+            page-break-inside: avoid;
         }
 
-        /* ===== NOUVELLE EN-TÊTE AVEC 3 COLONNES ===== */
+        /* ===== EN-TÊTE SOCIÉTÉ ===== */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #1a2980;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #1a2980;
             position: relative;
             z-index: 2;
         }
 
-        /* Colonne gauche : Français */
         .company-info-left {
             width: 38%;
             text-align: left;
+            padding: 0;
         }
 
-        /* Colonne centrale : S.M.D.A */
         .company-logo-center {
-            width: 24%;
+            width: 18%;
             text-align: center;
             font-size: 32px;
             font-weight: 900;
-            color: #1a2980;
+            color: #001763;
             padding-top: 15px;
         }
 
-        /* Colonne droite : Arabe */
         .company-info-right {
-            width: 38%;
+            width: 40%;
             text-align: right;
             direction: rtl;
         }
 
-        .company-logo {
-            font-size: 22px;
-            font-weight: 800;
-            color: #1a2980;
-            margin-bottom: 8px;
-        }
-
         .company-details {
-            font-size: 11.5px;
+            font-size: 13.5px;
             line-height: 1.5;
-            color: #333;
+            color: #000000;
+            font-weight: 600;
         }
 
         .company-details-arabic {
-            font-size: 12.5px;
+            font-size: 16px;
             line-height: 1.5;
-            color: #333;
+            color: #000000;
+            font-weight: 600;
         }
 
+        /* ===== TITRE PRINCIPAL ===== */
         .invoice-info {
             width: 100%;
             text-align: center;
             margin: 15px 0 20px 0;
+            padding: 12px 0;
+            border-top: 2px solid #1a2980;
+            border-bottom: 2px solid #1a2980;
+            background: #f8f9fa;
         }
 
         .invoice-title {
-            font-size: 24px;
-            font-weight: 800;
+            font-size: 26px;
+            font-weight: 900;
             color: #1a2980;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         .invoice-details {
             display: flex;
             justify-content: center;
             gap: 40px;
-            font-size: 14px;
-            margin-top: 10px;
+            font-size: 15px;
+            margin-top: 8px;
+            font-weight: 700;
         }
 
-        /* ===== INFORMATIONS CLIENT PROFESSIONNELLES ===== */
+        /* ===== STYLE PERSONNALISÉ POUR INPUT DATE ===== */
+        .date-input-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .date-input-container input[type="date"] {
+            padding: 10px 35px 10px 12px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 15px;
+            background: white;
+            font-weight: 500;
+            height: 40px;
+            width: 160px;
+        }
+
+        .date-input-container .date-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #1a2980;
+            font-size: 16px;
+            pointer-events: none;
+        }
+
+        /* ===== INFORMATIONS CLIENT ===== */
         .client-section {
-            margin: 20px 0;
+            margin: 15px 0;
             padding: 15px;
-            border: 1px solid #ddd;
+            border: 2px solid #1a2980;
             border-radius: 5px;
             background: #f8f9fa;
             position: relative;
@@ -219,219 +257,33 @@
         }
 
         .client-label {
-            font-weight: 600;
+            font-weight: 700;
             color: #1a2980;
-            font-size: 13px;
-            margin-bottom: 5px;
+            font-size: 14px;
+            margin-bottom: 8px;
         }
 
         .client-input {
-            padding: 8px 10px;
-            border: 1px solid #ddd;
-            border-radius: 3px;
-            font-size: 13px;
+            padding: 10px 12px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
             background: white;
+            font-weight: 500;
+            height: 40px;
         }
 
         .client-input:focus {
             outline: none;
             border-color: #1a2980;
-            box-shadow: 0 0 0 2px rgba(26, 41, 128, 0.1);
+            box-shadow: 0 0 0 3px rgba(26, 41, 128, 0.15);
         }
 
-        /* ===== TABLEAU DES ARTICLES PROFESSIONNEL ===== */
-        .table-section {
-            margin: 25px 0;
-            position: relative;
-            z-index: 2;
-        }
-
-        .articles-table {
-            width: 100%;
-            border-collapse: collapse;
-            border: 1px solid #ddd;
-            font-size: 12px;
-        }
-
-        .articles-table thead {
-            background: #1a2980;
-            color: white;
-        }
-
-        .articles-table th {
-            padding: 10px 8px;
-            text-align: left;
-            font-weight: 600;
-            font-size: 12px;
-            border-right: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .articles-table th:last-child {
-            border-right: none;
-        }
-
-        .articles-table tbody tr {
-            border-bottom: 1px solid #eee;
-        }
-
-        .articles-table tbody tr:hover {
-            background: #f8f9fa;
-        }
-
-        .articles-table td {
-            padding: 8px;
-            font-size: 12px;
-            border-right: 1px solid #eee;
-        }
-
-        .articles-table td:last-child {
-            border-right: none;
-        }
-
-        .article-input {
-            width: 100%;
-            border: none;
-            padding: 4px;
-            font-size: 12px;
-            background: transparent;
-            outline: none;
-        }
-
-        .article-input.designation {
-            text-align: left;
-        }
-
-        .article-input.qte,
-        .article-input.pu,
-        .article-input.total {
-            text-align: right;
-            font-family: 'Consolas', 'Monaco', monospace;
-        }
-
-        .article-input.total {
-            font-weight: 600;
-            background: #f8f9fa;
-        }
-
-        .btn-del {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 11px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto;
-        }
-
-        .btn-del:hover {
-            background: #c0392b;
-        }
-
-        /* ===== SECTION TOTAUX PROFESSIONNELLE ===== */
-        .totals-section {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 25px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .totals-table {
-            width: 280px;
-            border-collapse: collapse;
-            border: 1px solid #ddd;
-            font-size: 13px;
-        }
-
-        .totals-table tr {
-            border-bottom: 1px solid #eee;
-        }
-
-        .totals-table tr:last-child {
-            border-bottom: none;
-        }
-
-        .totals-table td {
-            padding: 8px 12px;
-            font-size: 13px;
-        }
-
-        .label-cell {
-            font-weight: 600;
-            color: #333;
-            text-align: left;
-            background: #f8f9fa;
-        }
-
-        .value-cell {
-            font-weight: 600;
-            text-align: right;
-            font-family: 'Consolas', 'Monaco', monospace;
-            background: #f8f9fa;
-        }
-
-        .total-ttc-row {
-            background: #1a2980;
-            color: white;
-        }
-
-        .total-ttc-row td {
-            font-weight: 800;
-            font-size: 14px;
-        }
-
-        /* ===== SECTION LIVRAISON ET SIGNATURE ===== */
-        .livraison-section {
-            margin-top: 30px;
-            padding: 15px;
-            border-top: 1px dashed #ddd;
-            display: flex;
-            justify-content: space-between;
-            position: relative;
-            z-index: 2;
-        }
-
-        .livraison-text {
-            width: 60%;
-            font-style: italic;
-            color: #333;
-            font-size: 13px;
-        }
-
-        .livraison-date {
-            font-weight: 600;
-            color: #1a2980;
-            margin-top: 8px;
-            font-size: 13px;
-            min-height: 35px;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 5px;
-        }
-
-        .signature-box {
-            width: 30%;
-            text-align: center;
-        }
-
-        .signature-label {
-            font-style: italic;
-            color: #666;
-            margin-top: 60px;
-            padding-top: 15px;
-            border-top: 1px solid #333;
-            font-size: 13px;
-        }
-
-        /* ===== SECTION RÉFÉRENCE FACTURE ===== */
+        /* ===== RÉFÉRENCE FACTURE ===== */
         .reference-section {
-            margin-top: 20px;
+            margin-top: 15px;
             padding: 15px;
-            border: 1px solid #ddd;
+            border: 2px solid #1a2980;
             border-radius: 5px;
             background: #f8f9fa;
             position: relative;
@@ -445,25 +297,294 @@
         }
 
         .reference-label {
-            font-weight: 600;
+            font-weight: 700;
             color: #1a2980;
-            font-size: 14px;
+            font-size: 15px;
             white-space: nowrap;
         }
 
         .reference-input {
             flex: 1;
-            padding: 8px 10px;
-            border: 1px solid #ddd;
-            border-radius: 3px;
-            font-size: 14px;
+            padding: 10px 12px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 15px;
             background: white;
+            font-weight: 500;
+            height: 45px;
         }
 
-        .reference-input:focus {
+        /* ===== TABLEAU DES ARTICLES ===== */
+        .table-section {
+            margin: 20px 0;
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+
+        .articles-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 2px solid #1a2980;
+            font-size: 13px;
+            table-layout: fixed;
+        }
+
+        .articles-table thead {
+            background: #1a2980;
+            color: white;
+        }
+
+        .articles-table th {
+            padding: 10px 6px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 14px;
+            border-right: 1px solid rgba(255,255,255,0.3);
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        /* Largeurs FIXES pour chaque colonne */
+        .articles-table th:nth-child(1) { /* DÉSIGNATION */
+            width: 45%;
+            padding-left: 8px;
+        }
+        .articles-table th:nth-child(2) { /* QUANTITÉ */
+            width: 15%;
+            text-align: center;
+        }
+        .articles-table th:nth-child(3) { /* PRIX UNITAIRE */
+            width: 20%;
+            text-align: right;
+            padding-right: 10px;
+        }
+        .articles-table th:nth-child(4) { /* TOTAL */
+            width: 15%;
+            text-align: right;
+            padding-right: 10px;
+        }
+        .articles-table th:nth-child(5) { /* SUPPRESSION */
+            width: 5%;
+            text-align: center;
+        }
+
+        .articles-table tbody tr {
+            border-bottom: 1px solid #eee;
+            height: 40px;
+        }
+
+        .articles-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .articles-table td {
+            padding: 6px 4px;
+            font-size: 13px;
+            border-right: 1px solid #eee;
+            font-weight: 500;
+            vertical-align: middle;
+            overflow: hidden;
+            height: 40px;
+        }
+
+        /* Appliquer les mêmes largeurs aux TD */
+        .articles-table td:nth-child(1) { width: 45%; }
+        .articles-table td:nth-child(2) { width: 15%; }
+        .articles-table td:nth-child(3) { width: 20%; }
+        .articles-table td:nth-child(4) { width: 15%; }
+        .articles-table td:nth-child(5) { width: 5%; }
+
+        /* Alignement spécifique */
+        .articles-table td:nth-child(2), /* QUANTITÉ */
+        .articles-table td:nth-child(5) { /* BOUTON */
+            text-align: center;
+        }
+        .articles-table td:nth-child(3), /* PRIX UNITAIRE */
+        .articles-table td:nth-child(4) { /* TOTAL */
+            text-align: right;
+            padding-right: 10px;
+        }
+
+        /* CORRECTION CRITIQUE : Inputs dans le tableau */
+        .article-input {
+            width: 100%;
+            max-width: 100%;
+            border: none;
+            padding: 6px 4px;
+            font-size: 13px;
+            background: transparent;
             outline: none;
-            border-color: #1a2980;
-            box-shadow: 0 0 0 2px rgba(26, 41, 128, 0.1);
+            height: 32px;
+            box-sizing: border-box;
+            font-family: inherit;
+            margin: 0;
+        }
+
+        /* SPÉCIAL pour le SELECT de désignation */
+        .article-input.designation {
+            text-align: left;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: transparent;
+            cursor: pointer;
+            padding-right: 18px;
+            font-size: 13px;
+        }
+
+        /* Style pour les options du select */
+        .article-input.designation option {
+            font-size: 13px;
+            padding: 6px;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Pour les inputs numériques */
+        .article-input.qte,
+        .article-input.pu {
+            text-align: right;
+            font-family: 'Consolas', 'Monaco', monospace;
+            padding-right: 8px;
+            font-size: 13px;
+        }
+
+        .article-input.total {
+            font-weight: 700;
+            background: #f0f0f0;
+            font-size: 13px;
+            text-align: right;
+            font-family: 'Consolas', 'Monaco', monospace;
+            padding-right: 8px;
+            color: #1a2980;
+        }
+
+        /* Bouton suppression */
+        .btn-del {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            padding: 0;
+            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .btn-del:hover {
+            background: #c0392b;
+            transform: scale(1.1);
+        }
+
+        /* ===== SECTION TOTAUX ===== */
+        .totals-section {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .totals-table {
+            width: 280px;
+            border-collapse: collapse;
+            border: 2px solid #1a2980;
+            font-size: 14px;
+        }
+
+        .totals-table tr {
+            border-bottom: 2px solid #eee;
+            height: 45px;
+        }
+
+        .totals-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .totals-table td {
+            padding: 10px 15px;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        .label-cell {
+            font-weight: 700;
+            color: #333;
+            text-align: left;
+            background: #f8f9fa;
+            font-size: 14px;
+            width: 60%;
+        }
+
+        .value-cell {
+            font-weight: 700;
+            text-align: right;
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #f8f9fa;
+            font-size: 15px;
+            width: 40%;
+        }
+
+        .total-ttc-row {
+            background: #1a2980;
+            color: white;
+        }
+
+        .total-ttc-row td {
+            font-weight: 800;
+            font-size: 16px;
+        }
+
+        /* ===== SECTION LIVRAISON ET SIGNATURE ===== */
+        .livraison-section {
+            margin-top: 25px;
+            padding: 15px;
+            border-top: 3px dashed #1a2980;
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+            background: #f8f9fa;
+        }
+
+        .livraison-text {
+            width: 65%;
+            font-style: italic;
+            color: #333;
+            font-size: 13px;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .signature-box {
+            width: 30%;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .signature-label {
+            font-style: italic;
+            color: #333;
+            margin-top: 60px;
+            padding-top: 15px;
+            border-top: 3px solid #333;
+            font-size: 13px;
+            font-weight: 600;
         }
 
         /* ===== NOTIFICATIONS ===== */
@@ -471,13 +592,16 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            padding: 15px 25px;
+            padding: 12px 20px;
             background: #27ae60;
             color: white;
             border-radius: 5px;
             box-shadow: 0 3px 10px rgba(0,0,0,0.2);
             z-index: 10000;
             animation: slideIn 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .notification.error {
@@ -486,6 +610,10 @@
 
         .notification.info {
             background: #3498db;
+        }
+
+        .notification.success {
+            background: #27ae60;
         }
 
         @keyframes slideIn {
@@ -499,83 +627,22 @@
             }
         }
 
-        /* ===== RESPONSIVE ===== */
-        @media screen and (max-width: 768px) {
-            .toolbar {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .toolbar-left, .toolbar-right {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .page {
-                padding: 10mm;
-                width: 100%;
-            }
-            
-            .header {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .company-info-left,
-            .company-logo-center,
-            .company-info-right {
-                width: 100%;
-                text-align: center;
-                margin-bottom: 15px;
-            }
-            
-            .company-info-right {
-                direction: ltr;
-                text-align: center;
-            }
-            
-            .company-details-arabic {
-                text-align: center;
-            }
-            
-            .invoice-info {
-                text-align: center;
-                margin-top: 20px;
-            }
-            
-            .client-info {
-                grid-template-columns: 1fr;
-            }
-            
-            .livraison-section {
-                flex-direction: column;
-            }
-            
-            .livraison-text, .signature-box {
-                width: 100%;
-            }
-            
-            .signature-label {
-                margin-top: 40px;
-            }
-        }
-
-        /* ===== MODE IMPRESSION PROFESSIONNEL ===== */
+        /* ===== MODE IMPRESSION OPTIMISÉ POUR UNE SEULE PAGE ===== */
         @media print {
             @page {
                 size: A4;
-                margin: 15mm;
+                margin: 10mm;
             }
             
             body {
                 background: white !important;
                 padding: 0 !important;
                 margin: 0 !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
+                height: 297mm;
             }
             
-            .toolbar, .btn-del, .notification, .btn-back {
+            .toolbar, .btn-del, .notification, .btn-back,
+            .btn-add, .btn-save, .btn-print, .btn-new {
                 display: none !important;
             }
             
@@ -583,105 +650,168 @@
                 padding: 0 !important;
                 margin: 0 !important;
                 display: block !important;
+                height: 297mm;
             }
             
             .page {
-                box-shadow: none !important;
-                border: none !important;
-                margin: 0 !important;
-                padding: 15mm !important;
                 width: 210mm !important;
                 min-height: 297mm !important;
                 height: 297mm !important;
-                page-break-after: always;
-                page-break-inside: avoid;
+                max-height: 297mm !important;
+                padding: 12mm !important;
+                margin: 0 auto !important;
+                box-shadow: none !important;
+                border: 1px solid #ccc !important;
+                page-break-inside: avoid !important;
+                page-break-after: avoid !important;
                 overflow: hidden !important;
                 position: relative;
             }
             
-            /* Masquer les éléments d'interface */
-            .btn-add, .btn-save, .btn-print {
-                display: none !important;
+            /* Réduire les marges pour tout tenir sur une page */
+            .header {
+                margin-bottom: 8px !important;
+                padding-bottom: 5px !important;
             }
             
-            /* Style pour les inputs en mode impression */
-            .client-input, .article-input, .reference-input {
-                border: none !important;
-                background: transparent !important;
-                -webkit-appearance: none;
-                appearance: none;
-                box-shadow: none !important;
-                outline: none !important;
-            }
-            
-            .client-input::placeholder,
-            .article-input::placeholder,
-            .reference-input::placeholder {
-                color: transparent !important;
-            }
-            
-            /* Afficher le contenu des inputs */
-            input[type="text"],
-            input[type="number"],
-            input[type="date"] {
-                border: none !important;
-                background: transparent !important;
-                color: #000 !important;
-                -webkit-text-fill-color: #000 !important;
-            }
-            
-            /* Masquer les boutons de suppression */
-            .btn-del {
-                display: none !important;
-            }
-            
-            /* Supprimer les effets de hover en impression */
-            .articles-table tbody tr:hover {
-                background: transparent !important;
-            }
-            
-            /* Ajustement des tailles pour impression */
             .company-details, .company-details-arabic {
-                font-size: 10.5px !important;
-                line-height: 1.4 !important;
+                font-size: 11px !important;
+                line-height: 1.2 !important;
+            }
+            
+            .company-logo-center {
+                font-size: 26px !important;
+            }
+            
+            .invoice-info {
+                margin: 8px 0 12px 0 !important;
+                padding: 8px 0 !important;
             }
             
             .invoice-title {
                 font-size: 22px !important;
+                margin-bottom: 4px !important;
+            }
+            
+            .client-section, .reference-section {
+                margin: 8px 0 !important;
+                padding: 8px !important;
+            }
+            
+            .client-label, .reference-label {
+                font-size: 12px !important;
+            }
+            
+            .client-input, .reference-input {
+                font-size: 12px !important;
+                height: 35px !important;
+                padding: 8px 10px !important;
+            }
+            
+            .table-section {
+                margin: 12px 0 !important;
             }
             
             .articles-table {
                 font-size: 11px !important;
             }
             
-            .articles-table th,
-            .articles-table td {
-                padding: 6px 5px !important;
-                font-size: 11px !important;
-            }
-            
-            .totals-table {
-                width: 250px !important;
+            .articles-table th {
+                padding: 8px 5px !important;
                 font-size: 12px !important;
             }
             
+            .articles-table td {
+                padding: 5px 3px !important;
+                font-size: 11px !important;
+                height: 35px !important;
+            }
+            
+            .article-input {
+                font-size: 11px !important;
+                height: 30px !important;
+                padding: 4px 3px !important;
+            }
+            
+            .article-input.total {
+                font-size: 11px !important;
+            }
+            
+            .totals-section {
+                margin-top: 12px !important;
+            }
+            
+            .totals-table {
+                width: 240px !important;
+                font-size: 13px !important;
+            }
+            
+            .totals-table td {
+                padding: 8px 12px !important;
+                font-size: 13px !important;
+                height: 40px !important;
+            }
+            
             .livraison-section {
-                margin-top: 25px !important;
+                margin-top: 15px !important;
                 padding: 10px !important;
+                position: absolute;
+                bottom: 12mm;
+                width: calc(100% - 24mm);
             }
             
-            /* Empêcher les coupures de page */
-            .header, .invoice-info, .client-section, .table-section, 
-            .totals-section, .livraison-section, .reference-section {
-                page-break-inside: avoid !important;
-                page-break-after: avoid !important;
+            .livraison-text, .signature-label {
+                font-size: 12px !important;
             }
             
-            /* Limiter le nombre de lignes pour éviter le débordement */
-            .articles-table tbody {
-                max-height: 180mm !important;
-                display: block;
-                overflow: hidden;
+            .signature-label {
+                margin-top: 50px !important;
+            }
+            
+            .date-input-container .date-icon {
+                display: none !important;
+            }
+            
+            .client-input, .reference-input, .article-input {
+                border: none !important;
+                background: transparent !important;
+            }
+            
+            select.article-input.designation {
+                -webkit-appearance: none !important;
+                -moz-appearance: none !important;
+                appearance: none !important;
+                padding-right: 0 !important;
+            }
+            
+            /* Limiter à 8 lignes maximum pour tenir sur une page */
+            #corpsTableau tr:nth-child(n+9) {
+                display: none !important;
+            }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .toolbar {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .client-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .invoice-details {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .articles-table {
+                font-size: 12px;
+            }
+            
+            .article-input {
+                font-size: 12px;
             }
         }
     </style>
@@ -693,6 +823,9 @@
         <button class="btn btn-add" onclick="ajouterLigne()">
             <i class="fas fa-plus"></i> Ajouter Ligne
         </button>
+        <button class="btn btn-new" onclick="nouveauBon()">
+            <i class="fas fa-file"></i> Nouveau Bon de Livraison
+        </button>
     </div>
     <div class="toolbar-center">
         S.M.D.A - Bon de Livraison
@@ -701,7 +834,7 @@
         <button class="btn btn-save" onclick="sauvegarderBon()">
             <i class="fas fa-save"></i> Sauvegarder
         </button>
-        <button class="btn btn-print" onclick="imprimerBonProfessionnel()">
+        <button class="btn btn-print" onclick="imprimerBon()">
             <i class="fas fa-print"></i> Imprimer
         </button>
         <a href="index.html" class="btn btn-back">
@@ -715,9 +848,7 @@
         
         <!-- En-tête société -->
         <div class="header">
-            <!-- Colonne gauche : Français -->
             <div class="company-info-left">
-                <div class="company-logo">S.M.D.A</div>
                 <div class="company-details">
                     Sté MESSAOUDI d'Artisanat Traditionnel<br>
                     Fabrication des Lustres et Lampes Artisanales<br>
@@ -729,12 +860,10 @@
                 </div>
             </div>
             
-            <!-- Colonne centrale : S.M.D.A -->
             <div class="company-logo-center">
                 S.M.D.A
             </div>
             
-            <!-- Colonne droite : Arabe -->
             <div class="company-info-right">
                 <div class="company-details-arabic">
                     شركة المسعودي للصناعات التقليدية<br>
@@ -753,7 +882,12 @@
             <div class="invoice-title">BON DE LIVRAISON</div>
             <div class="invoice-details">
                 <div class="invoice-number">N° : <span id="numDoc">BL-000397</span></div>
-                <div class="invoice-date">Date : <input type="date" class="client-input" id="dateDoc" style="width: 120px;"></div>
+                <div class="invoice-date">Date : 
+                    <div class="date-input-container">
+                        <input type="date" class="client-input" id="dateDoc">
+                        <i class="fas fa-calendar-alt date-icon"></i>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -788,10 +922,11 @@
             <table class="articles-table">
                 <thead>
                     <tr>
-                        <th width="50%">DÉSIGNATION</th>
-                        <th width="15%">QUANTITÉ</th>
-                        <th width="20%">PRIX UNITAIRE</th>
-                        <th width="15%">TOTAL</th>
+                        <th>DÉSIGNATION</th>
+                        <th>QUANTITÉ</th>
+                        <th>PRIX UNITAIRE</th>
+                        <th>TOTAL</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody id="corpsTableau">
@@ -838,16 +973,35 @@
     let compteurLignes = 0;
     let bonActuel = null;
 
-    // Initialisation
+    // Initialisation - MODIFIÉ pour ne pas réinitialiser au refresh
     document.addEventListener('DOMContentLoaded', function() {
-        initialiserBon();
-        chargerBonSauvegarde();
+        // D'abord vérifier si un brouillon existe
+        const brouillon = localStorage.getItem('bonBrouillon');
+        
+        if (brouillon) {
+            // Charger le brouillon existant
+            chargerBonSauvegarde();
+        } else {
+            // Initialiser un nouveau bon
+            initialiserBon();
+        }
+        
         mettreAJourInterface();
+        chargerProduitsDansSelect();
+        calculer();
     });
 
-    // Initialiser le bon
+    // Initialiser le bon - MODIFIÉ pour ne pas réinitialiser au refresh
     function initialiserBon() {
-        // Générer numéro de bon
+        // Vérifier d'abord si un brouillon existe
+        const brouillon = localStorage.getItem('bonBrouillon');
+        
+        if (brouillon) {
+            // Un brouillon existe, on ne fait rien ici
+            return;
+        }
+        
+        // Générer numéro de bon seulement si pas de brouillon
         let dernierNumero = parseInt(localStorage.getItem('dernierNumeroBon') || '397');
         let nouveauNumero = dernierNumero + 1;
         document.getElementById('numDoc').textContent = 'BL-' + nouveauNumero.toString().padStart(6, '0');
@@ -888,7 +1042,7 @@
         ajouterLigne();
     }
 
-    // Ajouter une ligne
+    // Fonction ajouterLigne
     function ajouterLigne() {
         compteurLignes++;
         const ligneId = `ligne-${compteurLignes}`;
@@ -896,27 +1050,31 @@
         const ligne = document.createElement('tr');
         ligne.className = 'ligne-article';
         ligne.dataset.id = ligneId;
+        
         ligne.innerHTML = `
             <td>
-                <input type="text" class="article-input designation" 
-                       placeholder="Description de l'article"
-                       oninput="mettreAJourArticle('${ligneId}')">
+                <select class="article-input designation" 
+                        onchange="mettreAJourProduit('${ligneId}')"
+                        data-ligne="${ligneId}"
+                        title="Sélectionner un produit">
+                    <option value="">-- Choisir produit --</option>
+                </select>
             </td>
             <td>
                 <input type="number" class="article-input qte" 
                        min="0" step="0.001" value="1"
-                       oninput="mettreAJourArticle('${ligneId}')">
+                       oninput="calculerLigne('${ligneId}')">
             </td>
             <td>
                 <input type="number" class="article-input pu" 
-                       min="0" step="0.001" value="0.000"
-                       oninput="mettreAJourArticle('${ligneId}')">
+                       readonly
+                       data-produit-prix>
             </td>
             <td>
                 <input type="text" class="article-input total" value="0.000" readonly>
             </td>
             <td>
-                <button type="button" class="btn-del" onclick="supprimerLigne('${ligneId}')">
+                <button type="button" class="btn-del" onclick="supprimerLigne('${ligneId}')" title="Supprimer">
                     <i class="fas fa-times"></i>
                 </button>
             </td>
@@ -927,46 +1085,165 @@
         // Ajouter aux articles
         bonActuel.articles.push({
             id: ligneId,
+            codeProduit: '',
             designation: '',
             quantite: 1,
             prixUnitaire: 0,
-            total: 0
+            totalHT: 0,
+            stockOk: false
         });
         
-        // Focus sur la description
+        // Charger les produits dans le select
         setTimeout(() => {
+            chargerProduitsDansSelect();
             ligne.querySelector('.designation').focus();
         }, 100);
         
         afficherNotification('Nouvelle ligne ajoutée', 'info');
     }
 
-    // Mettre à jour un article
-    function mettreAJourArticle(ligneId) {
+    // Charger les produits dans les selects
+    function chargerProduitsDansSelect() {
+        const stock = JSON.parse(localStorage.getItem('stock') || '[]');
+        const produitsDisponibles = stock.filter(p => p.quantite > 0);
+        
+        document.querySelectorAll('select.article-input.designation').forEach(select => {
+            const ligneId = select.getAttribute('data-ligne');
+            const currentValue = select.value;
+            
+            let selectedOption = null;
+            if (currentValue) {
+                selectedOption = Array.from(select.options).find(opt => opt.value === currentValue);
+            }
+            
+            select.innerHTML = '<option value="">-- Choisir produit --</option>';
+            
+            produitsDisponibles.forEach(produit => {
+                const option = document.createElement('option');
+                option.value = produit.code;
+                option.textContent = `${produit.code} - ${produit.designation}`;
+                option.title = `${produit.designation} - ${(produit.prixVente || 0).toFixed(3)} TND (Stock: ${produit.quantite})`;
+                option.dataset.prix = produit.prixVente || 0;
+                option.dataset.tva = produit.tva || 7;
+                option.dataset.designation = produit.designation;
+                option.dataset.stock = produit.quantite;
+                select.appendChild(option);
+            });
+            
+            if (selectedOption && produitsDisponibles.some(p => p.code === currentValue)) {
+                select.value = currentValue;
+                setTimeout(() => mettreAJourProduit(ligneId), 50);
+            }
+        });
+    }
+
+    // Mettre à jour un produit sélectionné
+    function mettreAJourProduit(ligneId) {
         const ligne = document.querySelector(`tr[data-id="${ligneId}"]`);
         if (!ligne) return;
         
-        const designation = ligne.querySelector('.designation').value;
-        const quantite = parseFloat(ligne.querySelector('.qte').value) || 0;
-        const prix = parseFloat(ligne.querySelector('.pu').value) || 0;
-        const total = quantite * prix;
+        const select = ligne.querySelector('.designation');
+        const prixInput = ligne.querySelector('.pu');
+        const totalInput = ligne.querySelector('.total');
+        const quantiteInput = ligne.querySelector('.qte');
+        const selectedOption = select.options[select.selectedIndex];
         
-        ligne.querySelector('.total').value = total.toFixed(3);
-        
-        // Mettre à jour dans bonActuel
-        const articleIndex = bonActuel.articles.findIndex(a => a.id === ligneId);
-        if (articleIndex !== -1) {
-            bonActuel.articles[articleIndex] = {
-                id: ligneId,
-                designation: designation,
-                quantite: quantite,
-                prixUnitaire: prix,
-                total: total
-            };
+        if (selectedOption.value) {
+            const prix = parseFloat(selectedOption.dataset.prix) || 0;
+            prixInput.value = prix.toFixed(3);
+            
+            const quantite = parseFloat(quantiteInput.value) || 0;
+            const total = quantite * prix;
+            totalInput.value = total.toFixed(3);
+            
+            const articleIndex = bonActuel.articles.findIndex(a => a.id === ligneId);
+            if (articleIndex !== -1) {
+                bonActuel.articles[articleIndex].codeProduit = selectedOption.value;
+                bonActuel.articles[articleIndex].designation = selectedOption.dataset.designation || '';
+                bonActuel.articles[articleIndex].prixUnitaire = prix;
+                bonActuel.articles[articleIndex].totalHT = total;
+            }
+            
+            verifierStockLigne(ligneId);
+        } else {
+            prixInput.value = '0.000';
+            totalInput.value = '0.000';
+            
+            const articleIndex = bonActuel.articles.findIndex(a => a.id === ligneId);
+            if (articleIndex !== -1) {
+                bonActuel.articles[articleIndex].codeProduit = '';
+                bonActuel.articles[articleIndex].designation = '';
+                bonActuel.articles[articleIndex].prixUnitaire = 0;
+                bonActuel.articles[articleIndex].totalHT = 0;
+            }
         }
         
         calculer();
         sauvegarderBrouillon();
+    }
+
+    // Calculer une ligne
+    function calculerLigne(ligneId) {
+        const ligne = document.querySelector(`tr[data-id="${ligneId}"]`);
+        if (!ligne) return;
+        
+        const prix = parseFloat(ligne.querySelector('.pu').value) || 0;
+        const quantite = parseFloat(ligne.querySelector('.qte').value) || 0;
+        const total = quantite * prix;
+        
+        ligne.querySelector('.total').value = total.toFixed(3);
+        
+        const articleIndex = bonActuel.articles.findIndex(a => a.id === ligneId);
+        if (articleIndex !== -1) {
+            bonActuel.articles[articleIndex].quantite = quantite;
+            bonActuel.articles[articleIndex].totalHT = total;
+        }
+        
+        verifierStockLigne(ligneId);
+        calculer();
+        sauvegarderBrouillon();
+    }
+
+    // Vérifier le stock pour une ligne
+    function verifierStockLigne(ligneId) {
+        const ligne = document.querySelector(`tr[data-id="${ligneId}"]`);
+        if (!ligne) return;
+        
+        const select = ligne.querySelector('.designation');
+        const quantiteInput = ligne.querySelector('.qte');
+        const codeProduit = select.value;
+        const quantite = parseFloat(quantiteInput.value) || 0;
+        
+        if (!codeProduit) {
+            quantiteInput.style.borderColor = '';
+            return;
+        }
+        
+        const stock = JSON.parse(localStorage.getItem('stock') || '[]');
+        const produit = stock.find(p => p.code === codeProduit);
+        
+        if (!produit) {
+            quantiteInput.style.borderColor = '#e74c3c';
+            const articleIndex = bonActuel.articles.findIndex(a => a.id === ligneId);
+            if (articleIndex !== -1) {
+                bonActuel.articles[articleIndex].stockOk = false;
+            }
+            return;
+        }
+        
+        if (quantite > produit.quantite) {
+            quantiteInput.style.borderColor = '#e74c3c';
+            const articleIndex = bonActuel.articles.findIndex(a => a.id === ligneId);
+            if (articleIndex !== -1) {
+                bonActuel.articles[articleIndex].stockOk = false;
+            }
+        } else {
+            quantiteInput.style.borderColor = '#27ae60';
+            const articleIndex = bonActuel.articles.findIndex(a => a.id === ligneId);
+            if (articleIndex !== -1) {
+                bonActuel.articles[articleIndex].stockOk = true;
+            }
+        }
     }
 
     // Supprimer une ligne
@@ -974,15 +1251,12 @@
         const ligne = document.querySelector(`tr[data-id="${ligneId}"]`);
         if (!ligne) return;
         
-        // Vérifier qu'il reste au moins une ligne
         if (document.querySelectorAll('.ligne-article').length <= 1) {
             afficherNotification('Au moins une ligne est requise', 'error');
             return;
         }
         
         ligne.remove();
-        
-        // Supprimer de bonActuel
         bonActuel.articles = bonActuel.articles.filter(a => a.id !== ligneId);
         
         calculer();
@@ -994,42 +1268,44 @@
     function calculer() {
         let totalHT = 0;
         
-        // Calculer total HT
         bonActuel.articles.forEach(article => {
-            totalHT += article.total || 0;
+            totalHT += article.totalHT || 0;
         });
         
         const tva = totalHT * 0.07;
         const totalTTC = totalHT + tva;
         
-        // Mettre à jour l'objet
         bonActuel.totalHT = totalHT;
         bonActuel.tva = tva;
         bonActuel.totalTTC = totalTTC;
         bonActuel.updatedAt = new Date().toISOString();
         
-        // Mettre à jour l'interface
         document.getElementById('totalHT').textContent = totalHT.toFixed(3);
         document.getElementById('tva').textContent = tva.toFixed(3);
         document.getElementById('ttc').textContent = totalTTC.toFixed(3);
-        
-        // Sauvegarder automatiquement
-        sauvegarderBrouillon();
     }
 
     // Sauvegarder le brouillon
     function sauvegarderBrouillon() {
-        // Mettre à jour les infos client
+        if (!bonActuel) return false;
+        
         bonActuel.clientNom = document.getElementById('clientName').value;
         bonActuel.clientAdresse = document.getElementById('clientAddress').value;
         bonActuel.clientPhone = document.getElementById('clientPhone').value;
         bonActuel.refFacture = document.getElementById('refFacture').value;
         
-        // Sauvegarder dans localStorage
+        // Mettre à jour la date
+        const dateInput = document.getElementById('dateDoc').value;
+        if (dateInput) {
+            const [annee, mois, jour] = dateInput.split('-');
+            bonActuel.date = `${jour}/${mois}/${annee}`;
+        }
+        
         localStorage.setItem('bonBrouillon', JSON.stringify(bonActuel));
+        return true;
     }
 
-    // Charger le brouillon
+    // Charger le brouillon sauvegardé
     function chargerBonSauvegarde() {
         const brouillon = localStorage.getItem('bonBrouillon');
         if (!brouillon) return;
@@ -1037,10 +1313,8 @@
         try {
             bonActuel = JSON.parse(brouillon);
             
-            // Mettre à jour l'interface
             document.getElementById('numDoc').textContent = bonActuel.numero;
             
-            // Formater la date pour l'input date
             if (bonActuel.date) {
                 const [jour, mois, annee] = bonActuel.date.split('/');
                 document.getElementById('dateDoc').value = `${annee}-${mois.padStart(2, '0')}-${jour.padStart(2, '0')}`;
@@ -1051,7 +1325,6 @@
             document.getElementById('clientPhone').value = bonActuel.clientPhone || '';
             document.getElementById('refFacture').value = bonActuel.refFacture || '';
             
-            // Charger les articles
             const tbody = document.getElementById('corpsTableau');
             tbody.innerHTML = '';
             compteurLignes = 0;
@@ -1061,25 +1334,28 @@
                 const ligne = document.createElement('tr');
                 ligne.className = 'ligne-article';
                 ligne.dataset.id = article.id;
+                
                 ligne.innerHTML = `
                     <td>
-                        <input type="text" class="article-input designation" 
-                               value="${article.designation || ''}"
-                               oninput="mettreAJourArticle('${article.id}')">
+                        <select class="article-input designation" 
+                                onchange="mettreAJourProduit('${article.id}')"
+                                data-ligne="${article.id}">
+                            <option value="">-- Choisir produit --</option>
+                        </select>
                     </td>
                     <td>
                         <input type="number" class="article-input qte" 
                                value="${article.quantite || 1}"
-                               oninput="mettreAJourArticle('${article.id}')">
+                               oninput="calculerLigne('${article.id}')">
                     </td>
                     <td>
                         <input type="number" class="article-input pu" 
                                value="${article.prixUnitaire || 0}"
-                               oninput="mettreAJourArticle('${article.id}')">
+                               readonly>
                     </td>
                     <td>
                         <input type="text" class="article-input total" 
-                               value="${article.total ? article.total.toFixed(3) : '0.000'}" 
+                               value="${article.totalHT ? article.totalHT.toFixed(3) : '0.000'}" 
                                readonly>
                     </td>
                     <td>
@@ -1091,21 +1367,38 @@
                 tbody.appendChild(ligne);
             });
             
-            // Ajouter une ligne si vide
             if (bonActuel.articles.length === 0) {
                 ajouterLigneInitiale();
+            } else {
+                setTimeout(() => {
+                    chargerProduitsDansSelect();
+                    bonActuel.articles.forEach(article => {
+                        if (article.codeProduit) {
+                            const select = document.querySelector(`select[data-ligne="${article.id}"]`);
+                            if (select) {
+                                select.value = article.codeProduit;
+                                setTimeout(() => mettreAJourProduit(article.id), 100);
+                            }
+                        }
+                    });
+                    calculer();
+                }, 200);
             }
             
-            calculer();
-            afficherNotification('Brouillon chargé avec succès', 'success');
+            afficherNotification('Brouillon chargé', 'success');
         } catch (error) {
             console.error('Erreur de chargement:', error);
-            afficherNotification('Erreur de chargement du brouillon', 'error');
+            initialiserBon();
         }
     }
 
-    // Sauvegarder le bon
+    // FONCTION SAUVEGARDER BON
     function sauvegarderBon() {
+        if (!bonActuel) {
+            afficherNotification('Erreur: bon non initialisé', 'error');
+            return false;
+        }
+        
         // Validation
         if (!bonActuel.clientNom || bonActuel.clientNom.trim() === '') {
             afficherNotification('Veuillez saisir le nom du client', 'error');
@@ -1113,27 +1406,63 @@
             return false;
         }
         
-        if (bonActuel.articles.length === 0 || bonActuel.totalTTC <= 0) {
+        if (bonActuel.articles.length === 0) {
             afficherNotification('Ajoutez au moins un article', 'error');
             return false;
         }
         
-        // Changer le statut
+        // Vérifier que tous les articles ont un produit sélectionné
+        const articlesInvalides = bonActuel.articles.filter(a => !a.codeProduit || a.prixUnitaire <= 0);
+        if (articlesInvalides.length > 0) {
+            afficherNotification('Certains articles sont incomplets', 'error');
+            return false;
+        }
+        
+        // Vérifier le stock
+        const stock = JSON.parse(localStorage.getItem('stock') || '[]');
+        let stockInsuffisant = false;
+        
+        bonActuel.articles.forEach(article => {
+            if (article.codeProduit && article.quantite) {
+                const produit = stock.find(p => p.code === article.codeProduit);
+                if (produit && article.quantite > produit.quantite) {
+                    stockInsuffisant = true;
+                }
+            }
+        });
+        
+        if (stockInsuffisant) {
+            afficherNotification('Stock insuffisant pour certains produits', 'error');
+            return false;
+        }
+        
+        // Mettre à jour le stock
+        bonActuel.articles.forEach(article => {
+            if (article.codeProduit && article.quantite) {
+                const produitIndex = stock.findIndex(p => p.code === article.codeProduit);
+                if (produitIndex !== -1) {
+                    stock[produitIndex].quantite -= article.quantite;
+                    if (stock[produitIndex].quantite < 0) stock[produitIndex].quantite = 0;
+                }
+            }
+        });
+        
+        localStorage.setItem('stock', JSON.stringify(stock));
+        
+        // Marquer comme livré
         bonActuel.statut = 'livre';
         bonActuel.dateLivraison = new Date().toISOString();
         
-        // Récupérer l'historique global
+        // Sauvegarder dans l'historique
         let historique = JSON.parse(localStorage.getItem('historique_global') || '[]');
-        
-        // Vérifier si existe déjà
         const index = historique.findIndex(b => b.id === bonActuel.id);
+        
         if (index !== -1) {
             historique[index] = bonActuel;
         } else {
             historique.push(bonActuel);
         }
         
-        // Sauvegarder
         localStorage.setItem('historique_global', JSON.stringify(historique));
         
         // Mettre à jour le dernier numéro
@@ -1143,72 +1472,94 @@
         // Effacer le brouillon
         localStorage.removeItem('bonBrouillon');
         
-        afficherNotification('Bon de livraison sauvegardé dans l\'historique avec succès !', 'success');
+        afficherNotification('Bon de livraison sauvegardé avec succès !', 'success');
+        
+        // Générer un nouveau bon
+        setTimeout(() => {
+            initialiserBon();
+        }, 1500);
         
         return true;
     }
 
-    // Imprimer le bon
-    function imprimerBonProfessionnel() {
+    // FONCTION IMPRIMER
+    function imprimerBon() {
+        if (!bonActuel) {
+            afficherNotification('Erreur: bon non initialisé', 'error');
+            return;
+        }
+        
         if (!bonActuel.clientNom || bonActuel.clientNom.trim() === '') {
             afficherNotification('Veuillez saisir le nom du client', 'error');
             document.getElementById('clientName').focus();
             return;
         }
         
-        if (sauvegarderBon()) {
-            setTimeout(() => {
-                afficherNotification('Impression en cours...', 'info');
-                setTimeout(() => {
-                    window.print();
-                }, 500);
-            }, 1000);
+        if (bonActuel.articles.length === 0) {
+            afficherNotification('Ajoutez au moins un article', 'error');
+            return;
+        }
+        
+        // Sauvegarder d'abord le brouillon
+        sauvegarderBrouillon();
+        
+        afficherNotification('Préparation de l\'impression...', 'info');
+        
+        setTimeout(() => {
+            window.print();
+        }, 500);
+    }
+
+    // Fonction pour effacer le brouillon et recommencer
+    function nouveauBon() {
+        if (confirm('Voulez-vous créer un nouveau bon? Les données non sauvegardées seront perdues.')) {
+            localStorage.removeItem('bonBrouillon');
+            location.reload();
         }
     }
 
     // Mettre à jour l'interface
     function mettreAJourInterface() {
-        // Mettre à jour la date dans un format français
-        const dateInput = document.getElementById('dateDoc');
-        dateInput.addEventListener('change', function() {
-            const date = new Date(this.value);
-            const jour = date.getDate().toString().padStart(2, '0');
-            const mois = (date.getMonth() + 1).toString().padStart(2, '0');
-            const annee = date.getFullYear();
-            bonActuel.date = `${jour}/${mois}/${annee}`;
-            sauvegarderBrouillon();
+        // Sauvegarder automatiquement quand les champs changent
+        const inputs = document.querySelectorAll('#clientName, #clientAddress, #clientPhone, #refFacture, #dateDoc');
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                sauvegarderBrouillon();
+            });
+            input.addEventListener('change', () => {
+                sauvegarderBrouillon();
+            });
         });
         
         // Auto-save toutes les 30 secondes
         setInterval(() => {
-            if (bonActuel.clientNom) {
+            if (bonActuel && bonActuel.clientName) {
                 sauvegarderBrouillon();
             }
         }, 30000);
         
         // Raccourcis clavier
         document.addEventListener('keydown', function(e) {
-            // Ctrl + S pour sauvegarder
             if (e.ctrlKey && e.key === 's') {
                 e.preventDefault();
                 sauvegarderBon();
             }
-            
-            // Ctrl + P pour imprimer
             if (e.ctrlKey && e.key === 'p') {
                 e.preventDefault();
-                imprimerBonProfessionnel();
+                imprimerBon();
             }
-            
-            // Ctrl + N pour nouvelle ligne
             if (e.ctrlKey && e.key === 'n') {
                 e.preventDefault();
                 ajouterLigne();
             }
+            if (e.ctrlKey && e.key === 'N' && e.shiftKey) {
+                e.preventDefault();
+                nouveauBon();
+            }
         });
     }
 
-    // Fonctions utilitaires
+    // Afficher notification
     function afficherNotification(message, type = 'info') {
         const notification = document.createElement('div');
         notification.className = `notification ${type}`;
@@ -1224,17 +1575,11 @@
         
         document.body.appendChild(notification);
         
-        // Supprimer les anciennes notifications
-        const anciennesNotifs = document.querySelectorAll('.notification');
-        if (anciennesNotifs.length > 3) {
-            anciennesNotifs[0].remove();
-        }
-        
         setTimeout(() => {
             if (notification.parentElement) {
                 notification.remove();
             }
-        }, 4000);
+        }, 3000);
     }
 
     // Initialiser le calcul

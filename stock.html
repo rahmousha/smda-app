@@ -24,12 +24,12 @@
         }
         
         .stock-title h1 {
-            color: #2c3e50;
+            color: #ffffff;
             font-size: 32px;
         }
         
         .stock-title p {
-            color: #666;
+            color: #fff8f8;
         }
         
         .stock-controls {
@@ -470,6 +470,11 @@
                     <textarea class="form-input" id="productDescription" rows="3"></textarea>
                 </div>
                 
+                <div class="form-group">
+                    <label class="form-label">TVA (%)</label>
+                    <input type="number" class="form-input" id="productTVA" value="7" min="0" max="100" step="0.1">
+                </div>
+
                 <div class="form-actions">
                     <button type="button" class="btn btn-secondary" onclick="fermerModal()" style="flex: 1;">
                         Annuler
@@ -479,6 +484,7 @@
                     </button>
                 </div>
             </form>
+                
         </div>
     </div>
 
@@ -812,6 +818,7 @@
             const code = document.getElementById('productCode').value.trim();
             const nom = document.getElementById('productName').value.trim();
             
+            
             if (!code || !nom) {
                 afficherNotification('Le code et la désignation sont obligatoires', 'error');
                 return;
@@ -835,6 +842,7 @@
                 prixAchat: parseFloat(document.getElementById('productPrixAchat').value) || 0,
                 prixVente: parseFloat(document.getElementById('productPrixVente').value) || 0,
                 seuilAlerte: parseInt(document.getElementById('productSeuilAlerte').value) || 5,
+                tva: parseFloat(document.getElementById('productTVA').value) || 7,
                 emplacement: document.getElementById('productEmplacement').value.trim(),
                 description: document.getElementById('productDescription').value.trim(),
                 dateCreation: productEnEdition ? productEnEdition.dateCreation : new Date().toISOString(),

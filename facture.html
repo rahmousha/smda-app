@@ -134,13 +134,14 @@
 
         /* Colonne gauche : Français */
         .company-info-left {
-            width: 38%;
+            width: 50%;
             text-align: left;
+            
         }
 
         /* Colonne centrale : S.M.D.A */
         .company-logo-center {
-            width: 24%;
+            width: 18%;
             text-align: center;
             font-size: 32px;
             font-weight: 900;
@@ -150,7 +151,7 @@
 
         /* Colonne droite : Arabe */
         .company-info-right {
-            width: 38%;
+            width: 40%;
             text-align: right;
             direction: rtl;
         }
@@ -163,15 +164,17 @@
         }
 
         .company-details {
-            font-size: 11.5px;
+            font-size: 13.5px;
             line-height: 1.5;
             color: #15087a;
+            font-weight: 600;
         }
 
         .company-details-arabic {
-            font-size: 12.5px;
+            font-size: 16px;
             line-height: 1.5;
             color: #15087a;
+            font-weight: 600;
         }
 
         .invoice-info {
@@ -377,7 +380,7 @@
 
         .total-ttc-row {
             background: #861e1e;
-              color: #fffdfd;
+              color: #000000;
         }
 
         .total-ttc-row td {
@@ -574,7 +577,7 @@
         @media print {
             @page {
                 size: A4;
-                margin: 15mm; /* Réduction des marges pour économiser l'espace */
+                margin: 0mm; /* Réduction des marges pour économiser l'espace */
             }
             
             body {
@@ -596,18 +599,17 @@
             }
             
             .page {
-                box-shadow: none !important;
-                border: none !important;
-                margin: 0 !important;
-                padding: 15mm !important; /* Réduction du padding */
-                width: 210mm !important;
-                min-height: 297mm !important;
-                height: 297mm !important;
-                page-break-after: always;
-                page-break-inside: avoid;
-                overflow: hidden !important;
+                width: 210mm;
+                min-height: 297mm;
+                background: white;
+                padding: 20mm;
                 position: relative;
+                margin: 0 auto;
+                box-shadow: 0 0 20px rgba(0,0,0,0.1);
+                border: 1px solid #ddd;
+                overflow: hidden;
             }
+            
             
             /* Masquer les éléments d'interface */
             .btn-add, .btn-save, .btn-print {
@@ -874,6 +876,8 @@
         initialiserFacture();
         chargerFactureSauvegardee();
         mettreAJourInterface();
+        // Charger les produits au démarrage
+        chargerProduitsDansSelect();
     });
 
     // Initialiser la facture
@@ -919,7 +923,7 @@
         ajouterLigne();
     }
 
-    // Ajouter une ligne
+    // NOUVELLE FONCTION ajouterLigne avec sélection de produit
     function ajouterLigne() {
         compteurLignes++;
         const ligneId = `ligne-${compteurLignes}`;
@@ -927,21 +931,25 @@
         const ligne = document.createElement('tr');
         ligne.className = 'ligne-article';
         ligne.dataset.id = ligneId;
+        
         ligne.innerHTML = `
             <td>
-                <input type="text" class="article-input designation" 
-                       placeholder="Description de l'article"
-                       oninput="mettreAJourArticle('${ligneId}')">
+                <select class="article-input designation" 
+                        onchange="mettreAJourProduit('${ligneId}')"
+                        data-ligne="${ligneId}">
+                    <option value="">-- Sélectionner un produit --</option>
+                    <!-- Les options seront ajoutées dynamiquement -->
+                </select>
             </td>
             <td>
                 <input type="number" class="article-input qte" 
                        min="0" step="0.001" value="1"
-                       oninput="mettreAJourArticle('${ligneId}')">
+                       oninput="verifierStockLigne('${ligneId}')">
             </td>
             <td>
                 <input type="number" class="article-input pu" 
-                       min="0" step="0.001" value="0.000"
-                       oninput="mettreAJourArticle('${ligneId}')">
+                       readonly
+                       data-produit-prix>
             </td>
             <td>
                 <input type="text" class="article-input total" value="0.000" readonly>
@@ -958,49 +966,189 @@
         // Ajouter aux articles
         factureActuelle.articles.push({
             id: ligneId,
+            codeProduit: '',
             designation: '',
             quantite: 1,
             prixUnitaire: 0,
-            total: 0
+            totalHT: 0,
+            stockOk: false
         });
         
-        // Focus sur la description
+        // Charger les produits dans le select
         setTimeout(() => {
+            chargerProduitsDansSelect();
+            // Focus sur le select
             ligne.querySelector('.designation').focus();
         }, 100);
         
         afficherNotification('Nouvelle ligne ajoutée', 'info');
     }
 
-    // Mettre à jour un article
-    function mettreAJourArticle(ligneId) {
+    // NOUVELLE FONCTION : Charger les produits dans les selects
+    // Dans facture.html, modifiez chargerProduitsDansSelect
+function chargerProduitsDansSelect() {
+    console.log('Chargement des produits depuis le stock...');
+    
+    // Charger les produits du stock
+    const stock = JSON.parse(localStorage.getItem('stock') || '[]');
+    const produitsDisponibles = stock.filter(p => p.quantite > 0);
+    
+    console.log(`${produitsDisponibles.length} produits disponibles`);
+    
+    // Pour chaque select de produit
+    document.querySelectorAll('select.article-input.designation').forEach(select => {
+        const ligneId = select.getAttribute('data-ligne');
+        const currentValue = select.value;
+        
+        // Sauvegarder l'option sélectionnée si elle existe
+        let selectedOption = null;
+        if (currentValue) {
+            selectedOption = Array.from(select.options).find(opt => opt.value === currentValue);
+        }
+        
+        // Vider et remplir avec les produits
+        select.innerHTML = '<option value="">-- Sélectionner un produit --</option>';
+        
+        produitsDisponibles.forEach(produit => {
+            const option = document.createElement('option');
+            option.value = produit.code;
+            option.textContent = `${produit.code} - ${produit.designation} (${(produit.prixVente || 0).toFixed(3)} TND)`;
+            option.dataset.prix = produit.prixVente || 0;
+            option.dataset.tva = produit.tva || 7;
+            option.dataset.designation = produit.designation;
+            select.appendChild(option);
+        });
+        
+        // Restaurer la sélection précédente si elle existe toujours
+        if (selectedOption && produitsDisponibles.some(p => p.code === currentValue)) {
+            select.value = currentValue;
+            // Mettre à jour le produit
+            setTimeout(() => mettreAJourProduit(ligneId), 50);
+        }
+    });
+    
+    // Afficher un message si aucun produit
+    if (produitsDisponibles.length === 0) {
+        console.warn('Aucun produit en stock');
+    }
+}
+
+    // NOUVELLE FONCTION : Mettre à jour un produit sélectionné
+    function mettreAJourProduit(ligneId) {
         const ligne = document.querySelector(`tr[data-id="${ligneId}"]`);
         if (!ligne) return;
         
-        const designation = ligne.querySelector('.designation').value;
-        const quantite = parseFloat(ligne.querySelector('.qte').value) || 0;
+        const select = ligne.querySelector('.designation');
+        const prixInput = ligne.querySelector('.pu');
+        const totalInput = ligne.querySelector('.total');
+        const quantiteInput = ligne.querySelector('.qte');
+        const selectedOption = select.options[select.selectedIndex];
+        
+        if (selectedOption.value) {
+            // Remplir automatiquement le prix
+            const prix = parseFloat(selectedOption.dataset.prix) || 0;
+            prixInput.value = prix.toFixed(3);
+            
+            // Calculer le total avec la quantité actuelle
+            const quantite = parseFloat(quantiteInput.value) || 0;
+            const total = quantite * prix;
+            totalInput.value = total.toFixed(3);
+            
+            // Mettre à jour dans factureActuelle
+            const articleIndex = factureActuelle.articles.findIndex(a => a.id === ligneId);
+            if (articleIndex !== -1) {
+                factureActuelle.articles[articleIndex].codeProduit = selectedOption.value;
+                factureActuelle.articles[articleIndex].designation = selectedOption.dataset.designation || '';
+                factureActuelle.articles[articleIndex].prixUnitaire = prix;
+                factureActuelle.articles[articleIndex].totalHT = total;
+            }
+            
+            // Vérifier le stock pour la quantité actuelle
+            verifierStockLigne(ligneId);
+        } else {
+            // Si aucun produit sélectionné
+            prixInput.value = '0.000';
+            totalInput.value = '0.000';
+            
+            const articleIndex = factureActuelle.articles.findIndex(a => a.id === ligneId);
+            if (articleIndex !== -1) {
+                factureActuelle.articles[articleIndex].codeProduit = '';
+                factureActuelle.articles[articleIndex].designation = '';
+                factureActuelle.articles[articleIndex].prixUnitaire = 0;
+                factureActuelle.articles[articleIndex].totalHT = 0;
+            }
+        }
+        
+        // Recalculer les totaux
+        calculer();
+        sauvegarderBrouillon();
+    }
+
+    // NOUVELLE FONCTION : Vérifier le stock pour une ligne
+    function verifierStockLigne(ligneId) {
+        const ligne = document.querySelector(`tr[data-id="${ligneId}"]`);
+        if (!ligne) return;
+        
+        const select = ligne.querySelector('.designation');
+        const quantiteInput = ligne.querySelector('.qte');
+        const codeProduit = select.value;
+        const quantite = parseFloat(quantiteInput.value) || 0;
+        
+        if (!codeProduit) {
+            quantiteInput.style.borderColor = '';
+            return;
+        }
+        
+        // Charger le stock
+        const stock = JSON.parse(localStorage.getItem('stock') || '[]');
+        const produit = stock.find(p => p.code === codeProduit);
+        
+        if (!produit) {
+            afficherNotification('Produit inexistant dans le stock', 'error');
+            quantiteInput.style.borderColor = '#e74c3c';
+            
+            const articleIndex = factureActuelle.articles.findIndex(a => a.id === ligneId);
+            if (articleIndex !== -1) {
+                factureActuelle.articles[articleIndex].stockOk = false;
+            }
+            return;
+        }
+        
+        if (quantite > produit.quantite) {
+            afficherNotification(`Stock insuffisant pour ${produit.designation}. Disponible: ${produit.quantite}, Demandé: ${quantite}`, 'error');
+            quantiteInput.style.borderColor = '#e74c3c';
+            
+            const articleIndex = factureActuelle.articles.findIndex(a => a.id === ligneId);
+            if (articleIndex !== -1) {
+                factureActuelle.articles[articleIndex].stockOk = false;
+            }
+        } else {
+            quantiteInput.style.borderColor = '';
+            
+            const articleIndex = factureActuelle.articles.findIndex(a => a.id === ligneId);
+            if (articleIndex !== -1) {
+                factureActuelle.articles[articleIndex].stockOk = true;
+            }
+        }
+        
+        // Recalculer le total de la ligne
         const prix = parseFloat(ligne.querySelector('.pu').value) || 0;
         const total = quantite * prix;
-        
         ligne.querySelector('.total').value = total.toFixed(3);
         
         // Mettre à jour dans factureActuelle
         const articleIndex = factureActuelle.articles.findIndex(a => a.id === ligneId);
         if (articleIndex !== -1) {
-            factureActuelle.articles[articleIndex] = {
-                id: ligneId,
-                designation: designation,
-                quantite: quantite,
-                prixUnitaire: prix,
-                total: total
-            };
+            factureActuelle.articles[articleIndex].quantite = quantite;
+            factureActuelle.articles[articleIndex].totalHT = total;
         }
         
+        // Recalculer les totaux
         calculer();
         sauvegarderBrouillon();
     }
 
-    // Supprimer une ligne
+    // MODIFIER la fonction de suppression de ligne
     function supprimerLigne(ligneId) {
         const ligne = document.querySelector(`tr[data-id="${ligneId}"]`);
         if (!ligne) return;
@@ -1069,7 +1217,7 @@
         
         // Calculer total HT
         factureActuelle.articles.forEach(article => {
-            totalHT += article.total || 0;
+            totalHT += article.totalHT || 0;
         });
         
         const tva = totalHT * 0.07;
@@ -1127,7 +1275,7 @@
         localStorage.setItem('factureBrouillon', JSON.stringify(factureActuelle));
     }
 
-    // Charger le brouillon
+    // Charger le brouillon (MODIFIÉ)
     function chargerFactureSauvegardee() {
         const brouillon = localStorage.getItem('factureBrouillon');
         if (!brouillon) return;
@@ -1158,25 +1306,29 @@
                 const ligne = document.createElement('tr');
                 ligne.className = 'ligne-article';
                 ligne.dataset.id = article.id;
+                
                 ligne.innerHTML = `
                     <td>
-                        <input type="text" class="article-input designation" 
-                               value="${article.designation || ''}"
-                               oninput="mettreAJourArticle('${article.id}')">
+                        <select class="article-input designation" 
+                                onchange="mettreAJourProduit('${article.id}')"
+                                data-ligne="${article.id}">
+                            <option value="">-- Sélectionner un produit --</option>
+                        </select>
                     </td>
                     <td>
                         <input type="number" class="article-input qte" 
                                value="${article.quantite || 1}"
-                               oninput="mettreAJourArticle('${article.id}')">
+                               oninput="verifierStockLigne('${article.id}')">
                     </td>
                     <td>
                         <input type="number" class="article-input pu" 
                                value="${article.prixUnitaire || 0}"
-                               oninput="mettreAJourArticle('${article.id}')">
+                               readonly
+                               data-produit-prix>
                     </td>
                     <td>
                         <input type="text" class="article-input total" 
-                               value="${article.total ? article.total.toFixed(3) : '0.000'}" 
+                               value="${article.totalHT ? article.totalHT.toFixed(3) : '0.000'}" 
                                readonly>
                     </td>
                     <td>
@@ -1191,6 +1343,23 @@
             // Ajouter une ligne si vide
             if (factureActuelle.articles.length === 0) {
                 ajouterLigneInitiale();
+            } else {
+                // Charger les produits et restaurer les sélections
+                setTimeout(() => {
+                    chargerProduitsDansSelect();
+                    
+                    // Restaurer les sélections de produits
+                    factureActuelle.articles.forEach(article => {
+                        if (article.codeProduit) {
+                            const select = document.querySelector(`select[data-ligne="${article.id}"]`);
+                            if (select) {
+                                select.value = article.codeProduit;
+                                // Mettre à jour le produit
+                                setTimeout(() => mettreAJourProduit(article.id), 100);
+                            }
+                        }
+                    });
+                }, 200);
             }
             
             calculer();
@@ -1200,7 +1369,7 @@
         }
     }
 
-    // Sauvegarder la facture
+    // Sauvegarder la facture (MODIFIÉE avec vérification stock)
     function sauvegarderFacture() {
         // Validation
         if (!factureActuelle.clientNom || factureActuelle.clientNom.trim() === '') {
@@ -1209,14 +1378,46 @@
             return false;
         }
         
-        if (factureActuelle.articles.length === 0 || factureActuelle.totalTTC <= 1) {
+        if (factureActuelle.articles.length === 0) {
             afficherNotification('Ajoutez au moins un article', 'error');
             return false;
         }
         
+        // VÉRIFICATION DU STOCK (NOUVELLE)
+        const articlesSansStock = factureActuelle.articles.filter(a => !a.stockOk || !a.codeProduit);
+        if (articlesSansStock.length > 0) {
+            afficherNotification('Certains articles ont un stock insuffisant ou sont invalides', 'error');
+            return false;
+        }
+        
+        // Vérifier qu'il y a au moins un produit sélectionné
+        const articlesValides = factureActuelle.articles.filter(a => a.codeProduit && a.prixUnitaire > 0);
+        if (articlesValides.length === 0) {
+            afficherNotification('Ajoutez au moins un produit valide', 'error');
+            return false;
+        }
+        
+        // Mettre à jour le stock (NOUVELLE)
+        const stock = JSON.parse(localStorage.getItem('stock') || '[]');
+        factureActuelle.articles.forEach(article => {
+            if (article.codeProduit && article.quantite) {
+                const produitIndex = stock.findIndex(p => p.code === article.codeProduit);
+                if (produitIndex !== -1) {
+                    stock[produitIndex].quantite -= article.quantite;
+                    if (stock[produitIndex].quantite < 0) stock[produitIndex].quantite = 0;
+                    stock[produitIndex].dateModification = new Date().toISOString();
+                }
+            }
+        });
+        
+        // Sauvegarder le stock mis à jour
+        localStorage.setItem('stock', JSON.stringify(stock));
+        
         // Changer le statut
         factureActuelle.statut = 'finalisee';
         factureActuelle.dateFinalisation = new Date().toISOString();
+        factureActuelle.stockMisAJour = true;
+        factureActuelle.dateMiseAJourStock = new Date().toISOString();
         
         // Récupérer l'historique global
         let historique = JSON.parse(localStorage.getItem('historique_global') || '[]');
@@ -1238,7 +1439,7 @@
         // Effacer le brouillon
         localStorage.removeItem('factureBrouillon');
         
-        afficherNotification('Facture sauvegardée avec succès !', 'success');
+        afficherNotification('Facture sauvegardée avec succès ! Stock mis à jour.', 'success');
         
         return true;
     }
