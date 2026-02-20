@@ -251,6 +251,7 @@
             font-size: 36px;
             font-weight: 800;
             margin-bottom: 10px;
+            color: #2c3e50;
         }
         
         .stat-label {
@@ -328,6 +329,43 @@
             gap: 15px;
             margin-top: 30px;
         }
+        
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: #27ae60;
+            color: white;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            z-index: 10000;
+            animation: slideIn 0.3s ease;
+        }
+
+        .notification.error {
+            background: #e74c3c;
+        }
+
+        .notification.info {
+            background: #3498db;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
@@ -363,7 +401,7 @@
             </div>
             <div class="stat-card">
                 <div class="stat-value" id="valeurStock">0 TND</div>
-                <div class="stat-label">Valeur Stock</div>
+                <div class="stat-label">Valeur Stock (HT)</div>
             </div>
             <div class="stat-card">
                 <div class="stat-value" id="alertesStock">0</div>
@@ -445,19 +483,26 @@
                     <input type="number" class="form-input" id="productQuantity" value="0" min="0" step="1">
                 </div>
                 
-                <div class="form-group">
-                    <label class="form-label">Prix d'achat (TND)</label>
-                    <input type="number" class="form-input" id="productPrixAchat" value="0" min="0" step="0.001">
-                </div>
+                <!-- Champ Prix d'achat SUPPRIMÉ définitivement -->
                 
                 <div class="form-group">
-                    <label class="form-label">Prix de vente (TND)</label>
-                    <input type="number" class="form-input" id="productPrixVente" value="0" min="0" step="0.001">
+                    <label class="form-label">Prix de vente HT (TND) *</label>
+                    <input type="number" class="form-input" id="productPrixVente" value="0" min="0" step="0.001" required>
                 </div>
                 
                 <div class="form-group">
                     <label class="form-label">Seuil d'alerte</label>
                     <input type="number" class="form-input" id="productSeuilAlerte" value="5" min="1" step="1">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">TVA (%)</label>
+                    <input type="number" class="form-input" id="productTVA" value="7" min="0" max="100" step="0.1">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Prix de vente TTC</label>
+                    <input type="text" class="form-input" id="productPrixTTC" value="0.000" readonly style="background: #f0f0f0; font-weight: 600;">
                 </div>
                 
                 <div class="form-group">
@@ -470,11 +515,6 @@
                     <textarea class="form-input" id="productDescription" rows="3"></textarea>
                 </div>
                 
-                <div class="form-group">
-                    <label class="form-label">TVA (%)</label>
-                    <input type="number" class="form-input" id="productTVA" value="7" min="0" max="100" step="0.1">
-                </div>
-
                 <div class="form-actions">
                     <button type="button" class="btn btn-secondary" onclick="fermerModal()" style="flex: 1;">
                         Annuler
@@ -573,7 +613,24 @@
             chargerStock();
             calculerStatistiques();
             configurerFormulaires();
+            setupPrixCalculs();
         });
+
+        function setupPrixCalculs() {
+            const prixVenteInput = document.getElementById('productPrixVente');
+            const tvaInput = document.getElementById('productTVA');
+            const prixTTCInput = document.getElementById('productPrixTTC');
+            
+            function calculerPrixTTC() {
+                const prixHT = parseFloat(prixVenteInput.value) || 0;
+                const tva = parseFloat(tvaInput.value) || 0;
+                const ttc = prixHT * (1 + tva / 100);
+                prixTTCInput.value = ttc.toFixed(3);
+            }
+            
+            prixVenteInput.addEventListener('input', calculerPrixTTC);
+            tvaInput.addEventListener('input', calculerPrixTTC);
+        }
 
         function chargerStock() {
             stock = JSON.parse(localStorage.getItem('stock') || '[]');
@@ -598,6 +655,9 @@
                 const pourcentageStock = Math.min(100, (produit.quantite / (produit.seuilAlerte * 3)) * 100);
                 const enAlerte = produit.quantite <= produit.seuilAlerte;
                 
+                // Calculer prix TTC pour affichage
+                const prixTTC = produit.prixVente * (1 + (produit.tva || 7) / 100);
+                
                 const card = document.createElement('div');
                 card.className = `product-card ${classeStock}`;
                 card.innerHTML = `
@@ -612,12 +672,16 @@
                     
                     <div class="product-info">
                         <div class="info-row">
-                            <span class="info-label">Prix achat:</span>
-                            <span class="info-value">${(produit.prixAchat || 0).toFixed(3)} TND</span>
+                            <span class="info-label">Prix vente HT:</span>
+                            <span class="info-value">${(produit.prixVente || 0).toFixed(3)} TND</span>
                         </div>
                         <div class="info-row">
-                            <span class="info-label">Prix vente:</span>
-                            <span class="info-value">${(produit.prixVente || 0).toFixed(3)} TND</span>
+                            <span class="info-label">Prix vente TTC:</span>
+                            <span class="info-value">${prixTTC.toFixed(3)} TND</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">TVA:</span>
+                            <span class="info-value">${produit.tva || 7}%</span>
                         </div>
                         <div class="info-row">
                             <span class="info-label">Emplacement:</span>
@@ -665,7 +729,8 @@
             let totalQuantite = 0;
             
             stock.forEach(produit => {
-                valeurStock += (produit.quantite || 0) * (produit.prixAchat || 0);
+                // Valeur du stock basée sur le prix de vente HT
+                valeurStock += (produit.quantite || 0) * (produit.prixVente || 0);
                 totalQuantite += produit.quantite || 0;
                 
                 if (produit.quantite <= produit.seuilAlerte) {
@@ -730,6 +795,9 @@
                 const classeStock = getClasseStock(produit);
                 const pourcentageStock = Math.min(100, (produit.quantite / (produit.seuilAlerte * 3)) * 100);
                 
+                // Calculer prix TTC pour affichage
+                const prixTTC = produit.prixVente * (1 + (produit.tva || 7) / 100);
+                
                 const card = document.createElement('div');
                 card.className = `product-card ${classeStock}`;
                 card.innerHTML = `
@@ -746,8 +814,12 @@
                             <span class="info-value">${produit.quantite}</span>
                         </div>
                         <div class="info-row">
-                            <span class="info-label">Prix vente:</span>
+                            <span class="info-label">Prix vente HT:</span>
                             <span class="info-value">${(produit.prixVente || 0).toFixed(3)} TND</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Prix vente TTC:</span>
+                            <span class="info-value">${prixTTC.toFixed(3)} TND</span>
                         </div>
                     </div>
                     
@@ -771,6 +843,8 @@
             productEnEdition = null;
             document.getElementById('modalTitle').textContent = 'Nouveau Produit';
             document.getElementById('productForm').reset();
+            document.getElementById('productTVA').value = '7';
+            document.getElementById('productPrixTTC').value = '0.000';
             document.getElementById('productModal').style.display = 'flex';
         }
 
@@ -785,11 +859,17 @@
             document.getElementById('productName').value = produit.designation || '';
             document.getElementById('productCategory').value = produit.categorie || 'Lustres';
             document.getElementById('productQuantity').value = produit.quantite || 0;
-            document.getElementById('productPrixAchat').value = produit.prixAchat || 0;
             document.getElementById('productPrixVente').value = produit.prixVente || 0;
             document.getElementById('productSeuilAlerte').value = produit.seuilAlerte || 5;
             document.getElementById('productEmplacement').value = produit.emplacement || '';
             document.getElementById('productDescription').value = produit.description || '';
+            document.getElementById('productTVA').value = produit.tva || 7;
+            
+            // Calculer et afficher le prix TTC
+            const prixHT = parseFloat(produit.prixVente) || 0;
+            const tva = parseFloat(produit.tva) || 7;
+            const ttc = prixHT * (1 + tva / 100);
+            document.getElementById('productPrixTTC').value = ttc.toFixed(3);
             
             document.getElementById('productModal').style.display = 'flex';
         }
@@ -817,10 +897,15 @@
         function enregistrerProduit() {
             const code = document.getElementById('productCode').value.trim();
             const nom = document.getElementById('productName').value.trim();
-            
+            const prixVente = parseFloat(document.getElementById('productPrixVente').value) || 0;
             
             if (!code || !nom) {
                 afficherNotification('Le code et la désignation sont obligatoires', 'error');
+                return;
+            }
+            
+            if (prixVente <= 0) {
+                afficherNotification('Le prix de vente doit être supérieur à 0', 'error');
                 return;
             }
             
@@ -839,8 +924,7 @@
                 designation: nom,
                 categorie: document.getElementById('productCategory').value,
                 quantite: parseInt(document.getElementById('productQuantity').value) || 0,
-                prixAchat: parseFloat(document.getElementById('productPrixAchat').value) || 0,
-                prixVente: parseFloat(document.getElementById('productPrixVente').value) || 0,
+                prixVente: prixVente,
                 seuilAlerte: parseInt(document.getElementById('productSeuilAlerte').value) || 5,
                 tva: parseFloat(document.getElementById('productTVA').value) || 7,
                 emplacement: document.getElementById('productEmplacement').value.trim(),
