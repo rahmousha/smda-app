@@ -112,12 +112,14 @@
             width: 210mm;
             min-height: 297mm;
             background: white;
-            padding: 20mm;
+            padding: 15mm;
             position: relative;
             margin: 0 auto;
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
             border: 1px solid #ddd;
-            overflow: hidden; /* Empêche le débordement */
+            overflow: visible; /* Changé de hidden à visible */
+            display: flex;
+            flex-direction: column;
         }
 
         /* ===== NOUVELLE EN-TÊTE AVEC 3 COLONNES ===== */
@@ -125,8 +127,8 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
             border-bottom: 2px solid #861e1e;
             position: relative;
             z-index: 2;
@@ -136,17 +138,16 @@
         .company-info-left {
             width: 50%;
             text-align: left;
-            
         }
 
         /* Colonne centrale : S.M.D.A */
         .company-logo-center {
             width: 18%;
             text-align: center;
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 900;
             color: #861e1e;
-            padding-top: 15px;
+            padding-top: 10px;
         }
 
         /* Colonne droite : Arabe */
@@ -157,22 +158,22 @@
         }
 
         .company-logo {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 800;
             color: #861e1e;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
 
         .company-details {
-            font-size: 13.5px;
-            line-height: 1.5;
+            font-size: 12px;
+            line-height: 1.4;
             color: #15087a;
             font-weight: 600;
         }
 
         .company-details-arabic {
-            font-size: 16px;
-            line-height: 1.5;
+            font-size: 14px;
+            line-height: 1.4;
             color: #15087a;
             font-weight: 600;
         }
@@ -180,29 +181,29 @@
         .invoice-info {
             width: 100%;
             text-align: center;
-            margin: 15px 0 20px 0;
+            margin: 10px 0 15px 0;
         }
 
         .invoice-title {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 800;
             color: #861e1e;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             text-transform: uppercase;
         }
 
         .invoice-details {
             display: flex;
             justify-content: center;
-            gap: 40px;
-            font-size: 14px;
-            margin-top: 10px;
+            gap: 30px;
+            font-size: 13px;
+            margin-top: 5px;
         }
 
         /* ===== INFORMATIONS CLIENT PROFESSIONNELLES ===== */
         .client-section {
-            margin: 20px 0;
-            padding: 15px;
+            margin: 15px 0;
+            padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
             background: #f8f9fa;
@@ -213,7 +214,7 @@
         .client-info {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            gap: 10px;
         }
 
         .client-field {
@@ -224,15 +225,15 @@
         .client-label {
             font-weight: 600;
             color: #1a2980;
-            font-size: 13px;
-            margin-bottom: 5px;
+            font-size: 12px;
+            margin-bottom: 3px;
         }
 
         .client-input {
-            padding: 8px 10px;
+            padding: 6px 8px;
             border: 1px solid #ddd;
             border-radius: 3px;
-            font-size: 13px;
+            font-size: 12px;
             background: white;
         }
 
@@ -244,28 +245,34 @@
 
         /* ===== TABLEAU DES ARTICLES PROFESSIONNEL ===== */
         .table-section {
-            margin: 25px 0;
+            margin: 15px 0;
             position: relative;
             z-index: 2;
+            flex: 1; /* Prend l'espace disponible */
+            max-height: 180mm; /* Limite la hauteur du tableau */
+            overflow-y: auto; /* Scroll si trop de lignes */
         }
 
         .articles-table {
             width: 100%;
             border-collapse: collapse;
             border: 1px solid #ddd;
-            font-size: 12px;
+            font-size: 11px;
         }
 
         .articles-table thead {
             background: #861e1e;
             color: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         .articles-table th {
-            padding: 10px 8px;
+            padding: 8px 6px;
             text-align: left;
             font-weight: 600;
-            font-size: 12px;
+            font-size: 11px;
             border-right: 1px solid rgba(255,255,255,0.2);
         }
 
@@ -282,8 +289,8 @@
         }
 
         .articles-table td {
-            padding: 8px;
-            font-size: 12px;
+            padding: 6px;
+            font-size: 11px;
             border-right: 1px solid #eee;
         }
 
@@ -294,8 +301,8 @@
         .article-input {
             width: 100%;
             border: none;
-            padding: 4px;
-            font-size: 12px;
+            padding: 3px;
+            font-size: 11px;
             background: transparent;
             outline: none;
         }
@@ -320,11 +327,11 @@
             background: #e74c3c;
             color: white;
             border: none;
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 11px;
+            font-size: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -339,16 +346,16 @@
         .totals-section {
             display: flex;
             justify-content: flex-end;
-            margin-top: 25px;
+            margin-top: 15px;
             position: relative;
             z-index: 2;
         }
 
         .totals-table {
-            width: 280px;
+            width: 260px;
             border-collapse: collapse;
             border: 1px solid #ddd;
-            font-size: 13px;
+            font-size: 12px;
         }
 
         .totals-table tr {
@@ -360,8 +367,8 @@
         }
 
         .totals-table td {
-            padding: 8px 12px;
-            font-size: 13px;
+            padding: 6px 10px;
+            font-size: 12px;
         }
 
         .label-cell {
@@ -380,26 +387,26 @@
 
         .total-ttc-row {
             background: #861e1e;
-              color: #000000;
+            color: #000000;
         }
 
         .total-ttc-row td {
             font-weight: 800;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         /* ===== SECTION TIMBRE ET MONTANT ===== */
         .timbre-ttc-section {
             display: flex;
             justify-content: space-between;
-            margin-top: 25px;
-            padding: 15px;
+            margin-top: 15px;
+            padding: 10px;
             border: 1px solid #ddd;
             background: #f8f9fa;
             border-radius: 5px;
             position: relative;
             z-index: 2;
-              color: #861e1e;
+            color: #861e1e;
         }
 
         .timbre-box, .ttc-box {
@@ -408,30 +415,30 @@
             align-items: center;
             justify-content: center;
             width: 48%;
-            padding: 15px;
+            padding: 10px;
             border: 2px solid #861e1e;
             border-radius: 5px;
             background: white;
         }
 
         .timbre-label, .ttc-label {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             color: #861e1e;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             text-transform: uppercase;
         }
 
         .timbre-value, .ttc-value {
-            font-size: 22px;
+            font-size: 18px;
             font-weight: 800;
             color: #861e1e;
         }
 
         /* ===== SECTION ARRÊTÉE LA PRÉSENTE FACTURE ===== */
         .arrete-section {
-            margin-top: 30px;
-            padding: 15px;
+            margin-top: 15px;
+            padding: 10px;
             border-top: 1px dashed #ddd;
             display: flex;
             justify-content: space-between;
@@ -443,17 +450,17 @@
             width: 60%;
             font-style: italic;
             color: #333;
-            font-size: 13px;
+            font-size: 12px;
         }
 
         .somme-lettres {
             font-weight: 600;
             color: #861e1e;
-            margin-top: 8px;
-            font-size: 13px;
-            min-height: 35px;
+            margin-top: 5px;
+            font-size: 12px;
+            min-height: 30px;
             border-bottom: 1px solid #ddd;
-            padding-bottom: 5px;
+            padding-bottom: 3px;
         }
 
         .signature-box {
@@ -464,10 +471,10 @@
         .signature-label {
             font-style: italic;
             color: #666;
-            margin-top: 60px;
-            padding-top: 15px;
+            margin-top: 40px;
+            padding-top: 10px;
             border-top: 1px solid #333;
-            font-size: 13px;
+            font-size: 12px;
         }
 
         /* ===== NOTIFICATIONS ===== */
@@ -503,6 +510,210 @@
             }
         }
 
+        /* ===== MODE IMPRESSION PROFESSIONNEL ===== */
+        @media print {
+            @page {
+                size: A4;
+                margin: 10mm; /* Marges fixes pour l'impression */
+            }
+            
+            body {
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            .toolbar, .btn-del, .notification, .btn-back {
+                display: none !important;
+            }
+            
+            .page-container {
+                padding: 0 !important;
+                margin: 0 !important;
+                display: block !important;
+            }
+            
+            .page {
+                width: 100% !important;
+                min-height: 0 !important;
+                height: auto !important;
+                background: white !important;
+                padding: 0 !important; /* Supprimer le padding pour utiliser les marges @page */
+                margin: 0 !important;
+                box-shadow: none !important;
+                border: none !important;
+                overflow: visible !important;
+                display: block !important;
+            }
+            
+            /* Masquer les éléments d'interface */
+            .btn-add, .btn-save, .btn-print {
+                display: none !important;
+            }
+            
+            /* Style pour les inputs en mode impression */
+            .client-input, .article-input {
+                border: none !important;
+                background: transparent !important;
+                -webkit-appearance: none;
+                appearance: none;
+                box-shadow: none !important;
+                outline: none !important;
+            }
+            
+            .client-input::placeholder,
+            .article-input::placeholder {
+                color: transparent !important;
+            }
+            
+            /* Afficher le contenu des inputs */
+            input[type="text"],
+            input[type="number"],
+            input[type="date"],
+            select {
+                border: none !important;
+                background: transparent !important;
+                color: #000 !important;
+                -webkit-text-fill-color: #000 !important;
+            }
+            
+            /* Masquer les boutons de suppression */
+            .btn-del {
+                display: none !important;
+            }
+            
+            /* Supprimer les effets de hover en impression */
+            .articles-table tbody tr:hover {
+                background: transparent !important;
+            }
+            
+            /* Ajustement des tailles pour impression */
+            .company-details, .company-details-arabic {
+                font-size: 10px !important;
+                line-height: 1.3 !important;
+            }
+            
+            .invoice-title {
+                font-size: 20px !important;
+            }
+            
+            .articles-table {
+                font-size: 10px !important;
+            }
+            
+            .articles-table th,
+            .articles-table td {
+                padding: 3px 4px !important;
+                font-size: 10px !important;
+            }
+            
+            .totals-table {
+                width: 240px !important;
+                font-size: 11px !important;
+            }
+            
+            .timbre-box, .ttc-box {
+                padding: 8px !important;
+            }
+            
+            .timbre-value, .ttc-value {
+                font-size: 16px !important;
+            }
+            
+            .arrete-section {
+                margin-top: 10px !important;
+                padding: 5px !important;
+            }
+            
+            /* Empêcher les coupures de page à l'intérieur des sections importantes */
+            .header, .invoice-info, .client-section, 
+            .totals-section, .timbre-ttc-section, .arrete-section {
+                page-break-inside: avoid !important;
+                page-break-after: avoid !important;
+            }
+            
+            /* Gérer le tableau qui peut déborder */
+            .table-section {
+                max-height: none !important;
+                overflow: visible !important;
+                page-break-inside: auto !important;
+            }
+            
+            /* Permettre la coupure de page dans le tableau si nécessaire */
+            .articles-table {
+                page-break-inside: auto !important;
+            }
+            
+            .articles-table tbody {
+                max-height: none !important;
+                display: table-row-group !important;
+                overflow: visible !important;
+            }
+            
+            .articles-table tr {
+                page-break-inside: avoid !important;
+            }
+            
+            /* Forcer l'impression sur une seule page en réduisant la taille */
+            .header {
+                margin-bottom: 5px !important;
+                padding-bottom: 5px !important;
+            }
+            
+            .client-section {
+                margin: 5px 0 !important;
+                padding: 5px !important;
+            }
+            
+            .timbre-ttc-section {
+                margin-top: 5px !important;
+                padding: 5px !important;
+            }
+            
+            /* Compresser légèrement l'espacement */
+            br {
+                display: none !important;
+            }
+            
+            /* Réduire les espacements verticaux */
+            .page > * {
+                margin-top: 0 !important;
+                margin-bottom: 2px !important;
+            }
+            
+            /* Remplacer les selects par du texte */
+            select.article-input {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                padding: 0 !important;
+                margin: 0 !important;
+                background: transparent !important;
+                border: none !important;
+                color: #000 !important;
+            }
+            
+            select.article-input option:not(:checked) {
+                display: none !important;
+            }
+            
+            select.article-input::before {
+                content: attr(data-selected-text) !important;
+                display: block !important;
+            }
+            
+            /* Afficher le texte sélectionné uniquement */
+            select.article-input option {
+                display: none !important;
+            }
+            
+            select.article-input option[selected] {
+                display: block !important;
+            }
+        }
+
         /* ===== RESPONSIVE ===== */
         @media screen and (max-width: 768px) {
             .toolbar {
@@ -530,7 +741,7 @@
             .company-info-right {
                 width: 100%;
                 text-align: center;
-                margin-bottom: 15px;
+                margin-bottom: 10px;
             }
             
             .company-info-right {
@@ -544,7 +755,7 @@
             
             .invoice-info {
                 text-align: center;
-                margin-top: 20px;
+                margin-top: 10px;
             }
             
             .client-info {
@@ -553,7 +764,7 @@
             
             .timbre-ttc-section {
                 flex-direction: column;
-                gap: 15px;
+                gap: 10px;
             }
             
             .timbre-box, .ttc-box {
@@ -569,143 +780,7 @@
             }
             
             .signature-label {
-                margin-top: 40px;
-            }
-        }
-
-        /* ===== MODE IMPRESSION PROFESSIONNEL ===== */
-        @media print {
-            @page {
-                size: A4;
-                margin: 0mm; /* Réduction des marges pour économiser l'espace */
-            }
-            
-            body {
-                background: white !important;
-                padding: 0 !important;
-                margin: 0 !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-            
-            .toolbar, .btn-del, .notification, .btn-back {
-                display: none !important;
-            }
-            
-            .page-container {
-                padding: 0 !important;
-                margin: 0 !important;
-                display: block !important;
-            }
-            
-            .page {
-                width: 210mm;
-                min-height: 297mm;
-                background: white;
-                padding: 20mm;
-                position: relative;
-                margin: 0 auto;
-                box-shadow: 0 0 20px rgba(0,0,0,0.1);
-                border: 1px solid #ddd;
-                overflow: hidden;
-            }
-            
-            
-            /* Masquer les éléments d'interface */
-            .btn-add, .btn-save, .btn-print {
-                display: none !important;
-            }
-            
-            /* Style pour les inputs en mode impression */
-            .client-input, .article-input {
-                border: none !important;
-                background: transparent !important;
-                -webkit-appearance: none;
-                appearance: none;
-                box-shadow: none !important;
-                outline: none !important;
-            }
-            
-            .client-input::placeholder,
-            .article-input::placeholder {
-                color: transparent !important;
-            }
-            
-            /* Afficher le contenu des inputs */
-            input[type="text"],
-            input[type="number"],
-            input[type="date"] {
-                border: none !important;
-                background: transparent !important;
-                color: #000 !important;
-                -webkit-text-fill-color: #000 !important;
-            }
-            
-            /* Masquer les boutons de suppression */
-            .btn-del {
-                display: none !important;
-            }
-            
-            /* Supprimer les effets de hover en impression */
-            .articles-table tbody tr:hover {
-                background: transparent !important;
-            }
-            
-            /* Ajustement des tailles pour impression */
-            .company-details, .company-details-arabic {
-                font-size: 10.5px !important;
-                line-height: 1.4 !important;
-            }
-            
-            .invoice-title {
-                font-size: 22px !important;
-            }
-            
-            .articles-table {
-                font-size: 11px !important;
-            }
-            
-            .articles-table th,
-            .articles-table td {
-                padding: 6px 5px !important;
-                font-size: 11px !important;
-            }
-            
-            .totals-table {
-                width: 250px !important;
-                font-size: 12px !important;
-            }
-            
-            .timbre-box, .ttc-box {
-                padding: 12px !important;
-            }
-            
-            .timbre-value, .ttc-value {
-                font-size: 20px !important;
-            }
-            
-            .arrete-section {
-                margin-top: 25px !important;
-                padding: 10px !important;
-            }
-            
-            /* Empêcher les coupures de page à l'intérieur des sections importantes */
-            .header, .invoice-info, .client-section, .table-section, 
-            .totals-section, .timbre-ttc-section, .arrete-section {
-                page-break-inside: avoid !important;
-                page-break-after: avoid !important;
-            }
-            
-            /* Limiter le nombre de lignes pour éviter le débordement */
-            .articles-table tbody {
-                max-height: 180mm !important;
-                display: block;
-                overflow: hidden;
-            }
-            
-            /* Supprimer le filigrane en impression */
-            .watermark {
-                display: none !important;
+                margin-top: 30px;
             }
         }
     </style>
@@ -741,7 +816,6 @@
         <div class="header">
             <!-- Colonne gauche : Français -->
             <div class="company-info-left">
-               
                 <div class="company-details">
                     Sté MESSAOUDI d'Artisanat Traditionnel<br>
                     Fabrication des Lustres et Lampes Artisanales<br>
@@ -877,7 +951,7 @@
         chargerFactureSauvegardee();
         mettreAJourInterface();
         // Charger les produits au démarrage
-        chargerProduitsDansSelect();
+        setTimeout(() => chargerProduitsDansSelect(), 200);
     });
 
     // Initialiser la facture
@@ -985,53 +1059,52 @@
     }
 
     // NOUVELLE FONCTION : Charger les produits dans les selects
-    // Dans facture.html, modifiez chargerProduitsDansSelect
-function chargerProduitsDansSelect() {
-    console.log('Chargement des produits depuis le stock...');
-    
-    // Charger les produits du stock
-    const stock = JSON.parse(localStorage.getItem('stock') || '[]');
-    const produitsDisponibles = stock.filter(p => p.quantite > 0);
-    
-    console.log(`${produitsDisponibles.length} produits disponibles`);
-    
-    // Pour chaque select de produit
-    document.querySelectorAll('select.article-input.designation').forEach(select => {
-        const ligneId = select.getAttribute('data-ligne');
-        const currentValue = select.value;
+    function chargerProduitsDansSelect() {
+        console.log('Chargement des produits depuis le stock...');
         
-        // Sauvegarder l'option sélectionnée si elle existe
-        let selectedOption = null;
-        if (currentValue) {
-            selectedOption = Array.from(select.options).find(opt => opt.value === currentValue);
-        }
+        // Charger les produits du stock
+        const stock = JSON.parse(localStorage.getItem('stock') || '[]');
+        const produitsDisponibles = stock.filter(p => p.quantite > 0);
         
-        // Vider et remplir avec les produits
-        select.innerHTML = '<option value="">-- Sélectionner un produit --</option>';
+        console.log(`${produitsDisponibles.length} produits disponibles`);
         
-        produitsDisponibles.forEach(produit => {
-            const option = document.createElement('option');
-            option.value = produit.code;
-            option.textContent = `${produit.code} - ${produit.designation} (${(produit.prixVente || 0).toFixed(3)} TND)`;
-            option.dataset.prix = produit.prixVente || 0;
-            option.dataset.tva = produit.tva || 7;
-            option.dataset.designation = produit.designation;
-            select.appendChild(option);
+        // Pour chaque select de produit
+        document.querySelectorAll('select.article-input.designation').forEach(select => {
+            const ligneId = select.getAttribute('data-ligne');
+            const currentValue = select.value;
+            
+            // Sauvegarder l'option sélectionnée si elle existe
+            let selectedOption = null;
+            if (currentValue) {
+                selectedOption = Array.from(select.options).find(opt => opt.value === currentValue);
+            }
+            
+            // Vider et remplir avec les produits
+            select.innerHTML = '<option value="">-- Sélectionner un produit --</option>';
+            
+            produitsDisponibles.forEach(produit => {
+                const option = document.createElement('option');
+                option.value = produit.code;
+                option.textContent = `${produit.code} - ${produit.designation} (${(produit.prixVente || 0).toFixed(3)} TND)`;
+                option.dataset.prix = produit.prixVente || 0;
+                option.dataset.tva = produit.tva || 7;
+                option.dataset.designation = produit.designation;
+                select.appendChild(option);
+            });
+            
+            // Restaurer la sélection précédente si elle existe toujours
+            if (selectedOption && produitsDisponibles.some(p => p.code === currentValue)) {
+                select.value = currentValue;
+                // Mettre à jour le produit
+                setTimeout(() => mettreAJourProduit(ligneId), 50);
+            }
         });
         
-        // Restaurer la sélection précédente si elle existe toujours
-        if (selectedOption && produitsDisponibles.some(p => p.code === currentValue)) {
-            select.value = currentValue;
-            // Mettre à jour le produit
-            setTimeout(() => mettreAJourProduit(ligneId), 50);
+        // Afficher un message si aucun produit
+        if (produitsDisponibles.length === 0) {
+            console.warn('Aucun produit en stock');
         }
-    });
-    
-    // Afficher un message si aucun produit
-    if (produitsDisponibles.length === 0) {
-        console.warn('Aucun produit en stock');
     }
-}
 
     // NOUVELLE FONCTION : Mettre à jour un produit sélectionné
     function mettreAJourProduit(ligneId) {
@@ -1044,7 +1117,7 @@ function chargerProduitsDansSelect() {
         const quantiteInput = ligne.querySelector('.qte');
         const selectedOption = select.options[select.selectedIndex];
         
-        if (selectedOption.value) {
+        if (selectedOption && selectedOption.value) {
             // Remplir automatiquement le prix
             const prix = parseFloat(selectedOption.dataset.prix) || 0;
             prixInput.value = prix.toFixed(3);
@@ -1383,7 +1456,7 @@ function chargerProduitsDansSelect() {
             return false;
         }
         
-        // VÉRIFICATION DU STOCK (NOUVELLE)
+        // VÉRIFICATION DU STOCK
         const articlesSansStock = factureActuelle.articles.filter(a => !a.stockOk || !a.codeProduit);
         if (articlesSansStock.length > 0) {
             afficherNotification('Certains articles ont un stock insuffisant ou sont invalides', 'error');
@@ -1397,7 +1470,7 @@ function chargerProduitsDansSelect() {
             return false;
         }
         
-        // Mettre à jour le stock (NOUVELLE)
+        // Mettre à jour le stock
         const stock = JSON.parse(localStorage.getItem('stock') || '[]');
         factureActuelle.articles.forEach(article => {
             if (article.codeProduit && article.quantite) {
@@ -1495,7 +1568,7 @@ function chargerProduitsDansSelect() {
         });
         
         // Ajuster les styles pour l'impression
-        document.querySelector('.page').style.padding = '15mm';
+        document.querySelector('.page').style.padding = '0';
         document.querySelector('.page').style.boxShadow = 'none';
         document.querySelector('.page').style.border = 'none';
     }
@@ -1511,7 +1584,7 @@ function chargerProduitsDansSelect() {
         });
         
         // Restaurer les styles
-        document.querySelector('.page').style.padding = '20mm';
+        document.querySelector('.page').style.padding = '15mm';
         document.querySelector('.page').style.boxShadow = '0 0 20px rgba(0,0,0,0.1)';
         document.querySelector('.page').style.border = '1px solid #ddd';
     }
@@ -1545,6 +1618,19 @@ function chargerProduitsDansSelect() {
             td.innerHTML = '';
             td.appendChild(span);
         });
+        
+        // Remplacer les selects par du texte
+        document.querySelectorAll('select.article-input').forEach(select => {
+            const td = select.parentElement;
+            const selectedOption = select.options[select.selectedIndex];
+            const span = document.createElement('span');
+            span.className = 'article-text';
+            span.textContent = selectedOption && selectedOption.value ? selectedOption.textContent : '';
+            span.style.display = 'block';
+            span.style.padding = '2px';
+            td.innerHTML = '';
+            td.appendChild(span);
+        });
     }
 
     // Fonction utilitaire pour remplacer un input par du texte
@@ -1560,8 +1646,7 @@ function chargerProduitsDansSelect() {
 
     // Restaurer les inputs après impression
     function restaurerInputs() {
-        // Cette fonction serait plus complexe, mais pour simplifier,
-        // on recharge la page ou on réinitialise la facture
+        // Recharger la facture depuis le brouillon
         chargerFactureSauvegardee();
     }
 
