@@ -112,12 +112,14 @@
             width: 210mm;
             min-height: 297mm;
             background: white;
-            padding: 20mm;
+            padding: 15mm;
             position: relative;
             margin: 0 auto;
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
             border: 1px solid #ddd;
-            overflow: hidden;
+            overflow: visible;
+            display: flex;
+            flex-direction: column;
         }
 
         /* ===== NOUVELLE EN-TÊTE AVEC 3 COLONNES ===== */
@@ -125,8 +127,8 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
             border-bottom: 2px solid #9b59b6;
             position: relative;
             z-index: 2;
@@ -142,10 +144,10 @@
         .company-logo-center {
             width: 24%;
             text-align: center;
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 900;
             color: #9b59b6;
-            padding-top: 15px;
+            padding-top: 10px;
         }
 
         /* Colonne droite : Arabe */
@@ -156,22 +158,22 @@
         }
 
         .company-logo {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 800;
             color: #9b59b6;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
 
         .company-details {
-            font-size: 13.5px;
-            line-height: 1.5;
+            font-size: 12px;
+            line-height: 1.4;
             color: #333;
             font-weight: 600;
         }
 
         .company-details-arabic {
-            font-size: 17px;
-            line-height: 1.5;
+            font-size: 14.5px;
+            line-height: 1.4;
             color: #333;
             font-weight: 600;
         }
@@ -179,29 +181,29 @@
         .invoice-info {
             width: 100%;
             text-align: center;
-            margin: 15px 0 20px 0;
+            margin: 10px 0 15px 0;
         }
 
         .invoice-title {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 800;
             color: #9b59b6;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             text-transform: uppercase;
         }
 
         .invoice-details {
             display: flex;
             justify-content: center;
-            gap: 40px;
-            font-size: 14px;
-            margin-top: 10px;
+            gap: 30px;
+            font-size: 13px;
+            margin-top: 5px;
         }
 
         /* ===== INFORMATIONS CLIENT PROFESSIONNELLES ===== */
         .client-section {
-            margin: 20px 0;
-            padding: 15px;
+            margin: 12px 0;
+            padding: 12px;
             border: 1px solid #ddd;
             border-radius: 5px;
             background: #f8f9fa;
@@ -212,7 +214,7 @@
         .client-info {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            gap: 12px;
         }
 
         .client-field {
@@ -223,15 +225,15 @@
         .client-label {
             font-weight: 600;
             color: #9b59b6;
-            font-size: 13px;
-            margin-bottom: 5px;
+            font-size: 12px;
+            margin-bottom: 4px;
         }
 
         .client-input {
-            padding: 8px 10px;
+            padding: 6px 8px;
             border: 1px solid #ddd;
             border-radius: 3px;
-            font-size: 13px;
+            font-size: 12px;
             background: white;
         }
 
@@ -243,8 +245,8 @@
 
         /* ===== SECTION VALIDITÉ ===== */
         .validite-section {
-            margin: 15px 0;
-            padding: 15px;
+            margin: 10px 0;
+            padding: 12px;
             border: 1px solid #ddd;
             border-radius: 5px;
             background: #f8f9fa;
@@ -255,22 +257,22 @@
         .validite-field {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
         .validite-label {
             font-weight: 600;
             color: #9b59b6;
-            font-size: 13px;
+            font-size: 12px;
             white-space: nowrap;
         }
 
         .validite-input {
-            width: 80px;
-            padding: 8px 10px;
+            width: 70px;
+            padding: 6px 8px;
             border: 1px solid #ddd;
             border-radius: 3px;
-            font-size: 13px;
+            font-size: 12px;
             background: white;
             text-align: center;
         }
@@ -282,15 +284,15 @@
         }
 
         .date-validite {
-            margin-left: 20px;
+            margin-left: 15px;
             color: #666;
-            font-size: 13px;
+            font-size: 12px;
         }
 
         /* ===== SECTION ACCOMPTE ===== */
         .acompte-section {
-            margin: 15px 0;
-            padding: 15px;
+            margin: 10px 0;
+            padding: 12px;
             border: 1px solid #ddd;
             border-radius: 5px;
             background: #f8f9fa;
@@ -301,22 +303,22 @@
         .acompte-field {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
         .acompte-label {
             font-weight: 600;
             color: #9b59b6;
-            font-size: 13px;
+            font-size: 12px;
             white-space: nowrap;
         }
 
         .acompte-input {
-            width: 100px;
-            padding: 8px 10px;
+            width: 80px;
+            padding: 6px 8px;
             border: 1px solid #ddd;
             border-radius: 3px;
-            font-size: 13px;
+            font-size: 12px;
             background: white;
             text-align: center;
         }
@@ -329,70 +331,56 @@
 
         .acompte-percent {
             color: #666;
-            font-size: 13px;
+            font-size: 12px;
         }
 
         /* ===== TABLEAU DES ARTICLES PROFESSIONNEL ===== */
         .table-section {
-            margin: 25px 0;
+            margin: 15px 0;
             position: relative;
             z-index: 2;
+            flex: 1;
+            max-height: 140mm;
+            overflow-y: auto;
         }
 
         .articles-table {
             width: 100%;
             border-collapse: collapse;
             border: 1px solid #ddd;
-            font-size: 12px;
-            table-layout: fixed; /* AJOUT IMPORTANT */
+            font-size: 11px;
+            table-layout: fixed;
         }
 
         .articles-table thead {
             background: #9b59b6;
             color: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         .articles-table th {
-            padding: 10px 6px; /* MODIFIÉ */
+            padding: 8px 4px;
             text-align: left;
             font-weight: 600;
-            font-size: 12px;
+            font-size: 11px;
             border-right: 1px solid rgba(255,255,255,0.2);
             overflow: hidden;
             white-space: nowrap;
         }
 
-        /* MODIFICATION : Largeurs FIXES pour chaque colonne */
-        .articles-table th:nth-child(1) { /* DÉSIGNATION */
-            width: 40%;
-            padding-left: 8px;
-        }
-        .articles-table th:nth-child(2) { /* QUANTITÉ */
-            width: 10%;
-            text-align: center;
-        }
-        .articles-table th:nth-child(3) { /* PRIX UNITAIRE HT */
-            width: 15%;
-            text-align: right;
-            padding-right: 10px;
-        }
-        .articles-table th:nth-child(4) { /* TVA */
-            width: 10%;
-            text-align: center;
-        }
-        .articles-table th:nth-child(5) { /* TOTAL HT */
-            width: 15%;
-            text-align: right;
-            padding-right: 10px;
-        }
-        .articles-table th:nth-child(6) { /* SUPPRESSION */
-            width: 5%;
-            text-align: center;
-        }
+        /* Largeurs FIXES pour chaque colonne */
+        .articles-table th:nth-child(1) { width: 40%; padding-left: 6px; }
+        .articles-table th:nth-child(2) { width: 10%; text-align: center; }
+        .articles-table th:nth-child(3) { width: 15%; text-align: right; padding-right: 8px; }
+        .articles-table th:nth-child(4) { width: 10%; text-align: center; }
+        .articles-table th:nth-child(5) { width: 15%; text-align: right; padding-right: 8px; }
+        .articles-table th:nth-child(6) { width: 5%; text-align: center; }
 
         .articles-table tbody tr {
             border-bottom: 1px solid #eee;
-            height: 40px; /* AJOUTÉ */
+            height: 35px;
         }
 
         .articles-table tbody tr:hover {
@@ -400,49 +388,36 @@
         }
 
         .articles-table td {
-            padding: 6px 4px; /* MODIFIÉ */
-            font-size: 12px;
+            padding: 5px 3px;
+            font-size: 11px;
             border-right: 1px solid #eee;
             vertical-align: middle;
             overflow: hidden;
-            height: 40px; /* AJOUTÉ */
+            height: 35px;
         }
 
-        /* MODIFICATION : Appliquer les mêmes largeurs aux TD */
+        /* Appliquer les mêmes largeurs aux TD */
         .articles-table td:nth-child(1) { width: 40%; }
-        .articles-table td:nth-child(2) { width: 10%; }
-        .articles-table td:nth-child(3) { width: 15%; }
-        .articles-table td:nth-child(4) { width: 10%; }
-        .articles-table td:nth-child(5) { width: 15%; }
-        .articles-table td:nth-child(6) { width: 5%; }
+        .articles-table td:nth-child(2) { width: 10%; text-align: center; }
+        .articles-table td:nth-child(3) { width: 15%; text-align: right; padding-right: 8px; }
+        .articles-table td:nth-child(4) { width: 10%; text-align: center; }
+        .articles-table td:nth-child(5) { width: 15%; text-align: right; padding-right: 8px; }
+        .articles-table td:nth-child(6) { width: 5%; text-align: center; }
 
-        /* MODIFICATION : Alignement spécifique */
-        .articles-table td:nth-child(2), /* QUANTITÉ */
-        .articles-table td:nth-child(6) { /* BOUTON */
-            text-align: center;
-        }
-        .articles-table td:nth-child(3), /* PRIX UNITAIRE */
-        .articles-table td:nth-child(5) { /* TOTAL */
-            text-align: right;
-            padding-right: 10px;
-        }
-
-        /* MODIFICATION : Inputs dans le tableau */
         .article-input {
             width: 100%;
             max-width: 100%;
             border: none;
-            padding: 6px 4px;
-            font-size: 12px;
+            padding: 5px 3px;
+            font-size: 11px;
             background: transparent;
             outline: none;
-            height: 30px;
+            height: 28px;
             box-sizing: border-box;
             font-family: inherit;
             margin: 0;
         }
 
-        /* MODIFICATION : SPÉCIAL pour le SELECT de désignation */
         .article-input.designation {
             text-align: left;
             width: 100%;
@@ -455,51 +430,48 @@
             -moz-appearance: none;
             background: transparent;
             cursor: pointer;
-            padding-right: 18px;
-            font-size: 12px;
+            padding-right: 15px;
+            font-size: 11px;
         }
 
-        /* Style pour les options du select */
         .article-input.designation option {
-            font-size: 12px;
-            padding: 6px;
+            font-size: 11px;
+            padding: 4px;
             max-width: 100%;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
 
-        /* Placeholder */
         .article-input.designation option[value=""] {
             color: #999;
             font-style: italic;
         }
 
-        /* Pour les inputs numériques */
         .article-input.qte,
         .article-input.pu {
             text-align: right;
             font-family: 'Consolas', 'Monaco', monospace;
-            padding-right: 8px;
-            font-size: 12px;
+            padding-right: 6px;
+            font-size: 11px;
         }
 
         .article-input.total {
             font-weight: 600;
             background: #f8f9fa;
-            font-size: 12px;
+            font-size: 11px;
             text-align: right;
             font-family: 'Consolas', 'Monaco', monospace;
-            padding-right: 8px;
+            padding-right: 6px;
             color: #9b59b6;
         }
 
         .tva-select {
             width: 100%;
-            padding: 6px 4px;
+            padding: 5px 3px;
             border: 1px solid #ddd;
             border-radius: 3px;
-            font-size: 12px;
+            font-size: 11px;
             background: white;
         }
 
@@ -512,11 +484,11 @@
             background: #e74c3c;
             color: white;
             border: none;
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 11px;
+            font-size: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -533,16 +505,16 @@
         .totals-section {
             display: flex;
             justify-content: flex-end;
-            margin-top: 25px;
+            margin-top: 15px;
             position: relative;
             z-index: 2;
         }
 
         .totals-table {
-            width: 280px;
+            width: 260px;
             border-collapse: collapse;
             border: 1px solid #ddd;
-            font-size: 13px;
+            font-size: 12px;
         }
 
         .totals-table tr {
@@ -554,8 +526,8 @@
         }
 
         .totals-table td {
-            padding: 8px 12px;
-            font-size: 13px;
+            padding: 6px 10px;
+            font-size: 12px;
         }
 
         .label-cell {
@@ -579,13 +551,13 @@
 
         .total-ttc-row td {
             font-weight: 800;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         /* ===== SECTION CONDITIONS GÉNÉRALES ===== */
         .conditions-section {
-            margin-top: 25px;
-            padding: 15px;
+            margin-top: 15px;
+            padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
             background: #f8f9fa;
@@ -596,21 +568,21 @@
         .conditions-title {
             font-weight: 700;
             color: #9b59b6;
-            font-size: 14px;
-            margin-bottom: 10px;
+            font-size: 12px;
+            margin-bottom: 5px;
             text-transform: uppercase;
         }
 
         .conditions-text {
-            font-size: 11px;
-            line-height: 1.5;
+            font-size: 10px;
+            line-height: 1.4;
             color: #555;
         }
 
         /* ===== SECTION ACCORD ET SIGNATURE ===== */
         .accord-section {
-            margin-top: 30px;
-            padding: 15px;
+            margin-top: 15px;
+            padding: 10px;
             border-top: 1px dashed #ddd;
             display: flex;
             justify-content: space-between;
@@ -622,17 +594,17 @@
             width: 60%;
             font-style: italic;
             color: #333;
-            font-size: 13px;
+            font-size: 12px;
         }
 
         .accord-date {
             font-weight: 600;
             color: #9b59b6;
-            margin-top: 8px;
-            font-size: 13px;
-            min-height: 35px;
+            margin-top: 5px;
+            font-size: 12px;
+            min-height: 30px;
             border-bottom: 1px solid #ddd;
-            padding-bottom: 5px;
+            padding-bottom: 3px;
         }
 
         .signature-box {
@@ -643,10 +615,10 @@
         .signature-label {
             font-style: italic;
             color: #666;
-            margin-top: 60px;
-            padding-top: 15px;
+            margin-top: 40px;
+            padding-top: 10px;
             border-top: 1px solid #333;
-            font-size: 13px;
+            font-size: 12px;
         }
 
         /* ===== NOTIFICATIONS ===== */
@@ -682,6 +654,202 @@
             }
         }
 
+        /* ===== MODE IMPRESSION OPTIMISÉ POUR UNE SEULE PAGE ===== */
+        @media print {
+            @page {
+                size: A4;
+                margin: 8mm;
+            }
+            
+            body {
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            .toolbar, .btn-del, .notification, .btn-back,
+            .btn-add, .btn-save, .btn-print {
+                display: none !important;
+            }
+            
+            .page-container {
+                padding: 0 !important;
+                margin: 0 !important;
+                display: block !important;
+            }
+            
+            .page {
+                width: 100% !important;
+                min-height: 0 !important;
+                height: auto !important;
+                max-height: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                box-shadow: none !important;
+                border: none !important;
+                overflow: visible !important;
+                page-break-inside: avoid !important;
+                page-break-after: avoid !important;
+            }
+            
+            /* Réduire tous les espacements */
+            .header {
+                margin-bottom: 5px !important;
+                padding-bottom: 3px !important;
+            }
+            
+            .company-details, .company-details-arabic {
+                font-size: 10px !important;
+                line-height: 1.2 !important;
+            }
+            
+            .company-logo-center {
+                font-size: 22px !important;
+                padding-top: 5px !important;
+            }
+            
+            .invoice-info {
+                margin: 3px 0 8px 0 !important;
+            }
+            
+            .invoice-title {
+                font-size: 20px !important;
+                margin-bottom: 2px !important;
+            }
+            
+            .invoice-details {
+                font-size: 12px !important;
+                gap: 20px !important;
+            }
+            
+            .client-section, .validite-section, .acompte-section {
+                margin: 5px 0 !important;
+                padding: 6px !important;
+            }
+            
+            .client-label, .validite-label, .acompte-label {
+                font-size: 11px !important;
+                margin-bottom: 2px !important;
+            }
+            
+            .client-input, .validite-input, .acompte-input {
+                font-size: 11px !important;
+                padding: 4px 6px !important;
+                height: 30px !important;
+                border: 1px solid #ccc !important;
+            }
+            
+            .table-section {
+                margin: 5px 0 !important;
+                max-height: none !important;
+                overflow: visible !important;
+            }
+            
+            .articles-table {
+                font-size: 9px !important;
+                border: 1px solid #9b59b6 !important;
+            }
+            
+            .articles-table th {
+                padding: 4px 2px !important;
+                font-size: 10px !important;
+            }
+            
+            .articles-table td {
+                padding: 3px 2px !important;
+                font-size: 9px !important;
+                height: 25px !important;
+            }
+            
+            .article-input {
+                font-size: 9px !important;
+                height: 22px !important;
+                padding: 2px 2px !important;
+            }
+            
+            .tva-select {
+                font-size: 9px !important;
+                padding: 2px 2px !important;
+                border: none !important;
+                background: transparent !important;
+            }
+            
+            .totals-section {
+                margin-top: 8px !important;
+            }
+            
+            .totals-table {
+                width: 220px !important;
+                font-size: 11px !important;
+                border: 1px solid #9b59b6 !important;
+            }
+            
+            .totals-table td {
+                padding: 4px 8px !important;
+                font-size: 11px !important;
+            }
+            
+            .conditions-section {
+                margin-top: 5px !important;
+                padding: 5px !important;
+            }
+            
+            .conditions-title {
+                font-size: 11px !important;
+            }
+            
+            .conditions-text {
+                font-size: 9px !important;
+                line-height: 1.3 !important;
+            }
+            
+            .accord-section {
+                margin-top: 5px !important;
+                padding: 5px !important;
+            }
+            
+            .accord-text, .signature-label {
+                font-size: 11px !important;
+            }
+            
+            .signature-label {
+                margin-top: 30px !important;
+                padding-top: 5px !important;
+            }
+            
+            .client-input, .validite-input, .acompte-input, 
+            .article-input, .tva-select {
+                border: none !important;
+                background: transparent !important;
+                -webkit-appearance: none !important;
+                -moz-appearance: none !important;
+                appearance: none !important;
+            }
+            
+            select.article-input.designation {
+                -webkit-appearance: none !important;
+                -moz-appearance: none !important;
+                appearance: none !important;
+                padding-right: 0 !important;
+                background: transparent !important;
+            }
+            
+            select.article-input.designation option {
+                display: none !important;
+            }
+            
+            /* Compresser davantage pour gagner de la place */
+            br {
+                display: none !important;
+            }
+            
+            .page > * {
+                margin-bottom: 2px !important;
+            }
+        }
+
         /* ===== RESPONSIVE ===== */
         @media screen and (max-width: 768px) {
             .toolbar {
@@ -709,7 +877,7 @@
             .company-info-right {
                 width: 100%;
                 text-align: center;
-                margin-bottom: 15px;
+                margin-bottom: 10px;
             }
             
             .company-info-right {
@@ -723,11 +891,15 @@
             
             .invoice-info {
                 text-align: center;
-                margin-top: 20px;
+                margin-top: 10px;
             }
             
             .client-info {
                 grid-template-columns: 1fr;
+            }
+            
+            .validite-field, .acompte-field {
+                flex-wrap: wrap;
             }
             
             .accord-section {
@@ -739,134 +911,7 @@
             }
             
             .signature-label {
-                margin-top: 40px;
-            }
-        }
-
-        /* ===== MODE IMPRESSION PROFESSIONNEL ===== */
-        @media print {
-            @page {
-                size: A4;
-                margin: 15mm;
-            }
-            
-            body {
-                background: white !important;
-                padding: 0 !important;
-                margin: 0 !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-            
-            .toolbar, .btn-del, .notification, .btn-back {
-                display: none !important;
-            }
-            
-            .page-container {
-                padding: 0 !important;
-                margin: 0 !important;
-                display: block !important;
-            }
-            
-            .page {
-                box-shadow: none !important;
-                border: none !important;
-                margin: 0 !important;
-                padding: 15mm !important;
-                width: 210mm !important;
-                min-height: 297mm !important;
-                height: 297mm !important;
-                page-break-after: always;
-                page-break-inside: avoid;
-                overflow: hidden !important;
-                position: relative;
-            }
-            
-            /* Masquer les éléments d'interface */
-            .btn-add, .btn-save, .btn-print {
-                display: none !important;
-            }
-            
-            /* Style pour les inputs en mode impression */
-            .client-input, .article-input, .validite-input, .acompte-input, .tva-select {
-                border: none !important;
-                background: transparent !important;
-                -webkit-appearance: none;
-                appearance: none;
-                box-shadow: none !important;
-                outline: none !important;
-            }
-            
-            .client-input::placeholder,
-            .article-input::placeholder,
-            .validite-input::placeholder,
-            .acompte-input::placeholder {
-                color: transparent !important;
-            }
-            
-            /* Afficher le contenu des inputs */
-            input[type="text"],
-            input[type="number"],
-            input[type="date"],
-            select {
-                border: none !important;
-                background: transparent !important;
-                color: #000 !important;
-                -webkit-text-fill-color: #000 !important;
-            }
-            
-            /* Masquer les boutons de suppression */
-            .btn-del {
-                display: none !important;
-            }
-            
-            /* Supprimer les effets de hover en impression */
-            .articles-table tbody tr:hover {
-                background: transparent !important;
-            }
-            
-            /* Ajustement des tailles pour impression */
-            .company-details, .company-details-arabic {
-                font-size: 10.5px !important;
-                line-height: 1.4 !important;
-            }
-            
-            .invoice-title {
-                font-size: 22px !important;
-            }
-            
-            .articles-table {
-                font-size: 11px !important;
-            }
-            
-            .articles-table th,
-            .articles-table td {
-                padding: 6px 5px !important;
-                font-size: 11px !important;
-            }
-            
-            .totals-table {
-                width: 250px !important;
-                font-size: 12px !important;
-            }
-            
-            .accord-section {
-                margin-top: 25px !important;
-                padding: 10px !important;
-            }
-            
-            /* Empêcher les coupures de page */
-            .header, .invoice-info, .client-section, .table-section, 
-            .totals-section, .accord-section, .conditions-section {
-                page-break-inside: avoid !important;
-                page-break-after: avoid !important;
-            }
-            
-            /* Limiter le nombre de lignes pour éviter le débordement */
-            .articles-table tbody {
-                max-height: 180mm !important;
-                display: block;
-                overflow: hidden;
+                margin-top: 30px;
             }
         }
     </style>
@@ -902,7 +947,6 @@
         <div class="header">
             <!-- Colonne gauche : Français -->
             <div class="company-info-left">
-      
                 <div class="company-details">
                     Sté MESSAOUDI d'Artisanat Traditionnel<br>
                     Fabrication des Lustres et Lampes Artisanales<br>
@@ -1066,7 +1110,7 @@
         initialiserDevis();
         chargerDevisSauvegarde();
         mettreAJourInterface();
-        chargerProduitsDansSelect();
+        setTimeout(() => chargerProduitsDansSelect(), 200);
     });
 
     // Initialiser le devis
@@ -1138,7 +1182,7 @@
         ajouterLigne();
     }
 
-    // MODIFICATION : Fonction ajouterLigne avec sélection de produit
+    // Fonction ajouterLigne avec sélection de produit
     function ajouterLigne() {
         compteurLignes++;
         const ligneId = `ligne-${compteurLignes}`;
@@ -1186,6 +1230,7 @@
         document.getElementById('corpsTableau').appendChild(ligne);
         
         // Ajouter aux articles
+        if (!devisActuel) devisActuel = { articles: [] };
         devisActuel.articles.push({
             id: ligneId,
             codeProduit: '',
@@ -1206,7 +1251,7 @@
         afficherNotification('Nouvelle ligne ajoutée', 'info');
     }
 
-    // NOUVELLE FONCTION : Charger les produits dans les selects
+    // Charger les produits dans les selects
     function chargerProduitsDansSelect() {
         const stock = JSON.parse(localStorage.getItem('stock') || '[]');
         const produitsDisponibles = stock.filter(p => p.quantite > 0);
@@ -1241,7 +1286,7 @@
         });
     }
 
-    // NOUVELLE FONCTION : Mettre à jour un produit sélectionné
+    // Mettre à jour un produit sélectionné
     function mettreAJourProduit(ligneId) {
         const ligne = document.querySelector(`tr[data-id="${ligneId}"]`);
         if (!ligne) return;
@@ -1253,16 +1298,13 @@
         const quantiteInput = ligne.querySelector('.qte');
         const selectedOption = select.options[select.selectedIndex];
         
-        if (selectedOption.value) {
-            // Remplir automatiquement le prix
+        if (selectedOption && selectedOption.value) {
             const prix = parseFloat(selectedOption.dataset.prix) || 0;
             prixInput.value = prix.toFixed(3);
             
-            // Définir la TVA par défaut du produit
             const tvaProduit = parseFloat(selectedOption.dataset.tva) || 7;
-            const tauxTVA = tvaProduit / 100; // Convertir 7% en 0.07
+            const tauxTVA = tvaProduit / 100;
             
-            // Trouver l'option correspondant à la TVA du produit
             const optionsTVA = tvaSelect.options;
             let optionTrouvee = false;
             for (let i = 0; i < optionsTVA.length; i++) {
@@ -1273,17 +1315,14 @@
                 }
             }
             
-            // Si la TVA spécifique n'est pas trouvée, utiliser 7% par défaut
             if (!optionTrouvee) {
                 tvaSelect.value = "0.07";
             }
             
-            // Calculer le total avec la quantité actuelle
             const quantite = parseFloat(quantiteInput.value) || 0;
             const total = quantite * prix;
             totalInput.value = total.toFixed(3);
             
-            // Mettre à jour dans devisActuel
             const articleIndex = devisActuel.articles.findIndex(a => a.id === ligneId);
             if (articleIndex !== -1) {
                 devisActuel.articles[articleIndex].codeProduit = selectedOption.value;
@@ -1293,10 +1332,8 @@
                 devisActuel.articles[articleIndex].totalHT = total;
             }
             
-            // Vérifier le stock pour la quantité actuelle
             verifierStockLigne(ligneId);
         } else {
-            // Si aucun produit sélectionné
             prixInput.value = '0.000';
             totalInput.value = '0.000';
             tvaSelect.value = '0.07';
@@ -1311,12 +1348,11 @@
             }
         }
         
-        // Recalculer les totaux
         calculerDevis();
         sauvegarderBrouillon();
     }
 
-    // NOUVELLE FONCTION : Calculer une ligne
+    // Calculer une ligne
     function calculerLigne(ligneId) {
         const ligne = document.querySelector(`tr[data-id="${ligneId}"]`);
         if (!ligne) return;
@@ -1340,7 +1376,7 @@
         sauvegarderBrouillon();
     }
 
-    // NOUVELLE FONCTION : Vérifier le stock pour une ligne
+    // Vérifier le stock pour une ligne
     function verifierStockLigne(ligneId) {
         const ligne = document.querySelector(`tr[data-id="${ligneId}"]`);
         if (!ligne) return;
@@ -1387,7 +1423,6 @@
         const ligne = document.querySelector(`tr[data-id="${ligneId}"]`);
         if (!ligne) return;
         
-        // Vérifier qu'il reste au moins une ligne
         if (document.querySelectorAll('.ligne-article').length <= 1) {
             afficherNotification('Au moins une ligne est requise', 'error');
             return;
@@ -1395,7 +1430,6 @@
         
         ligne.remove();
         
-        // Supprimer de devisActuel
         devisActuel.articles = devisActuel.articles.filter(a => a.id !== ligneId);
         
         calculerDevis();
@@ -1405,10 +1439,11 @@
 
     // Calculer les totaux du devis
     function calculerDevis() {
+        if (!devisActuel) return;
+        
         let totalHT = 0;
         let totalTVA = 0;
         
-        // Calculer total HT et TVA
         devisActuel.articles.forEach(article => {
             const totalArticleHT = article.totalHT || 0;
             const tauxTVA = article.tauxTVA || 0.07;
@@ -1418,12 +1453,10 @@
         
         const totalTTC = totalHT + totalTVA;
         
-        // Récupérer le pourcentage d'acompte
         const pourcentageAcompte = parseFloat(document.getElementById('pourcentageAcompte').value) || 50;
         const acompte = totalTTC * (pourcentageAcompte / 100);
         const solde = totalTTC - acompte;
         
-        // Mettre à jour l'objet
         devisActuel.totalHT = totalHT;
         devisActuel.tva = totalTVA;
         devisActuel.totalTTC = totalTTC;
@@ -1432,34 +1465,30 @@
         devisActuel.solde = solde;
         devisActuel.updatedAt = new Date().toISOString();
         
-        // Mettre à jour l'interface
         document.getElementById('totalHT').textContent = totalHT.toFixed(3);
         document.getElementById('tva').textContent = totalTVA.toFixed(3);
         document.getElementById('ttc').textContent = totalTTC.toFixed(3);
         document.getElementById('pourcentageAffiche').textContent = pourcentageAcompte;
         document.getElementById('acompte').textContent = acompte.toFixed(3);
         document.getElementById('solde').textContent = solde.toFixed(3);
-        
-        // Mettre à jour les conditions générales
         document.getElementById('conditionsAcompte').textContent = pourcentageAcompte + '%';
         
-        // Sauvegarder automatiquement
         sauvegarderBrouillon();
     }
 
     // Sauvegarder le brouillon
     function sauvegarderBrouillon() {
-        // Mettre à jour les infos client
+        if (!devisActuel) return;
+        
         devisActuel.clientNom = document.getElementById('clientName').value;
         devisActuel.clientAdresse = document.getElementById('clientAddress').value;
         devisActuel.clientPhone = document.getElementById('clientPhone').value;
         devisActuel.clientEmail = document.getElementById('clientEmail').value;
         
-        // Sauvegarder dans localStorage
         localStorage.setItem('devisBrouillon', JSON.stringify(devisActuel));
     }
 
-    // MODIFICATION : Charger le brouillon avec gestion des produits
+    // Charger le brouillon
     function chargerDevisSauvegarde() {
         const brouillon = localStorage.getItem('devisBrouillon');
         if (!brouillon) return;
@@ -1467,10 +1496,8 @@
         try {
             devisActuel = JSON.parse(brouillon);
             
-            // Mettre à jour l'interface
             document.getElementById('numDevis').textContent = devisActuel.numero;
             
-            // Formater la date pour l'input date
             if (devisActuel.date) {
                 const [jour, mois, annee] = devisActuel.date.split('/');
                 document.getElementById('dateDevis').value = `${annee}-${mois.padStart(2, '0')}-${jour.padStart(2, '0')}`;
@@ -1483,67 +1510,63 @@
             document.getElementById('validiteJours').value = devisActuel.validiteJours || 30;
             document.getElementById('pourcentageAcompte').value = devisActuel.pourcentageAcompte || 50;
             
-            // Calculer date de validité
             calculerValidite();
             
-            // Charger les articles
             const tbody = document.getElementById('corpsTableau');
             tbody.innerHTML = '';
             compteurLignes = 0;
             
-            devisActuel.articles.forEach(article => {
-                compteurLignes++;
-                const ligne = document.createElement('tr');
-                ligne.className = 'ligne-article';
-                ligne.dataset.id = article.id;
-                ligne.innerHTML = `
-                    <td>
-                        <select class="article-input designation" 
-                                onchange="mettreAJourProduit('${article.id}')"
-                                data-ligne="${article.id}">
-                            <option value="">-- Choisir produit --</option>
-                        </select>
-                    </td>
-                    <td>
-                        <input type="number" class="article-input qte" 
-                               value="${article.quantite || 1}"
-                               oninput="calculerLigne('${article.id}')">
-                    </td>
-                    <td>
-                        <input type="number" class="article-input pu" 
-                               value="${article.prixUnitaire || 0}"
-                               readonly>
-                    </td>
-                    <td>
-                        <select class="tva-select" oninput="calculerLigne('${article.id}')">
-                            <option value="0.07" ${article.tauxTVA === 0.07 ? 'selected' : ''}>7%</option>
-                            <option value="0.19" ${article.tauxTVA === 0.19 ? 'selected' : ''}>19%</option>
-                            <option value="0" ${article.tauxTVA === 0 ? 'selected' : ''}>0%</option>
-                        </select>
-                    </td>
-                    <td>
-                        <input type="text" class="article-input total" 
-                               value="${article.totalHT ? article.totalHT.toFixed(3) : '0.000'}" 
-                               readonly>
-                    </td>
-                    <td>
-                        <button type="button" class="btn-del" onclick="supprimerLigne('${article.id}')">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(ligne);
-            });
+            if (devisActuel.articles && devisActuel.articles.length > 0) {
+                devisActuel.articles.forEach(article => {
+                    compteurLignes++;
+                    const ligne = document.createElement('tr');
+                    ligne.className = 'ligne-article';
+                    ligne.dataset.id = article.id;
+                    ligne.innerHTML = `
+                        <td>
+                            <select class="article-input designation" 
+                                    onchange="mettreAJourProduit('${article.id}')"
+                                    data-ligne="${article.id}">
+                                <option value="">-- Choisir produit --</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="number" class="article-input qte" 
+                                   value="${article.quantite || 1}"
+                                   oninput="calculerLigne('${article.id}')">
+                        </td>
+                        <td>
+                            <input type="number" class="article-input pu" 
+                                   value="${article.prixUnitaire || 0}"
+                                   readonly>
+                        </td>
+                        <td>
+                            <select class="tva-select" oninput="calculerLigne('${article.id}')">
+                                <option value="0.07" ${article.tauxTVA === 0.07 ? 'selected' : ''}>7%</option>
+                                <option value="0.19" ${article.tauxTVA === 0.19 ? 'selected' : ''}>19%</option>
+                                <option value="0" ${article.tauxTVA === 0 ? 'selected' : ''}>0%</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" class="article-input total" 
+                                   value="${article.totalHT ? article.totalHT.toFixed(3) : '0.000'}" 
+                                   readonly>
+                        </td>
+                        <td>
+                            <button type="button" class="btn-del" onclick="supprimerLigne('${article.id}')">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(ligne);
+                });
+            }
             
-            // Ajouter une ligne si vide
-            if (devisActuel.articles.length === 0) {
+            if (!devisActuel.articles || devisActuel.articles.length === 0) {
                 ajouterLigneInitiale();
             } else {
-                // Charger les produits et restaurer les sélections
                 setTimeout(() => {
                     chargerProduitsDansSelect();
-                    
-                    // Restaurer les sélections de produits
                     devisActuel.articles.forEach(article => {
                         if (article.codeProduit) {
                             const select = document.querySelector(`select[data-ligne="${article.id}"]`);
@@ -1553,7 +1576,6 @@
                             }
                         }
                     });
-                    
                     calculerDevis();
                 }, 200);
             }
@@ -1567,7 +1589,11 @@
 
     // Sauvegarder le devis
     function sauvegarderDevis() {
-        // Validation
+        if (!devisActuel) {
+            afficherNotification('Erreur: devis non initialisé', 'error');
+            return false;
+        }
+        
         if (!devisActuel.clientNom || devisActuel.clientNom.trim() === '') {
             afficherNotification('Veuillez saisir le nom du client', 'error');
             document.getElementById('clientName').focus();
@@ -1579,40 +1605,31 @@
             return false;
         }
         
-        // Vérifier que tous les articles ont un produit sélectionné
         const articlesInvalides = devisActuel.articles.filter(a => !a.codeProduit || a.prixUnitaire <= 0);
         if (articlesInvalides.length > 0) {
             afficherNotification('Certains articles sont incomplets', 'error');
             return false;
         }
         
-        // Changer le statut
         devisActuel.statut = 'en_attente';
         devisActuel.dateFinalisation = new Date().toISOString();
         
-        // Récupérer l'historique global
         let historique = JSON.parse(localStorage.getItem('historique_global') || '[]');
-        
-        // Vérifier si existe déjà
         const index = historique.findIndex(d => d.id === devisActuel.id);
+        
         if (index !== -1) {
             historique[index] = devisActuel;
         } else {
             historique.push(devisActuel);
         }
         
-        // Sauvegarder
         localStorage.setItem('historique_global', JSON.stringify(historique));
         
-        // Mettre à jour le dernier numéro
         const numeroActuel = parseInt(devisActuel.numero.replace('DEV-', ''));
         localStorage.setItem('dernierNumeroDevis', numeroActuel);
-        
-        // Effacer le brouillon
         localStorage.removeItem('devisBrouillon');
         
         afficherNotification('Devis sauvegardé dans l\'historique avec succès !', 'success');
-        
         return true;
     }
 
@@ -1636,7 +1653,6 @@
 
     // Mettre à jour l'interface
     function mettreAJourInterface() {
-        // Mettre à jour la date dans un format français
         const dateInput = document.getElementById('dateDevis');
         dateInput.addEventListener('change', function() {
             const date = new Date(this.value);
@@ -1648,40 +1664,31 @@
             sauvegarderBrouillon();
         });
         
-        // Validité jours
         const validiteInput = document.getElementById('validiteJours');
         validiteInput.addEventListener('input', function() {
             calculerValidite();
         });
         
-        // Pourcentage acompte
         const acompteInput = document.getElementById('pourcentageAcompte');
         acompteInput.addEventListener('input', function() {
             calculerDevis();
         });
         
-        // Auto-save toutes les 30 secondes
         setInterval(() => {
-            if (devisActuel.clientNom) {
+            if (devisActuel && devisActuel.clientNom) {
                 sauvegarderBrouillon();
             }
         }, 30000);
         
-        // Raccourcis clavier
         document.addEventListener('keydown', function(e) {
-            // Ctrl + S pour sauvegarder
             if (e.ctrlKey && e.key === 's') {
                 e.preventDefault();
                 sauvegarderDevis();
             }
-            
-            // Ctrl + P pour imprimer
             if (e.ctrlKey && e.key === 'p') {
                 e.preventDefault();
                 imprimerDevisProfessionnel();
             }
-            
-            // Ctrl + N pour nouvelle ligne
             if (e.ctrlKey && e.key === 'n') {
                 e.preventDefault();
                 ajouterLigne();
@@ -1689,7 +1696,7 @@
         });
     }
 
-    // Fonctions utilitaires
+    // Afficher notification
     function afficherNotification(message, type = 'info') {
         const notification = document.createElement('div');
         notification.className = `notification ${type}`;
@@ -1705,7 +1712,6 @@
         
         document.body.appendChild(notification);
         
-        // Supprimer les anciennes notifications
         const anciennesNotifs = document.querySelectorAll('.notification');
         if (anciennesNotifs.length > 3) {
             anciennesNotifs[0].remove();
