@@ -117,7 +117,7 @@
             margin: 0 auto;
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
             border: 1px solid #ddd;
-            overflow: visible; /* Changé de hidden à visible */
+            overflow: visible;
             display: flex;
             flex-direction: column;
         }
@@ -134,13 +134,11 @@
             z-index: 2;
         }
 
-        /* Colonne gauche : Français */
         .company-info-left {
             width: 50%;
             text-align: left;
         }
 
-        /* Colonne centrale : S.M.D.A */
         .company-logo-center {
             width: 18%;
             text-align: center;
@@ -150,18 +148,10 @@
             padding-top: 10px;
         }
 
-        /* Colonne droite : Arabe */
         .company-info-right {
             width: 40%;
             text-align: right;
             direction: rtl;
-        }
-
-        .company-logo {
-            font-size: 20px;
-            font-weight: 800;
-            color: #861e1e;
-            margin-bottom: 5px;
         }
 
         .company-details {
@@ -200,7 +190,6 @@
             margin-top: 5px;
         }
 
-        /* ===== INFORMATIONS CLIENT PROFESSIONNELLES ===== */
         .client-section {
             margin: 15px 0;
             padding: 10px;
@@ -237,20 +226,13 @@
             background: white;
         }
 
-        .client-input:focus {
-            outline: none;
-            border-color: #1a2980;
-            box-shadow: 0 0 0 2px rgba(26, 41, 128, 0.1);
-        }
-
-        /* ===== TABLEAU DES ARTICLES PROFESSIONNEL ===== */
         .table-section {
             margin: 15px 0;
             position: relative;
             z-index: 2;
-            flex: 1; /* Prend l'espace disponible */
-            max-height: 180mm; /* Limite la hauteur du tableau */
-            overflow-y: auto; /* Scroll si trop de lignes */
+            flex: 1;
+            max-height: 180mm;
+            overflow-y: auto;
         }
 
         .articles-table {
@@ -282,10 +264,6 @@
 
         .articles-table tbody tr {
             border-bottom: 1px solid #eee;
-        }
-
-        .articles-table tbody tr:hover {
-            background: #f8f9fa;
         }
 
         .articles-table td {
@@ -342,7 +320,6 @@
             background: #c0392b;
         }
 
-        /* ===== SECTION TOTAUX PROFESSIONNELLE ===== */
         .totals-section {
             display: flex;
             justify-content: flex-end;
@@ -395,7 +372,6 @@
             font-size: 13px;
         }
 
-        /* ===== SECTION TIMBRE ET MONTANT ===== */
         .timbre-ttc-section {
             display: flex;
             justify-content: space-between;
@@ -435,7 +411,6 @@
             color: #861e1e;
         }
 
-        /* ===== SECTION ARRÊTÉE LA PRÉSENTE FACTURE ===== */
         .arrete-section {
             margin-top: 15px;
             padding: 10px;
@@ -477,7 +452,6 @@
             font-size: 12px;
         }
 
-        /* ===== NOTIFICATIONS ===== */
         .notification {
             position: fixed;
             top: 20px;
@@ -510,11 +484,10 @@
             }
         }
 
-        /* ===== MODE IMPRESSION PROFESSIONNEL ===== */
         @media print {
             @page {
                 size: A4;
-                margin: 10mm; /* Marges fixes pour l'impression */
+                margin: 10mm;
             }
             
             body {
@@ -525,7 +498,8 @@
                 print-color-adjust: exact !important;
             }
             
-            .toolbar, .btn-del, .notification, .btn-back {
+            .toolbar, .btn-del, .notification, .btn-back,
+            .btn-add, .btn-save, .btn-print {
                 display: none !important;
             }
             
@@ -540,7 +514,7 @@
                 min-height: 0 !important;
                 height: auto !important;
                 background: white !important;
-                padding: 0 !important; /* Supprimer le padding pour utiliser les marges @page */
+                padding: 0 !important;
                 margin: 0 !important;
                 box-shadow: none !important;
                 border: none !important;
@@ -548,12 +522,6 @@
                 display: block !important;
             }
             
-            /* Masquer les éléments d'interface */
-            .btn-add, .btn-save, .btn-print {
-                display: none !important;
-            }
-            
-            /* Style pour les inputs en mode impression */
             .client-input, .article-input {
                 border: none !important;
                 background: transparent !important;
@@ -568,7 +536,6 @@
                 color: transparent !important;
             }
             
-            /* Afficher le contenu des inputs */
             input[type="text"],
             input[type="number"],
             input[type="date"],
@@ -579,17 +546,14 @@
                 -webkit-text-fill-color: #000 !important;
             }
             
-            /* Masquer les boutons de suppression */
             .btn-del {
                 display: none !important;
             }
             
-            /* Supprimer les effets de hover en impression */
             .articles-table tbody tr:hover {
                 background: transparent !important;
             }
             
-            /* Ajustement des tailles pour impression */
             .company-details, .company-details-arabic {
                 font-size: 10px !important;
                 line-height: 1.3 !important;
@@ -627,21 +591,18 @@
                 padding: 5px !important;
             }
             
-            /* Empêcher les coupures de page à l'intérieur des sections importantes */
             .header, .invoice-info, .client-section, 
             .totals-section, .timbre-ttc-section, .arrete-section {
                 page-break-inside: avoid !important;
                 page-break-after: avoid !important;
             }
             
-            /* Gérer le tableau qui peut déborder */
             .table-section {
                 max-height: none !important;
                 overflow: visible !important;
                 page-break-inside: auto !important;
             }
             
-            /* Permettre la coupure de page dans le tableau si nécessaire */
             .articles-table {
                 page-break-inside: auto !important;
             }
@@ -656,7 +617,6 @@
                 page-break-inside: avoid !important;
             }
             
-            /* Forcer l'impression sur une seule page en réduisant la taille */
             .header {
                 margin-bottom: 5px !important;
                 padding-bottom: 5px !important;
@@ -672,49 +632,16 @@
                 padding: 5px !important;
             }
             
-            /* Compresser légèrement l'espacement */
             br {
                 display: none !important;
             }
             
-            /* Réduire les espacements verticaux */
             .page > * {
                 margin-top: 0 !important;
                 margin-bottom: 2px !important;
             }
-            
-            /* Remplacer les selects par du texte */
-            select.article-input {
-                -webkit-appearance: none;
-                -moz-appearance: none;
-                appearance: none;
-                padding: 0 !important;
-                margin: 0 !important;
-                background: transparent !important;
-                border: none !important;
-                color: #000 !important;
-            }
-            
-            select.article-input option:not(:checked) {
-                display: none !important;
-            }
-            
-            select.article-input::before {
-                content: attr(data-selected-text) !important;
-                display: block !important;
-            }
-            
-            /* Afficher le texte sélectionné uniquement */
-            select.article-input option {
-                display: none !important;
-            }
-            
-            select.article-input option[selected] {
-                display: block !important;
-            }
         }
 
-        /* ===== RESPONSIVE ===== */
         @media screen and (max-width: 768px) {
             .toolbar {
                 flex-direction: column;
@@ -812,9 +739,7 @@
 <div class="page-container">
     <div class="page">
         
-        <!-- En-tête société -->
         <div class="header">
-            <!-- Colonne gauche : Français -->
             <div class="company-info-left">
                 <div class="company-details">
                     Sté MESSAOUDI d'Artisanat Traditionnel<br>
@@ -827,12 +752,10 @@
                 </div>
             </div>
             
-            <!-- Colonne centrale : S.M.D.A -->
             <div class="company-logo-center">
                 S.M.D.A
             </div>
             
-            <!-- Colonne droite : Arabe -->
             <div class="company-info-right">
                 <div class="company-details-arabic">
                     شركة المسعودي للصناعات التقليدية<br>
@@ -846,7 +769,6 @@
             </div>
         </div>
         
-        <!-- Section facture -->
         <div class="invoice-info">
             <div class="invoice-title">FACTURE</div>
             <div class="invoice-details">
@@ -855,7 +777,6 @@
             </div>
         </div>
 
-        <!-- Informations client -->
         <div class="client-section">
             <div class="client-info">
                 <div class="client-field">
@@ -873,7 +794,6 @@
             </div>
         </div>
 
-        <!-- Tableau des articles -->
         <div class="table-section">
             <table class="articles-table">
                 <thead>
@@ -886,12 +806,10 @@
                     </tr>
                 </thead>
                 <tbody id="corpsTableau">
-                    <!-- Lignes seront ajoutées ici -->
                 </tbody>
             </table>
         </div>
 
-        <!-- Totaux -->
         <div class="totals-section">
             <table class="totals-table">
                 <tr>
@@ -913,7 +831,6 @@
             </table>
         </div>
 
-        <!-- Section Timbre Fiscal et Montant T.T.C -->
         <div class="timbre-ttc-section">
             <div class="timbre-box">
                 <div class="timbre-label">Timbre Fiscal</div>
@@ -925,7 +842,6 @@
             </div>
         </div>
 
-        <!-- Arrêtée la présente facture -->
         <div class="arrete-section">
             <div class="arrete-text">
                 Arrêtée la présente facture à la somme de :
@@ -940,35 +856,27 @@
 </div>
 
 <script>
-    // Variables globales
-    let lignesArticles = [];
     let compteurLignes = 0;
     let factureActuelle = null;
 
-    // Initialisation
     document.addEventListener('DOMContentLoaded', function() {
         initialiserFacture();
         chargerFactureSauvegardee();
         mettreAJourInterface();
-        // Charger les produits au démarrage
         setTimeout(() => chargerProduitsDansSelect(), 200);
     });
 
-    // Initialiser la facture
     function initialiserFacture() {
-        // Générer numéro de facture
         let dernierNumero = parseInt(localStorage.getItem('dernierNumeroFacture') || '397');
         let nouveauNumero = dernierNumero + 1;
         document.getElementById('numDoc').textContent = nouveauNumero.toString().padStart(6, '0');
         
-        // Date du jour
         let aujourdhui = new Date();
         let jour = aujourdhui.getDate().toString().padStart(2, '0');
         let mois = (aujourdhui.getMonth() + 1).toString().padStart(2, '0');
         let annee = aujourdhui.getFullYear();
         document.getElementById('dateDoc').value = `${annee}-${mois}-${jour}`;
         
-        // Créer objet facture
         factureActuelle = {
             id: 'FAC-' + Date.now(),
             type: 'facture',
@@ -990,14 +898,12 @@
         ajouterLigneInitiale();
     }
 
-    // Ajouter première ligne
     function ajouterLigneInitiale() {
         const tbody = document.getElementById('corpsTableau');
         tbody.innerHTML = '';
         ajouterLigne();
     }
 
-    // NOUVELLE FONCTION ajouterLigne avec sélection de produit
     function ajouterLigne() {
         compteurLignes++;
         const ligneId = `ligne-${compteurLignes}`;
@@ -1012,7 +918,6 @@
                         onchange="mettreAJourProduit('${ligneId}')"
                         data-ligne="${ligneId}">
                     <option value="">-- Sélectionner un produit --</option>
-                    <!-- Les options seront ajoutées dynamiquement -->
                 </select>
             </td>
             <td>
@@ -1037,7 +942,6 @@
         
         document.getElementById('corpsTableau').appendChild(ligne);
         
-        // Ajouter aux articles
         factureActuelle.articles.push({
             id: ligneId,
             codeProduit: '',
@@ -1048,38 +952,27 @@
             stockOk: false
         });
         
-        // Charger les produits dans le select
         setTimeout(() => {
             chargerProduitsDansSelect();
-            // Focus sur le select
             ligne.querySelector('.designation').focus();
         }, 100);
         
         afficherNotification('Nouvelle ligne ajoutée', 'info');
     }
 
-    // NOUVELLE FONCTION : Charger les produits dans les selects
     function chargerProduitsDansSelect() {
-        console.log('Chargement des produits depuis le stock...');
-        
-        // Charger les produits du stock
         const stock = JSON.parse(localStorage.getItem('stock') || '[]');
         const produitsDisponibles = stock.filter(p => p.quantite > 0);
         
-        console.log(`${produitsDisponibles.length} produits disponibles`);
-        
-        // Pour chaque select de produit
         document.querySelectorAll('select.article-input.designation').forEach(select => {
             const ligneId = select.getAttribute('data-ligne');
             const currentValue = select.value;
             
-            // Sauvegarder l'option sélectionnée si elle existe
             let selectedOption = null;
             if (currentValue) {
                 selectedOption = Array.from(select.options).find(opt => opt.value === currentValue);
             }
             
-            // Vider et remplir avec les produits
             select.innerHTML = '<option value="">-- Sélectionner un produit --</option>';
             
             produitsDisponibles.forEach(produit => {
@@ -1092,21 +985,17 @@
                 select.appendChild(option);
             });
             
-            // Restaurer la sélection précédente si elle existe toujours
             if (selectedOption && produitsDisponibles.some(p => p.code === currentValue)) {
                 select.value = currentValue;
-                // Mettre à jour le produit
                 setTimeout(() => mettreAJourProduit(ligneId), 50);
             }
         });
         
-        // Afficher un message si aucun produit
         if (produitsDisponibles.length === 0) {
             console.warn('Aucun produit en stock');
         }
     }
 
-    // NOUVELLE FONCTION : Mettre à jour un produit sélectionné
     function mettreAJourProduit(ligneId) {
         const ligne = document.querySelector(`tr[data-id="${ligneId}"]`);
         if (!ligne) return;
@@ -1118,16 +1007,13 @@
         const selectedOption = select.options[select.selectedIndex];
         
         if (selectedOption && selectedOption.value) {
-            // Remplir automatiquement le prix
             const prix = parseFloat(selectedOption.dataset.prix) || 0;
             prixInput.value = prix.toFixed(3);
             
-            // Calculer le total avec la quantité actuelle
             const quantite = parseFloat(quantiteInput.value) || 0;
             const total = quantite * prix;
             totalInput.value = total.toFixed(3);
             
-            // Mettre à jour dans factureActuelle
             const articleIndex = factureActuelle.articles.findIndex(a => a.id === ligneId);
             if (articleIndex !== -1) {
                 factureActuelle.articles[articleIndex].codeProduit = selectedOption.value;
@@ -1136,10 +1022,8 @@
                 factureActuelle.articles[articleIndex].totalHT = total;
             }
             
-            // Vérifier le stock pour la quantité actuelle
             verifierStockLigne(ligneId);
         } else {
-            // Si aucun produit sélectionné
             prixInput.value = '0.000';
             totalInput.value = '0.000';
             
@@ -1152,12 +1036,10 @@
             }
         }
         
-        // Recalculer les totaux
         calculer();
         sauvegarderBrouillon();
     }
 
-    // NOUVELLE FONCTION : Vérifier le stock pour une ligne
     function verifierStockLigne(ligneId) {
         const ligne = document.querySelector(`tr[data-id="${ligneId}"]`);
         if (!ligne) return;
@@ -1172,7 +1054,6 @@
             return;
         }
         
-        // Charger le stock
         const stock = JSON.parse(localStorage.getItem('stock') || '[]');
         const produit = stock.find(p => p.code === codeProduit);
         
@@ -1204,37 +1085,30 @@
             }
         }
         
-        // Recalculer le total de la ligne
         const prix = parseFloat(ligne.querySelector('.pu').value) || 0;
         const total = quantite * prix;
         ligne.querySelector('.total').value = total.toFixed(3);
         
-        // Mettre à jour dans factureActuelle
         const articleIndex = factureActuelle.articles.findIndex(a => a.id === ligneId);
         if (articleIndex !== -1) {
             factureActuelle.articles[articleIndex].quantite = quantite;
             factureActuelle.articles[articleIndex].totalHT = total;
         }
         
-        // Recalculer les totaux
         calculer();
         sauvegarderBrouillon();
     }
 
-    // MODIFIER la fonction de suppression de ligne
     function supprimerLigne(ligneId) {
         const ligne = document.querySelector(`tr[data-id="${ligneId}"]`);
         if (!ligne) return;
         
-        // Vérifier qu'il reste au moins une ligne
         if (document.querySelectorAll('.ligne-article').length <= 1) {
             afficherNotification('Au moins une ligne est requise', 'error');
             return;
         }
         
         ligne.remove();
-        
-        // Supprimer de factureActuelle
         factureActuelle.articles = factureActuelle.articles.filter(a => a.id !== ligneId);
         
         calculer();
@@ -1242,14 +1116,10 @@
         afficherNotification('Ligne supprimée', 'info');
     }
 
-    // Convertir chiffre en lettres
     function nombreEnLettres(nombre) {
         const unite = ['', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf'];
         const dizaine = ['', 'dix', 'vingt', 'trente', 'quarante', 'cinquante', 'soixante', 'soixante-dix', 'quatre-vingt', 'quatre-vingt-dix'];
-        const specials = {
-            11: 'onze', 12: 'douze', 13: 'treize', 14: 'quatorze', 15: 'quinze',
-            16: 'seize', 17: 'dix-sept', 18: 'dix-huit', 19: 'dix-neuf'
-        };
+        const specials = {11: 'onze', 12: 'douze', 13: 'treize', 14: 'quatorze', 15: 'quinze', 16: 'seize', 17: 'dix-sept', 18: 'dix-huit', 19: 'dix-neuf'};
         
         if (nombre === 0) return 'zéro';
         if (nombre < 0) return 'moins ' + nombreEnLettres(-nombre);
@@ -1268,7 +1138,6 @@
         
         if (nombre > 0) {
             if (mots !== '') mots += 'et ';
-            
             if (nombre < 10) {
                 mots += unite[nombre];
             } else if (nombre in specials) {
@@ -1280,15 +1149,11 @@
                 }
             }
         }
-        
         return mots.trim().replace(/\s+/g, ' ');
     }
 
-    // Calculer les totaux
     function calculer() {
         let totalHT = 0;
-        
-        // Calculer total HT
         factureActuelle.articles.forEach(article => {
             totalHT += article.totalHT || 0;
         });
@@ -1296,70 +1161,51 @@
         const tva = totalHT * 0.07;
         const totalTTC = totalHT + tva + 1.000;
         
-        // Mettre à jour l'objet
         factureActuelle.totalHT = totalHT;
         factureActuelle.tva = tva;
         factureActuelle.totalTTC = totalTTC;
         factureActuelle.updatedAt = new Date().toISOString();
         
-        // Mettre à jour l'interface
         document.getElementById('totalHT').textContent = totalHT.toFixed(3);
         document.getElementById('tva').textContent = tva.toFixed(3);
         document.getElementById('ttc').textContent = totalTTC.toFixed(3);
-        
-        // Mettre à jour les boîtes Timbre et TTC
         document.getElementById('timbreBox').textContent = '1.000';
         document.getElementById('ttcBox').textContent = totalTTC.toFixed(3);
         
-        // Mettre à jour la somme en lettres
         mettreAJourSommeEnLettres(totalTTC);
-        
-        // Sauvegarder automatiquement
         sauvegarderBrouillon();
     }
 
-    // Mettre à jour la somme en lettres
     function mettreAJourSommeEnLettres(montant) {
         const sommeEnLettres = document.getElementById('sommeEnLettres');
         if (montant > 0) {
             const partieEntiere = Math.floor(montant);
             const partieDecimale = Math.round((montant - partieEntiere) * 1000);
-            
             let texte = nombreEnLettres(partieEntiere).toUpperCase() + ' DINARS';
-            
             if (partieDecimale > 0) {
                 texte += ' ET ' + partieDecimale + ' MILLIÈMES';
             }
-            
             sommeEnLettres.textContent = texte;
         } else {
             sommeEnLettres.textContent = 'ZÉRO DINAR';
         }
     }
 
-    // Sauvegarder le brouillon
     function sauvegarderBrouillon() {
-        // Mettre à jour les infos client
         factureActuelle.clientNom = document.getElementById('clientName').value;
         factureActuelle.clientAdresse = document.getElementById('clientAddress').value;
         factureActuelle.clientMF = document.getElementById('clientMF').value;
-        
-        // Sauvegarder dans localStorage
         localStorage.setItem('factureBrouillon', JSON.stringify(factureActuelle));
     }
 
-    // Charger le brouillon (MODIFIÉ)
     function chargerFactureSauvegardee() {
         const brouillon = localStorage.getItem('factureBrouillon');
         if (!brouillon) return;
         
         try {
             factureActuelle = JSON.parse(brouillon);
-            
-            // Mettre à jour l'interface
             document.getElementById('numDoc').textContent = factureActuelle.numero;
             
-            // Formater la date pour l'input date
             if (factureActuelle.date) {
                 const [jour, mois, annee] = factureActuelle.date.split('/');
                 document.getElementById('dateDoc').value = `${annee}-${mois.padStart(2, '0')}-${jour.padStart(2, '0')}`;
@@ -1369,7 +1215,6 @@
             document.getElementById('clientAddress').value = factureActuelle.clientAdresse || '';
             document.getElementById('clientMF').value = factureActuelle.clientMF || '';
             
-            // Charger les articles
             const tbody = document.getElementById('corpsTableau');
             tbody.innerHTML = '';
             compteurLignes = 0;
@@ -1379,7 +1224,6 @@
                 const ligne = document.createElement('tr');
                 ligne.className = 'ligne-article';
                 ligne.dataset.id = article.id;
-                
                 ligne.innerHTML = `
                     <td>
                         <select class="article-input designation" 
@@ -1396,8 +1240,7 @@
                     <td>
                         <input type="number" class="article-input pu" 
                                value="${article.prixUnitaire || 0}"
-                               readonly
-                               data-produit-prix>
+                               readonly>
                     </td>
                     <td>
                         <input type="text" class="article-input total" 
@@ -1413,37 +1256,29 @@
                 tbody.appendChild(ligne);
             });
             
-            // Ajouter une ligne si vide
             if (factureActuelle.articles.length === 0) {
                 ajouterLigneInitiale();
             } else {
-                // Charger les produits et restaurer les sélections
                 setTimeout(() => {
                     chargerProduitsDansSelect();
-                    
-                    // Restaurer les sélections de produits
                     factureActuelle.articles.forEach(article => {
                         if (article.codeProduit) {
                             const select = document.querySelector(`select[data-ligne="${article.id}"]`);
                             if (select) {
                                 select.value = article.codeProduit;
-                                // Mettre à jour le produit
                                 setTimeout(() => mettreAJourProduit(article.id), 100);
                             }
                         }
                     });
                 }, 200);
             }
-            
             calculer();
         } catch (error) {
             console.error('Erreur de chargement:', error);
-            afficherNotification('Erreur de chargement du brouillon', 'error');
         }
     }
-    // Sauvegarder la facture (MODIFIÉE avec vérification stock)
+
     function sauvegarderFacture() {
-        // Validation
         if (!factureActuelle.clientNom || factureActuelle.clientNom.trim() === '') {
             afficherNotification('Veuillez saisir le nom du client', 'error');
             document.getElementById('clientName').focus();
@@ -1455,21 +1290,18 @@
             return false;
         }
         
-        // VÉRIFICATION DU STOCK
         const articlesSansStock = factureActuelle.articles.filter(a => !a.stockOk || !a.codeProduit);
         if (articlesSansStock.length > 0) {
             afficherNotification('Certains articles ont un stock insuffisant ou sont invalides', 'error');
             return false;
         }
         
-        // Vérifier qu'il y a au moins un produit sélectionné
         const articlesValides = factureActuelle.articles.filter(a => a.codeProduit && a.prixUnitaire > 0);
         if (articlesValides.length === 0) {
             afficherNotification('Ajoutez au moins un produit valide', 'error');
             return false;
         }
         
-        // Mettre à jour le stock
         const stock = JSON.parse(localStorage.getItem('stock') || '[]');
         factureActuelle.articles.forEach(article => {
             if (article.codeProduit && article.quantite) {
@@ -1482,19 +1314,11 @@
             }
         });
         
-        // Sauvegarder le stock mis à jour
         localStorage.setItem('stock', JSON.stringify(stock));
-        
-        // Changer le statut
         factureActuelle.statut = 'finalisee';
         factureActuelle.dateFinalisation = new Date().toISOString();
-        factureActuelle.stockMisAJour = true;
-        factureActuelle.dateMiseAJourStock = new Date().toISOString();
         
-        // Récupérer l'historique global
         let historique = JSON.parse(localStorage.getItem('historique_global') || '[]');
-        
-        // Vérifier si existe déjà
         const index = historique.findIndex(f => f.id === factureActuelle.id);
         if (index !== -1) {
             historique[index] = factureActuelle;
@@ -1502,23 +1326,15 @@
             historique.push(factureActuelle);
         }
         
-        // Sauvegarder
         localStorage.setItem('historique_global', JSON.stringify(historique));
-        
-        // Mettre à jour le dernier numéro
         localStorage.setItem('dernierNumeroFacture', parseInt(factureActuelle.numero));
-        
-        // Effacer le brouillon
         localStorage.removeItem('factureBrouillon');
         
         afficherNotification('Facture sauvegardée avec succès ! Stock mis à jour.', 'success');
-        
         return true;
     }
 
-    // FONCTION D'IMPRESSION MODIFIÉE - SANS DÉDUCTION DE STOCK
     function imprimerFactureProfessionnel() {
-        // Validation
         if (!factureActuelle.clientNom || factureActuelle.clientNom.trim() === '') {
             afficherNotification('Veuillez saisir le nom du client', 'error');
             document.getElementById('clientName').focus();
@@ -1530,132 +1346,99 @@
             return;
         }
         
-        // Vérification du stock (sans déduire)
         const articlesSansStock = factureActuelle.articles.filter(a => !a.stockOk || !a.codeProduit);
         if (articlesSansStock.length > 0) {
             afficherNotification('Certains articles ont un stock insuffisant ou sont invalides', 'error');
             return;
         }
         
-        // Sauvegarder le brouillon (sans changer le stock)
         sauvegarderBrouillon();
         
-        // Marquer comme imprimé mais pas finalisé
-        factureActuelle.statut = 'imprime';
-        factureActuelle.dateImpression = new Date().toISOString();
-        
-        // Sauvegarder dans l'historique SANS déduire le stock
-        let historique = JSON.parse(localStorage.getItem('historique_global') || '[]');
-        
-        // Vérifier si existe déjà
-        const index = historique.findIndex(f => f.id === factureActuelle.id);
-        if (index !== -1) {
-            historique[index] = factureActuelle;
-        } else {
-            historique.push(factureActuelle);
-        }
-        
-        // Sauvegarder l'historique
-        localStorage.setItem('historique_global', JSON.stringify(historique));
-        
-        afficherNotification('Préparation de l\'impression...', 'info');
-        
-        // Préparer la facture pour l'impression
         preparerFacturePourImpression();
         
-        // Attendre un peu pour que les styles s'appliquent
         setTimeout(() => {
-            // Ouvrir la fenêtre d'impression
             window.print();
-            
-            // Restaurer l'état après impression
             setTimeout(() => {
                 restaurerEtatApresImpression();
-                
-                // NE PAS générer une nouvelle facture après impression
-                // On garde la même facture pour pouvoir la modifier ou la sauvegarder
                 afficherNotification('Impression terminée. N\'oubliez pas de sauvegarder pour déduire le stock.', 'info');
             }, 500);
         }, 300);
     }
 
-    // Préparer la facture pour l'impression
     function preparerFacturePourImpression() {
-        // Remplacer les inputs par des spans pour l'impression
         remplacerInputsParTextes();
-        
-        // Cacher les éléments non nécessaires
         document.querySelectorAll('.btn-del, .btn-add, .btn-save, .btn-print, .btn-back, .toolbar').forEach(el => {
             el.style.display = 'none';
         });
-        
-        // Ajuster les styles pour l'impression
         document.querySelector('.page').style.padding = '0';
         document.querySelector('.page').style.boxShadow = 'none';
         document.querySelector('.page').style.border = 'none';
     }
 
-    // Restaurer l'état après impression
     function restaurerEtatApresImpression() {
-        // Restaurer les inputs
         restaurerInputs();
-        
-        // Réafficher les éléments
         document.querySelectorAll('.btn-del, .btn-add, .btn-save, .btn-print, .btn-back, .toolbar').forEach(el => {
             el.style.display = '';
         });
-        
-        // Restaurer les styles
         document.querySelector('.page').style.padding = '15mm';
         document.querySelector('.page').style.boxShadow = '0 0 20px rgba(0,0,0,0.1)';
         document.querySelector('.page').style.border = '1px solid #ddd';
     }
 
-    // Remplacer les inputs par du texte pour l'impression
     function remplacerInputsParTextes() {
-        // Client inputs
         remplacerInputParTexte('clientName');
         remplacerInputParTexte('clientAddress');
         remplacerInputParTexte('clientMF');
         remplacerInputParTexte('dateDoc');
         
-        // Articles inputs
-        document.querySelectorAll('.article-input').forEach(input => {
+        document.querySelectorAll('.article-input:not(.designation)').forEach(input => {
             const td = input.parentElement;
             const span = document.createElement('span');
             span.className = 'article-text';
-            span.textContent = input.value || '';
+            let valeur = input.value || '';
+            if (input.classList.contains('total')) {
+                valeur = parseFloat(valeur).toFixed(3);
+            }
+            span.textContent = valeur;
             span.style.display = 'block';
             span.style.padding = '2px';
-            
             if (input.classList.contains('total')) {
                 span.style.fontWeight = '600';
                 span.style.textAlign = 'right';
             }
-            
             if (input.classList.contains('qte') || input.classList.contains('pu')) {
                 span.style.textAlign = 'right';
             }
-            
             td.innerHTML = '';
             td.appendChild(span);
         });
         
-        // Remplacer les selects par du texte
-        document.querySelectorAll('select.article-input').forEach(select => {
+        // CORRECTION : Affichage correct des noms d'articles dans les selects
+        document.querySelectorAll('select.article-input.designation').forEach(select => {
             const td = select.parentElement;
             const selectedOption = select.options[select.selectedIndex];
             const span = document.createElement('span');
             span.className = 'article-text';
-            span.textContent = selectedOption && selectedOption.value ? selectedOption.textContent : '';
+            
+            let textAffichage = '';
+            if (selectedOption && selectedOption.value) {
+                let texteComplet = selectedOption.textContent || '';
+                // Supprimer la partie prix entre parenthèses
+                textAffichage = texteComplet.replace(/\s*\([^)]*\)\s*$/, '').trim();
+                if (!textAffichage) textAffichage = texteComplet;
+            } else {
+                textAffichage = '-- Sélectionner un produit --';
+            }
+            
+            span.textContent = textAffichage;
             span.style.display = 'block';
             span.style.padding = '2px';
+            span.style.fontWeight = '500';
             td.innerHTML = '';
             td.appendChild(span);
         });
     }
 
-    // Fonction utilitaire pour remplacer un input par du texte
     function remplacerInputParTexte(id) {
         const input = document.getElementById(id);
         if (input) {
@@ -1666,15 +1449,11 @@
         }
     }
 
-    // Restaurer les inputs après impression
     function restaurerInputs() {
-        // Recharger la facture depuis le brouillon
         chargerFactureSauvegardee();
     }
 
-    // Mettre à jour l'interface
     function mettreAJourInterface() {
-        // Mettre à jour la date dans un format français
         const dateInput = document.getElementById('dateDoc');
         dateInput.addEventListener('change', function() {
             const date = new Date(this.value);
@@ -1685,28 +1464,21 @@
             sauvegarderBrouillon();
         });
         
-        // Auto-save toutes les 30 secondes
         setInterval(() => {
             if (factureActuelle.clientNom) {
                 sauvegarderBrouillon();
             }
         }, 30000);
         
-        // Raccourcis clavier
         document.addEventListener('keydown', function(e) {
-            // Ctrl + S pour sauvegarder
             if (e.ctrlKey && e.key === 's') {
                 e.preventDefault();
                 sauvegarderFacture();
             }
-            
-            // Ctrl + P pour imprimer
             if (e.ctrlKey && e.key === 'p') {
                 e.preventDefault();
                 imprimerFactureProfessionnel();
             }
-            
-            // Ctrl + N pour nouvelle ligne
             if (e.ctrlKey && e.key === 'n') {
                 e.preventDefault();
                 ajouterLigne();
@@ -1714,36 +1486,15 @@
         });
     }
 
-    // Fonctions utilitaires
     function afficherNotification(message, type = 'info') {
         const notification = document.createElement('div');
         notification.className = `notification ${type}`;
-        
-        let icon = 'info-circle';
-        if (type === 'success') icon = 'check-circle';
-        if (type === 'error') icon = 'exclamation-circle';
-        
-        notification.innerHTML = `
-            <i class="fas fa-${icon}"></i>
-            <span>${message}</span>
-        `;
-        
+        let icon = type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle';
+        notification.innerHTML = `<i class="fas fa-${icon}"></i><span>${message}</span>`;
         document.body.appendChild(notification);
-        
-        // Supprimer les anciennes notifications
-        const anciennesNotifs = document.querySelectorAll('.notification');
-        if (anciennesNotifs.length > 3) {
-            anciennesNotifs[0].remove();
-        }
-        
-        setTimeout(() => {
-            if (notification.parentElement) {
-                notification.remove();
-            }
-        }, 3000);
+        setTimeout(() => notification.remove(), 3000);
     }
 
-    // Initialiser le calcul
     calculer();
 </script>
 </body>
